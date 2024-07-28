@@ -31,7 +31,7 @@ git config --global user.email 24736743@qq.com   #邮箱
 
 Git 中的三种状态
 
-![1722088995762](D:\applicationSoftware\Typora\typora-user-images\1722088995762.png)
+![1722088995762](.\typora-user-images\1722088995762.png)
 
 - 已修改:表示修改了文件，但还没将修改的结果放到暂存区
 - 已暂存:表示对已修改文件的当前版本做了标记，使之包含在下次提交的列表中
@@ -56,7 +56,7 @@ git status
 
 工作区中的每一个文件可能有4 种状态，这四种状态共分为两大类
 
-![1722089528961](D:\applicationSoftware\Typora\typora-user-images\1722089528961.png)
+![1722089528961](.\typora-user-images\1722089528961.png)
 
 ### git基本操作
 
@@ -217,7 +217,7 @@ master 分支叫做主分支
 功能分支指的是专门用来开发新功能的分支，它是临时从master 主分支上分叉出来的，当新功能开发且测试
 完毕后，最终需要合并到master 主分支上
 
-![1722094266538](D:\applicationSoftware\Typora\typora-user-images\1722094266538.png)
+![1722094266538](.\typora-user-images\1722094266538.png)
 
 - 查看分支列表
 
@@ -227,7 +227,7 @@ git branch
 
 分支名字前面的*号表示当前所处的分支
 
-![1722094351987](D:\applicationSoftware\Typora\typora-user-images\1722094351987.png)
+![1722094351987](.\typora-user-images\1722094351987.png)
 
 - 创建新分支
 
