@@ -382,15 +382,16 @@ console.log(n)
 // 关闭定时器
 clearInterval(n)
 ```
-### DOM事件操作
+## DOM事件操作
 
-#### 	事件监听
+### 	事件监听
 
 元素对象.addEventListener('事件类型','要执行的函数');
 ​事件监听三要素:
-​	事件源:那个dom元素被事件触发了,要获取dom元素
-​	事件类型:用什么方式触发,比如鼠标单击click.鼠标经过mouseover等
-​	事件调用的函数:要做什么
+
+- 事件源:那个dom元素被事件触发了,要获取dom元素
+- 事件类型:用什么方式触发,比如鼠标单击click.鼠标经过mouseover等
+- 事件调用的函数:要做什么
 
 ```javascript
 const btn = document.querySelector('.btn');
@@ -399,62 +400,197 @@ btn.addEventListener('click',function(){
 })
 ```
 
-​	常见的事件类型:
-​		鼠标事件:click（鼠标点击）、mouseenter（鼠标经过）、mouseleave（鼠标离开））
-​		焦点事件:focus（获得焦点）、blur（失去焦点）
-​		键盘事件:keydown（键盘按下触发）、keyup（键盘抬起触发）
-​		文本事件:input（用户输入事件）
+### 事件类型
 
-#### 	事件对象
+常见的事件类型:
 
-事件对象也是个对象,这个对象里有事件触发时的相关信息;
+- 鼠标事件:click（鼠标点击）、mouseenter（鼠标经过）、mouseleave（鼠标离开））
+- 焦点事件:focus（获得焦点）、blur（失去焦点）
+- 键盘事件:keydown（键盘按下触发）、keyup（键盘抬起触发）
+- 文本事件:input（用户输入事件）
+
+事件类型决定了事件被触发的方式，如 `click` 代表鼠标单击，`dblclick` 代表鼠标双击。
+
+### 	事件对象
+
+任意事件类型被触发时与事件相关的信息会被以对象的形式记录下来，我们称这个对象为事件对象。
 例如:鼠标点击事件中,事件对象就存了鼠标点在哪个位置等信息
-​语法:
 
 ```js
 元素.addEventListener('事件类型',function(e){
 	console.log(e);//此处的e就是事件对象
 })
+//示例
+const btn = document.querySelector('#btn')
+        // document.write(btn)
+
+        const text = document.write("等待时间发生")
+        btn.addEventListener('click',function(e){
+            alert('用户点击了按钮')
+            document.write(e) //[object PointerEvent]
+        })
 ```
 
 常用属性
-​	type
-​			获取当前的事件类型
-​	clientX/clientY
-​			获取光标相对于浏览器可见窗口左上角的位置
-​	offsetX/offsetY
-​		获取光标相对于当前DOM元素左上角的位置
-​	key
-​			用户按下的键盘键
 
-#### 	环境对象
+- type：获取当前的事件类型
+- clientX/clientY：获取光标相对于浏览器可见窗口左上角的位置
+- offsetX/offsetY：获取光标相对于当前DOM元素左上角的位置
+- key：用户按下的键盘键
 
-​			环境对象:指的是函数内部特殊的变量this,它代表着当前函数运行时所处的环境
-​			判断原则:谁调用,this就是谁。
+注：在事件回调函数内部通过 window.event 同样可以获取事件对象。
 
-#### 	回调函数	
+### 	环境对象
 
-​			如果将函数A做为参数传递给函数B时,我们称函数A为回调函数
-​			简单理解:当一个函数当做参数来传递给另外一个函数
-​		事件流
-​			事件流指的是事件完整执行过程中的流动路径；
-​			主要分为：事件捕获和事件冒泡
-​				事件冒泡：当一个元素触发事件后，会依次向上调用所有父级元素的同名事件
-​				例如：div -> 父级 -> document对象
-​				事件捕获与之相反，且在实际开发中不常见
-​			语法：
-​				元素.addEventListener('事件类型','事件处理函数',是否使用捕获机制)
-​				第三个参数默认为false(即事件冒泡),想要设置为事件捕获则将其设置为true;
-​			阻止冒泡
-​				目标：能够写出阻止冒泡的代码
-​				问题：因为默认就有冒泡模式的存在，所以容易导致事件影响到父级元素
-​				语法：
-​					e.stopPropagation()
+环境对象指的是函数内部特殊的变量 `this` ，它代表着当前函数运行时所处的环境。
 
-#### 	事件解绑
+```html
+ <script>
+ 		// 声明函数
+        function sayHi() {
+            // this 是一个变量
+            console.log(this);
+        }
+        // 声明一个对象
+        let user = {
+            name: '张三',
+            sayHi: sayHi // 此处把 sayHi 函数，赋值给 sayHi 属性
+        }
+        let person = {
+            name: '李四',
+            sayHi: sayHi
+        }
+        // 直接调用
+        sayHi() // window
+        window.sayHi() // window
+        // 做为对象方法调用
+        user.sayHi()// user
+        person.sayHi()// person
+    </script>
+```
 
-传统做法
-​		直接给事件赋值为空即可
+结论：
+
+1. `this` 本质上是一个变量，数据类型为对象
+2. 函数的调用方式不同 `this` 变量的值也不同
+3. 判断 `this` 值的粗略规则【谁调用 `this` 就是谁】
+4. 函数直接调用时实际上 `window.sayHi()` 所以 `this` 的值为 `window`
+
+### 	回调函数	
+
+如果将函数A做为参数传递给函数B时,我们称函数A为回调函数
+​简单理解:当一个函数当做参数来传递给另外一个函数
+
+```html
+<script>
+	function bar() {
+    	console.log('函数也能当参数...');
+  	}
+  	// 函数 bar做参数传给了foo函数，bar就是所谓的回调函数
+  	foo(bar);
+ </script>   
+```
+
+结论：
+
+1. 回调函数本质还是函数，只不过把它当成参数使用
+2. 使用匿名函数做为回调函数比较常见
+
+## 事件流
+
+事件流指的是事件完整执行过程中的流动路径
+
+![1722145307642](D:\实验室\文档\note\typora-user-images\1722145307642.png)
+
+- 假设页面里有个div，当触发事件时，会经历两个阶段，分别是捕获阶段、冒泡阶段
+- 简单来说：捕获阶段是 从父到子  冒泡阶段是从子到父
+- 实际工作都是使用事件冒泡为主
+
+### 注册事件
+
+两种注册事件的区别
+
+- 传统on注册（L0）
+  多一句没有，少一句不行，用最短时间，教会最实用的技术！
+  同一个对象,后面注册的事件会覆盖前面注册(同一个事件)
+  直接使用null覆盖偶就可以实现事件的解绑
+  都是冒泡阶段执行的
+- 事件监听注册（L2）
+  语法: addEventListener(事件类型, 事件处理函数, 是否使用捕获)
+  后面注册的事件不会覆盖前面注册的事件(同一个事件)
+  可以通过第三个参数去确定是在冒泡或者捕获阶段执行
+  必须使用removeEventListener(事件类型, 事件处理函数, 获取捕获或者冒泡阶段)
+  匿名函数无法被解绑
+
+### 事件捕获
+
+ 事件捕获概念：从DOM的根元素开始去执行对应的事件 (从外到里)
+
+```html
+document.addlistener(事件类型,事件处理函数,是否使用捕获机制)
+```
+
+- addEventListener第三个参数传入 true 代表是捕获阶段触发（很少使用）
+- 若传入false代表冒泡阶段触发，默认就是false
+- 若是用事件监听，则只有冒泡阶段，没有捕获
+
+### 事件冒泡
+
+事件冒泡: 当一个元素的事件被触发时，同样的事件将会在该元素的**所有祖先元素中依次被触发**。这一过程被称为事件冒泡
+
+```html
+//点击fa之后会依次弹出我是爷爷，我是爸爸
+//点击son之后会依次弹出爷爷，我是、爸爸、儿子
+<div class="father">
+    <div class="son"></div>
+  </div>
+  <script>
+    const fa = document.querySelector('.father')
+    const son = document.querySelector('.son')
+    document.addEventListener('click', function () {
+      alert('我是爷爷')
+    }, true)
+    fa.addEventListener('click', function () {
+      alert('我是爸爸')
+    }, true)
+    son.addEventListener('click', function () {
+      alert('我是儿子')
+    }, true)
+
+  </script>
+```
+
+### 阻止冒泡
+
+事件冒泡会影响到父级元素，若想把事件就限制在当前元素内，就需要阻止事件冒泡，使用以下命令实现这个功能:`事件.stopPropagation()`
+
+```html
+<script>
+    const fa = document.querySelector('.father')
+    const son = document.querySelector('.son')
+
+    document.addEventListener('click', function () {
+      alert('我是爷爷')
+    })
+    fa.addEventListener('click', function () {
+      alert('我是爸爸')
+    })
+    son.addEventListener('click', function (e) {
+      alert('我是儿子')
+      // 组织流动传播  事件对象.stopPropagation()
+      e.stopPropagation()
+    })
+
+  </script>
+```
+
+注意：此方法可以阻断事件流动传播，不光在冒泡阶段有效，捕获阶段也有效
+
+我们某些情况下需要阻止默认行为的发生，比如 阻止 链接的跳转，表单域跳转,可以使用以下命令进行全局配置。`e.preventDefault()`
+
+### 	事件解绑
+
+传统做法:直接给事件赋值为空即可
 
 ```javascript
 const btn=document.querySelector('button');
@@ -464,13 +600,12 @@ btn.onclick=function(){
 }
 ```
 
-解绑事件	
-​	removeEventListener(事件类型, 事件处理函数, [获取捕获或者冒泡阶段])
+解绑事件:`removeEventListener(事件类型, 事件处理函数, [获取捕获或者冒泡阶段])`
 
 ```javascript
 const btn=document.querySelector('button');
 function fn() {
-		alert('点击了')
+	alert('点击了')
 }
 btn.addEventListener('click', fn)
 // L2 事件移除解绑
@@ -479,26 +614,66 @@ btn.removeEventListener('click', fn)
 
 注意:匿名函数无法被解绑,所以必须给解绑事件的第二个参数赋值一个函数名
 
-#### 	 事件委托
+### 	 事件委托
 
-​	事件委托是利用事件流的特征解决一些开发需求的知识技巧
-​			优点：减少注册次数，可以提高程序性能
-​			原理：事件委托其实是利用事件冒泡的特点。
-​	给父元素注册事件，当我们触发子元素的时候，会冒泡到父元素身上，从而触发父元素的事件
-​			实现：事件对象.target.tagName 可以获得真正触发事件的元素
+大量的事件监听是比较耗费性能的，比如说，给以下li注册点击事件是特别浪费性能的。
 
-```javascript
-const ul = document.querySelector('ul');
-ul.addEventListener('click', function (e) {
-	if (e.target.tagName === 'LI') {
-		e.target.style.color = 'red';
-	}
-})
+```html
+<ul>
+    <li>我是第一个</li>
+    <li>我是第二个</li>
+    <li>我是第三个</li>
+    <li>我是第四个</li>
+  </ul>
+  <script>
+    // 给多个li进行注册点击事件
+    const list = document.querySelectorAll('ul li')
+    for (let i =0;i<list.length;i++){
+      list[i].addEventListener('click',function(){
+        alert('我被点击了')
+      })
+    }
+  </script>
 ```
 
-#### 	其他事件
+事件委托是利用事件流的特征解决一些开发需求的知识技巧
 
-##### 	页面加载事件
+- 优点：减少注册次数，可以提高程序性能
+
+- 原理：事件委托其实是利用事件冒泡的特点。
+
+  给父元素注册事件，当我们触发子元素的时候，会冒泡到父元素身上，从而触发父元素的事件
+  ​实现：事件对象.target.tagName 可以获得真正触发事件的元素
+
+```javascript
+  <ul>
+    <li>第1个孩子</li>
+    <li>第2个孩子</li>
+    <li>第3个孩子</li>
+    <li>第4个孩子</li>
+    <li>第5个孩子</li>
+    <p>我不需要变色</p>
+  </ul>
+  <script>
+    // 点击每个小li 当前li 文字变为红色
+    // 按照事件委托的方式  委托给父级，事件写到父级身上
+    // 1. 获得父元素
+    const ul = document.querySelector('ul')
+    ul.addEventListener('click', function (e) {
+ 
+      // 我的需求，我们只要点击li才会有效果
+      if (e.target.tagName === 'LI') {
+        e.target.style.color = 'red'
+      }
+    })
+  </script>
+```
+
+事件对象.target. tagName 可以获得真正触发事件的元素
+
+### 	其他事件
+
+#### 	页面加载事件
 
 加载外部资源（如图片.外联CSS和JavaScript等）加载完毕时触发的事件，有些时候需要等页面资源全部处理完了做一些事情
 ​老代码喜欢把 script 写在 head 中，这时候直接找监听页面所有资源加载完毕：
@@ -526,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 ```
 
-##### 	元素滚动事件
+#### 	元素滚动事件
 
 滚动条在滚动的时候持续触发的事件
 ​监听整个页面滚动：
@@ -553,7 +728,7 @@ window.addEventListener('scroll', function () {
 window.scrollTo(x,y);
 ```
 
-##### 	页面尺寸事件
+#### 	页面尺寸事件
 
 会在窗口尺寸改变的时候触发事件：
 
@@ -568,29 +743,23 @@ window.addEventListener('resize', function () {
 ​		获取元素的可见部分宽高（不包含边框，margin，滚动条等）
 ​		clientWidth和clientHeight
 
-##### 	元素尺寸于位置-尺寸
+#### 	元素尺寸于位置-尺寸
 
 ​		offsetWidth和offsetHeight
 ​		获取出来的是数值,方便计算
 ​		注意: 获取的是可视宽高, 如果盒子是隐藏的,获取的结果是0
 ​		offsetLeft和offsetTop注意是只读属性
 
-#### 日期对象
- const date=new Date();
-​对应的方法可以参考api
-​时间戳：用于获取1970年至今的毫秒数
-​			date.getTime()
-​			new Date()
-​			Date.now()
-
-### 4.4.DOM节点
+## DOM节点
 
 DOM节点：DOM树里每一个内容都称之为节点
-	元素节点 比如 div标签
-	属性节点 比如 class属性
-	文本节点 比如标签里
-对节点进行增删改查
-查找节点
+
+- 元素节点 比如 div标签
+- 属性节点 比如 class属性
+- 文本节点 比如标签里
+- 对节点进行增删改查
+
+### 查找节点
 
 ```javascript
 //查找父节点
@@ -602,15 +771,61 @@ DOM节点：DOM树里每一个内容都称之为节点
 nextElementSibling 属性
 //上一个兄弟节点
 previousElementSibling 属性
+
+// 示例
+<body>
+  <button class="btn1">所有的子节点</button>
+  <!-- 获取 ul 的子节点 -->
+  <ul>
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>JavaScript 基础</li>
+    <li>Web APIs</li>
+  </ul>
+  <script>
+    const btn1 = document.querySelector('.btn1')
+    btn1.addEventListener('click', function () {
+      // 父节点
+      const ul = document.querySelector('ul')
+
+      // 所有的子节点
+      console.log(ul.childNodes)
+      // 只包含元素子节点
+      console.log(ul.children)
+    })
+  </script>
+</body>
 ```
 
-删除节点
+### 删除节点
 
 ```javascript
 父节点.removeChild(要删除的元素)
+
+// 示例
+ <!-- 点击按钮删除节点 -->
+  <button>删除节点</button>
+  <ul>
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>Web APIs</li>
+  </ul>
+
+  <script>
+    const btn = document.querySelector('button')
+    btn.addEventListener('click', function () {
+      // 获取 ul 父节点
+      let ul = document.querySelector('ul')
+      // 待删除的子节点
+      let lis = document.querySelectorAll('li')
+
+      // 删除节点
+      ul.removeChild(lis[0])
+    })
+  </script>
 ```
 
-增加节点
+### 增加节点
 
 ```javascript
 //创建节点
@@ -618,21 +833,44 @@ document.createElment('元素节点');
 //增加节点，要想在界面看到，还得插入到某个父元素
 父元素.insertBefore('要插入的元素','在哪个元素前面')
 父元素.appendChild('要插入的元素')
+
+// 示例
+<h3>插入节点</h3>
+  <p>在现有 dom 结构基础上插入新的元素节点</p>
+  <hr>
+  <div class="box"></div>
+  <!-- 点击按钮向 box 盒子插入节点 -->
+  <button class="btn">插入节点</button>
+  <script>
+    // 点击按钮，在网页中插入节点
+    const btn = document.querySelector('.btn')
+    btn.addEventListener('click', function () {
+      // 1. 获得一个 DOM 元素节点
+      const p = document.createElement('p')
+      p.innerText = '创建的新的p标签'
+      p.className = 'info'
+      
+      // 复制原有的 DOM 节点
+      const p2 = document.querySelector('p').cloneNode(true)
+      p2.style.color = 'red'
+
+      // 2. 插入盒子 box 盒子
+      document.querySelector('.box').appendChild(p)
+      document.querySelector('.box').appendChild(p2)
+    })
+  </script>
 ```
 
  特殊情况下，我们新增节点，按照如下操作：  
 
-​		1.复制一个原有的节点 
-
-​		 2.把复制的节点放入到指定的元素内部
+1. 复制一个原有的节点 
+2. 把复制的节点放入到指定的元素内部
 
 cloneNode会克隆出一个跟原标签一样的元素，括号内传入布尔值 
 
-​	若为true，则代表克隆时会包含后代节点一起克隆 
+- 若为true，则代表克隆时会包含后代节点一起克隆 
+- 若为false，则代表克隆时不包含后代节点 ,默认为false
 
-​	若为false，则代表克隆时不包含后代节点 
-
-​	默认为false
 
 ```javascript
 const ul=document.querySelector('ul');
@@ -640,73 +878,128 @@ const li1=ul.children[0].cloneNode(true);
 ul.appendChild(li1);//追加元素在ul中
 ```
 
-### 4.5.BOM对象
+### M端事件
 
-#### 4.5.1.window对象
+移动端也有自己独特的地方。比如触屏事件 touch（也称触摸事件），Android 和 IOS 都有。
 
-1. ##### BOM(浏览器对象模型) 
+ 常见的触屏事件如下：
 
-   BOM(Browser Object Model ) 是浏览器对象模型，像document.alert()、console.log()这些都是window的属性，基本BOM的属性和方法都是window的。
+![1722266848806](.\typora-user-images\1722266848806.png)
 
-2. ##### 定时器-延时函数 
+### 重绘和回流
 
-   JavaScript 内置的一个用来让代码延迟执行的函数，叫 setTimeout，setTimeout 仅仅只执行一次，所以可以理解为就是把一段代码延迟执行, 平时省略window，每一次调用延时器都会产生一个新的延时器
+浏览器是如何进行界面渲染的
 
-   ```javascript
-   let timer=setTimeout(function () {
-         img.style.display = 'none' //3秒之后，让图片消失
-    }, 3000)
-   //清除延时函数：
-   clearTimeout(timer);
-   ```
+![1722271966703](.\typora-user-images\1722271966703.png)
 
-3. ##### JS执行机制
+-  解析（Parser）HTML，生成DOM树(DOM Tree)
+- 同时解析（Parser） CSS，生成样式规则 (Style Rules)
+- 根据DOM树和样式规则，生成渲染树(Render Tree)
+- 进行布局 Layout(回流/重排):根据生成的渲染树，得到节点的几何信息（位置，大小）
+- 进行绘制 Painting(重绘): 根据计算和获取的信息进行整个页面的绘制
+- Display: 展示在页面上
 
-   1. 先执行执行栈中的同步任务。
+回流(重排):当 Render Tree 中部分或者全部元素的尺寸、结构、布局等发生改变时，浏览器就会重新渲染部分或全部文档的过程称为 回流。
 
-   2. 异步任务放入任务队列中。 
+重绘:由于节点(元素)的样式的改变并不影响它在文档流中的位置和文档布局时(比如：color、background-color、outline等), 称为重绘。
+**重绘不一定引起回流，而回流一定会引起重绘。**
 
-   3. 一旦执行栈中的所有同步任务执行完毕，系统就会按次序读取任务队列中的异步任务，于是被读取的异步任务结束等待 状态，进入执行栈，开始执行。
+## BOM对象
 
-      JS 的异步是通过回调函数实现的。 一般而言，异步任务有以下三种类型: 
+### js的组成
 
-      ​	1.普通事件，如 click.resize 等 
+![1722272186144](.\typora-user-images\1722272186144.png)
 
-      ​	2.资源加载，如 load.error 等 
+- ECMAScript:
+  - 规定了js基础语法核心知识。
+  - 比如：变量、分支语句、循环语句、对象等等
 
-      ​	3.定时器，包括 setInterval.setTimeout 等 异步任务相关添加到任务队列中（任务队列也称为消息队列)。
+- Web APIs :
+  - DOM   文档对象模型， 定义了一套操作HTML文档的API
+  - BOM   浏览器对象模型，定义了一套操作浏览器窗口的API
 
-    由于主线程不断的重复获得任务.执行任务.再获取任务.再执行，所以这种机制被称为事件循环（ event loop) 。
+### window对象
 
-4. ##### location对象 
+#### BOM(浏览器对象模型) 
 
-   location 的数据类型是对象，它拆分并保存了 URL 地址的各个组成部分 
+BOM(Browser Object Model ) 是浏览器对象模型，像document.alert()、console.log()这些都是window的属性，基本BOM的属性和方法都是window的。
 
-   常用属性和方法： 
+![1722272529676](D:\实验室\文档\note\typora-user-images\1722272529676.png)
 
-   ​	href 属性获取完整的 URL 地址，对其赋值时用于地址的跳转 
+##### 定时器-延时函数 
 
-   ​	search 属性获取地址中携带的参数，符号 ？后面部分
+JavaScript 内置的一个用来让代码延迟执行的函数，叫 setTimeout，**setTimeout 仅仅只执行一次**，所以可以理解为就是把一段代码延迟执行, 平时省略window，每一次调用延时器都会产生一个新的延时器
 
-   ​    hash 属性获取地址中的啥希值，符号 # 后面部分 
+```javascript
+let timer=setTimeout(function () {
+      img.style.display = 'none' //3秒之后，让图片消失
+ }, 3000)
+//清除延时函数：
+clearTimeout(timer);
+```
 
-   ​    reload 方法用来刷新当前页面，传入参数 true 时表示强制刷新
+##### JS执行机制
 
-5. ##### navigator对象
+1. 先执行执行栈中的同步任务。
 
-   navigator的数据类型是对象，该对象下记录了浏览器自身的相关信息
+2. 异步任务放入任务队列中。 
 
-6. ##### histroy对象
+3. 一旦执行栈中的所有同步任务执行完毕，系统就会按次序读取任务队列中的异步任务，于是被读取的异步任务结束等待 状态，进入执行栈，开始执行。
 
-​		history 的数据类型是对象，主要管理历史记录， 该对象与浏览器地址栏的操作相对应，如前进.后退.历史记 录等
+   JS 的异步是通过回调函数实现的。 一般而言，异步任务有以下三种类型: 
 
-#### 4.5.2.本地存储
+   ​	1.普通事件，如 click.resize 等 
 
-##### 1.本地存储简单数据类型
+   ​	2.资源加载，如 load.error 等 
+
+   ​	3.定时器，包括 setInterval.setTimeout 等 异步任务相关添加到任务队列中（任务队列也称为消息队列)。
+
+ 由于主线程不断的重复获得任务.执行任务.再获取任务.再执行，所以这种机制被称为事件循环（ event loop) 
+
+##### location对象 
+
+location (地址) 它拆分并保存了 URL 地址的各个组成部分， 它是一个对象
+
+常用属性和方法： 
+
+![1722272762500](D:\实验室\文档\note\typora-user-images\1722272762500.png)
+
+##### navigator对象
+
+navigator的数据类型是对象，该对象下记录了浏览器自身的相关信息
+
+通过 userAgent 检测浏览器的版本及平台
+
+```js
+// 检测 userAgent（浏览器信息）
+(function () {
+  const userAgent = navigator.userAgent
+  // 验证是否为Android或iPhone
+  const android = userAgent.match(/(Android);?[\s\/]+([\d.]+)?/)
+  const iphone = userAgent.match(/(iPhone\sOS)\s([\d_]+)/)
+  // 如果是Android或iPhone，则跳转至移动站点
+  if (android || iphone) {
+    location.href = 'http://m.itcast.cn'
+  }})();
+```
+
+##### histroy对象
+
+history 的数据类型是对象，主要管理历史记录， 该对象与浏览器地址栏的操作相对应,如前进.后退.历史记录等history对象一般在实际开发中比较少用，但是会在一些OA 办公系统中见到
+
+### 本地存储
+
+本地存储：将数据存储在本地浏览器中
+
+好处：
+
+1、页面刷新或者关闭不丢失数据，实现数据持久化
+
+2、容量较大，sessionStorage和 localStorage 约 5M 左右
+
+#### **本地存储简单数据类型**localStorage（重点）
 
 localStorage 把数据存储的浏览器中 ，可以将数据永久存储在本地(用户的电脑), 除非手动删除，否则关闭页面也会存在。
-
-语法：
 
 ```javascript
 //存储数据：
@@ -715,17 +1008,24 @@ localStorage.setItem(key, value)
 localStorage.getItem(key)
 //删除数据
 localStorage.removeItem(key)
+
+//示例
+<script>
+    // 本地存储 - localstorage 存储的是字符串 
+    // 1. 存储
+    localStorage.setItem('age', 18)
+
+    // 2. 获取
+    console.log(typeof localStorage.getItem('age'))
+
+    // 3. 删除
+    localStorage.removeItem('age')
+  </script>
 ```
 
 **注意：存储的时候，如果原来有这个键，则是改，如果么有这个键是增**
 
-```javascript
- localStorage.setItem('uname', 'red老师') //如果没有uname这个key，你们就是新增操作，否则就是修改uname的值的操作
- localStorage.removeItem('name');//删除操作
- localStorage.getItem('name');//获取元素操作
-```
-
-##### 2.本地存储复杂数据类型
+#### 本地存储复杂数据类型
 
 本地只能存储字符串,无法存储复杂数据类型，如果需要存储复杂数据类型则需要类型转换，将复杂数据类型转换为json字符串存储在本地中。
 
@@ -736,8 +1036,8 @@ const obj = {
       gender: '女'
     }
 //本地只能存储字符串,无法存储复杂数据类型，需要解析成json格式
-    localStorage.setItem('obj', JSON.stringify(obj));
-    alert(localStorage.getItem('obj'))
+localStorage.setItem('obj', JSON.stringify(obj));
+alert(localStorage.getItem('obj'))
 ```
 
 浏览器要使用数据的时候，因为，本地存储里面取出来的是字符串，不是对象，无法直接使用。所以，需要将json字符串再转换为字符串。
@@ -746,9 +1046,22 @@ const obj = {
 const str = JSON.parse(localStorage.getItem('obj'));
 ```
 
-#### 4.5.3.数组中的相关方法
+#### sessionStorage
 
-##### 1.map方法迭代数组
+特性：
+
+- 用法跟localStorage基本相同
+- 区别是：当页面浏览器被关闭时，存储在 sessionStorage 的数据会被清除
+
+存储：sessionStorage.setItem(key,value)
+
+获取：sessionStorage.getItem(key)
+
+删除：sessionStorage.removeItem(key)
+
+#### 数组中的相关方法
+
+##### map方法迭代数组
 
 map 可以处理数据，并且返回新的数组
 
@@ -761,7 +1074,7 @@ const newArr = arr.map(function (item, index) {
  })
 ```
 
-##### 2.数组中join方法
+##### 数组中join方法
 
 join() 方法用于把数组中的所有元素转换一个字符串，数组元素是通过参数里面指定的分隔符进行分隔的；
 
@@ -771,21 +1084,17 @@ arr.join('*');
 console.log( arr.join(';')) //张三;李四;王五
 ```
 
-### 4.6.正则
+### 正则
 
-#### 1.基本使用
+#### 基本使用
 
-1. 定义规则
+~~~JavaScript
+const reg =  /表达式/
+~~~
 
-   ~~~JavaScript
-   const reg =  /表达式/
-   ~~~
+其中` / / `是正则表达式字面量，正则表达式也是对象 
 
-   其中` /   / `是正则表达式字面量，正则表达式也是对象 
-
-2. 使用正则
-
-   test()方法用来查看正则表达式与指定的字符串是否匹配，如果正则表达式与指定的字符串匹配 ，返回true，否则false
+test()方法用来查看正则表达式与指定的字符串是否匹配，如果正则表达式与指定的字符串匹配 ，返回true，否则false
 
 ~~~html
  <script>
@@ -799,7 +1108,7 @@ console.log( arr.join(';')) //张三;李四;王五
   </script>
 ~~~
 
-#### 2.元字符
+#### 元字符
 
 元字符是一些具有特殊含义的字符，可以极大提高了灵活性和强大的匹配功能。
 
@@ -813,9 +1122,9 @@ console.log( arr.join(';')) //张三;李四;王五
   </script>
 ```
 
-#### 3.边界符
+#### 边界符
 
-  正则表达式中的边界符（位置符）用来提示字符所处的位置，主要有两个字符^和$,其中^表示匹配开头，而$表示匹配结尾；
+正则表达式中的边界符用来提示字符所处的位置,主要有两个字符`^`和`$`,其中`^`表示匹配开头,而`$`表示匹配结尾
 
 ~~~html
 <body>
@@ -836,17 +1145,15 @@ console.log( arr.join(';')) //张三;李四;王五
 </body>
 ~~~
 
-#### 4.量词
+#### 量词
 
 量词用来设定某个模式重复次数
 
-**\+ 表示重复至少 1 次**
+- **\+ 表示重复至少 1 次**
+-  **? 表示重复 0 次或1次** 
 
- **? 表示重复 0 次或1次** 
-
-**表示重复 0 次或多次**
-
-**{m, n} 表示复 m 到 n 次**
+- **表示重复 0 次或多次**
+- **{m, n} 表示复 m 到 n 次**
 
 ~~~html
 <body>
@@ -892,7 +1199,7 @@ console.log( arr.join(';')) //张三;李四;王五
 
 **注意：{n,m}   n =< 重复次数 <= m中，逗号两侧千万不要加空格否则会匹配失败**
 
-#### 5.范围
+#### 范围
 
 表示字符的范围，定义的规则限定在某个范围，比如只能是英文字母，或者数字等等，用表示范围
 
@@ -929,20 +1236,20 @@ console.log( arr.join(';')) //张三;李四;王五
 </body>
 ~~~
 
-#### 6.字符类
+#### 字符类
 
 某些常见模式的简写方式，区分字母和数字
 
-```javascript
-\d 匹配0-9的任意数字，相当于[0-9]
-\D 匹配0-9以外数字，相当于[^0-9]
-\w 匹配任意的数字和字符和下划线，相当于[a-zA-Z0-9_]
-\W 与上面的\w相反 [^a-zA-Z0-9_]
-\s 匹配所有的空格.换行符.制表符
-\S 与上面相反
+```bash
+\d # 匹配0-9的任意数字，相当于[0-9]
+\D # 匹配0-9以外数字，相当于[^0-9]
+\w # 匹配任意的数字和字符和下划线，相当于[a-zA-Z0-9_]
+\W # 与上面的\w相反 [^a-zA-Z0-9_]
+\s # 匹配所有的空格.换行符.制表符
+\S # 与上面相反
 ```
 
-#### 7.替换和修饰符
+#### 替换和修饰符
 
 replace 替换方法，可以完成字符的替换
 
@@ -974,7 +1281,7 @@ replace 替换方法，可以完成字符的替换
   </script>
 ~~~
 
-## 5.javascript进阶
+## javascript进阶
 
 ### 5.1.作用域链
 
@@ -1533,297 +1840,4 @@ console.log(c)//4
 ​		构造函数体现了面向对象的封装特性
 
 ​		构造函数实例创建的对象彼此独立、互不影响
-
-# 2.Ajax
-
-### 1.初识Ajax
-
-URL地址一般由三部组成： 
-
-​		① 客户端与服务器之间的通信协议
-
-​		② 存有该资源的服务器名称 
-
-​		③ 资源在服务器上具体的存放位置
-
-```js
-https://mbd.baidu.com/newspage/data/index.html
-https:  通信协议
-mbd.baidu.com  服务器名称
-newspage/data/index.html   资源在服务器上具体的存放位置
-```
-
- get 请求通常用于获取服务端资源（向服务器要资源） 
-
-​		例如：根据 URL 地址，从服务器获取 HTML 文件、css 文件、js文件、图片文件、数据资源等 
-
-post 请求通常用于向服务器提交数据（往服务器发送资源） 
-
-​		例如：登录时向服务器提交的登录信息、注册时向服务器提交的注册信息、添加用户时向服务器提交的用户信息等各种数据提交操作
-
-Ajax的理解:在网页中利用 XMLHttpRequest 对象和服务器进行数据交互的方式，就是Ajax。
-
-### 2.jQuery中的Ajax
-
-浏览器中提供的 XMLHttpRequest 用法比较复杂，所以 jQuery 对 XMLHttpRequest 进行了封装，提供了一 系列 Ajax 相关的函数，极大地降低了 Ajax 的使用难度。 
-
-jQuery 中发起 Ajax 请求最常用的三个方法如下： 
-
-- $.get() 
-- $.post()
-- $.ajax()
-
-#### $.get()函数
-
-jQuery 中 $.get() 函数的功能单一，专门用来发起 get 请求，从而将服务器上的资源请求到客户端来进行使用。
-
-```js
-$.get(url, [data], [callback])
-//url string 是必选示要请求的资源地址
-//data object 不是必选表示请求资源期间要携带的参数
-//callback function 不是必选表示请求成功时的回调函数
-```
-
-使用 $.get() 函数发起不带参数的请求时，直接提供请求的 URL 地址和请求成功之后的回调函数即可，示例代 码如下：
-
-```js
-$.get('http://www.liulongbin.top:3006/api/getbooks', function(res) { 
-    console.log(res) // 这里的 res 是服务器返回的数据 
-})
-```
-
-使用 $.get() 函数发起带参数的请求时，示例代码如下：
-
-```js
-$.get('http://www.liulongbin.top:3006/api/getbooks', {id: 1}, function(res) { 
-    console.log(res) 
-})
-```
-
-#### $.post()函数
-
-jQuery 中 $.post() 函数的功能单一，专门用来发起 post请求，从而将服务器上的资源请求到客户端来进行使用。
-
-```js
-$.post(url, [data], [callback])
-//url string 是必选示要提交数据的地址
-//data object 不是必选表示要提交的数据
-//callback function 不是必选表示数据提交成功时的回调函数
-```
-
-使用 $.post() 向服务器提交数据的示例代码如下：
-
-```js
-$.post('http://www.liulongbin.top:3006/api/addbook', // 请求的URL地址
-	{ bookname: '水浒传', author: '施耐庵', publisher: '上海图书出版社' }, // 提交的数据
-	function(res) { // 回调函数
-	console.log(res)
-})
-```
-
-#### $.ajax()函数 
-
-相比于 $.get() 和 $.post() 函数，jQuery 中提供的 $.ajax() 函数，是一个功能比较综合的函数，它允许我们对 Ajax 请求进行更详细的配置。 
-
-$.ajax() 函数的基本语法如下：
-
-```js
-$.ajax({ type: '', // 请求的方式，例如 GET 或 POST 
-        url: '', // 请求的 URL 地址 
-        data: { },// 这次请求要携带的数据 
-        success: function(res) { 
-        	//内容
-        } // 请求成功之后的回调函数 
-})
-```
-
-使用 $.ajax() 发起 GET 请求时，只需要将 type 属性的值设置为 'GET' 即可： 
-
-```js
-$.ajax({ 
-    type: 'GET', // 请求的方式 
-    url: 'http://www.liulongbin.top:3006/api/getbooks', // 请求的 URL 地址 
-    data: { id: 1 },// 这次请求要携带的数据 
-    success: function(res) { 
-        // 请求成功之后的回调函数 
-        console.log(res) 
-    } 
-})
-```
-
-使用 $.ajax() 发起 POST 请求时，只需要将 type 属性的值设置为 'POST' 即可： 
-
-```js
-$.ajax({ type: 'POST', // 请求的方式 
-        url: 'http://www.liulongbin.top:3006/api/addbook', // 请求的 URL 地址 
-        data: { // 要提交给服务器的数据 
-            bookname: '水浒传', author: '施耐庵', publisher: '上海图书出版社' 
-        }, 
-        success: function(res) { 
-            // 请求成功之后的回调函数 console.log(res) 
-        } 
-})
-```
-
-### 3.axios使用
-
-使用 axios 函数
-
-- 传入配置对象
-
-- 再用 .then 回调函数接收结果，并做后续处理
-
-```js
-//引入 axios.js：https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-axios() { 
-    url: '目标资源地址' 
-}.then((result)=>{
-	// 对服务器返回的数据做后续处理
-})
-```
-
-示例
-
-```js
-axios({
-    url:"http://hmajax.itheima.net/api/province"
-}).then(result=>{
-    console.log(result)//获取到result对象
-    console.log(result.data.list)//获取到result对象里面的数据
-})
-```
-
-#### axios－查询参数 
-
-语法：使用 axios 提供的 params 选项 
-
-注意：axios 在运行时把参数名和值，会拼接到 url?参数名=值
-
-```js
-axios({ 
-    url:'目标资源地址', 
-    params:{参数名:值}}).then(result=>{ 
-    // 对服务器返回的数据做后续处理 
-})
-```
-
-示例
-
-```js
-axios({
-    url:"http://hmajax.itheima.net/api/city",
-    params:{
-     pname:'甘肃省'
-    }
-	}).then(result=>{
-    console.log(result.data.list)//['兰州市', '嘉峪关市', '金昌市', '白银市', '天水市', '武威市', '张掖市', '平凉市', 								// '酒泉市', '庆阳市', '定西市', '陇南市', '临夏回族自治州', '甘南藏族自治州']
-})
-```
-
-#### 常用请求方法 
-
-请求方法：对服务器资源，要执行的操作 
-
-请求方法		   操作 
-
-- GET 		    获取数据 
-- POST          数据提交 
-- PUT             修改数据（全部） 
-- DELETE       删除数据 
-- PATCH        修改数据（部分）
-
-##### 数据提交
-
-axios 请求配置
-
--  url：请求的 URL 网址 
-- method：请求的方法，
-- GET可以省略（不区分大小写） 
-- data：提交数据
-
-```js
-axios({
-    url: '目标资源地址',
-    method: '请求方法',
-	data: {
-		参数名: 值
-	}
-}).then((result) => { // 对服务器返回的数据做后续处理 })
-```
-
-示例：
-
-
-```js
-<button class="btn">注册用户</button>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-	document.querySelector('.btn').addEventListener('click', () => {
-  	axios({
-    	url: 'http://hmajax.itheima.net/api/register',
-    	method: 'POST',
-    	data: {
-      		username: 'itheima007',
-      		password: '7654321'
-    	}
-  	})
-})
-</script>
-```
-#### axios 错误处理
-
-语法：在 then 方法的后面，通过点语法调用 catch 方法，传入回调函数并定义形参
-
-```js
-axios({ 
-    // 请求选项 
-}).then(result => {
-    // 处理数据 
-}).catch(error => { 
-    // 处理错误 
-})
-```
-
-示例
-
-```js
-axios({
-    url: 'http://hmajax.itheima.net/api/register',
-    method: 'post',
-    data: {
-     	username: '张佳亮123123',
-     	password: '2234343'
-    }
-   }).then(result => {
-    	console.log(result.data)
-   }).catch(errror => {
-    	console.log(error)
-    	console.log(error.response.data.message)
-    	alert(error.response.data.message)
-   })
-  })
-```
-
-#### form-serialize 插件
-
-作用：快速收集表单元素的值
-
-```js
-/**
-          * 2. 使用serialize函数，快速收集表单元素的值
-          * 参数1：要获取哪个表单的数据
-          *  表单元素设置name属性，值会作为对象的属性名
-          *  建议name属性的值，最好和接口文档参数名一致
-          * 参数2：配置对象
-          *  hash 设置获取数据结构
-          *    - true：JS对象（推荐）一般请求体里提交给服务器
-          *    - false: 查询字符串
-          *  empty 设置是否获取空值
-          *    - true: 获取空值（推荐）数据结构和标签结构一致
-          *    - false：不获取空值
-*/   
-const form = document.querySelector('.example-form')
-const data = serialize(form, { hash: true, empty: true })
-```
 
