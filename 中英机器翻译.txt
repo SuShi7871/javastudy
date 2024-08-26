@@ -1,0 +1,108 @@
+step1 文件拆分
+	cut -f 1 /mnt/workspace/fairseq_zh2en/nmt/data/v15news/news-commentary-v15.en-zh.tsv > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/raw.en | cut -f 2 /mnt/workspace/fairseq_zh2en/nmt/data/v15news/news-commentary-v15.en-zh.tsv 
+	> /mnt/workspace/fairseq_zh2en/nmt/data/v15news/raw.zh
+step2 normalize-punctuation
+	标点符号的标准化，同时对双语文件(raw.en, raw.zh)处理，使用命令：
+	perl /mnt/workspace/fairseq_zh2en/mosesdecoder/scripts/tokenizer/normalize-punctuation.perl -l en < /mnt/workspace/fairseq_zh2en/nmt/data/v15news/raw.en > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.en
+	perl /mnt/workspace/fairseq_zh2en/mosesdecoder/scripts/tokenizer/normalize-punctuation.perl -l zh < /mnt/workspace/fairseq_zh2en/nmt/data/v15news/raw.zh > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.zh
+
+step3
+	中文分词
+	对标点符号标准化后的中文文件(norm.zh)进行分词处理，使用命令：
+	python -m jieba -d " " /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.zh > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.seg.zh
+step4
+	tokenize
+	对上述处理后的双语文件(norm.en, norm.seg.zh)进行标记化处理，有很多功能
+	1.将英文单词与标点符号用空格分开 
+	2.将多个连续空格简化为一个空格 
+	3.将很多符号替换成转义字符，如：把"替换成&quot;、把can't替换成can &apos;t)，使用命令：
+	/mnt/workspace/fairseq_zh2en/mosesdecoder/scripts/tokenizer/tokenizer.perl -l en < /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.en > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.tok.en
+	/mnt/workspace/fairseq_zh2en/mosesdecoder/scripts/tokenizer/tokenizer.perl -l zh < /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.seg.zh > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.seg.tok.zh
+
+step5
+truecase
+	对上述处理后的英文文件(norm.tok.en)进行大小写转换处理(对于句中的每个英文单词，尤其是句首单词，在数据中学习最适合它们的大小写形式)，使用命令：
+	/mnt/workspace/fairseq_zh2en/mosesdecoder/scripts/recaser/train-truecaser.perl --model /mnt/workspace/fairseq_zh2en/nmt/models/v15news/truecase-model.en --corpus /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.tok.en
+	/mnt/workspace/fairseq_zh2en/mosesdecoder/scripts/recaser/truecase.perl --model /mnt/workspace/fairseq_zh2en/nmt/models/v15news/truecase-model.en < /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.tok.en > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.tok.true.en
+
+
+step6
+	bpe
+	对上述处理后的双语文件(norm.tok.true.en, norm.seg.tok.zh)进行子词处理(可以理解为更细粒度的分词)，使用命令：
+
+	python /mnt/workspace/fairseq_zh2en/subword-nmt/subword_nmt/learn_joint_bpe_and_vocab.py --input /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.tok.true.en  -s 32000 -o /mnt/workspace/fairseq_zh2en/nmt/models/v15news/bpecode.en --write-vocabulary /mnt/workspace/fairseq_zh2en/nmt/models/v15news/voc.en
+	python /mnt/workspace/fairseq_zh2en/subword-nmt/subword_nmt/apply_bpe.py -c /mnt/workspace/fairseq_zh2en/nmt/models/v15news/bpecode.en --vocabulary /mnt/workspace/fairseq_zh2en/nmt/models/v15news/voc.en < /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.tok.true.en > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.tok.true.bpe.en
+
+	python /mnt/workspace/fairseq_zh2en/subword-nmt/subword_nmt/learn_joint_bpe_and_vocab.py --input /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.seg.tok.zh  -s 32000 -o /mnt/workspace/fairseq_zh2en/nmt/models/v15news/bpecode.zh --write-vocabulary /mnt/workspace/fairseq_zh2en/nmt/models/v15news/voc.zh
+	python /mnt/workspace/fairseq_zh2en/subword-nmt/subword_nmt/apply_bpe.py -c /mnt/workspace/fairseq_zh2en/nmt/models/v15news/bpecode.zh --vocabulary /mnt/workspace/fairseq_zh2en/nmt/models/v15news/voc.zh < /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.seg.tok.zh > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.seg.tok.bpe.zh
+
+step6
+	clean
+	对上述处理后的双语文件(norm.tok.true.bpe.en, norm.seg.tok.bpe.zh)进行过滤(可以过滤最小长度和最大长度之间的句对，
+	这样能够有效过滤空白行。还可以过滤长度比不合理的句对)，使用命令：
+	mv /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.seg.tok.bpe.zh /mnt/workspace/fairseq_zh2en/nmt/data/v15news/toclean.zh
+	mv /mnt/workspace/fairseq_zh2en/nmt/data/v15news/norm.tok.true.bpe.en /mnt/workspace/fairseq_zh2en/nmt/data/v15news/toclean.en 
+	/mnt/workspace/fairseq_zh2en/mosesdecoder/scripts//training/clean-corpus-n.perl /mnt/workspace/fairseq_zh2en/nmt/data/v15news/toclean zh en /mnt/workspace/fairseq_zh2en/nmt/data/v15news/clean 1 256
+
+
+step7 split
+	最后，双语文件(clean.zh, clean.en)都需要按比例划分出训练集、测试集、开发集(所以共6个文件，为方便区分，直接以 ‘train.en’, ‘valid.zh’ 这样的格式命名)
+	python /mnt/workspace/fairseq_zh2en/nmt/utils/split.py /mnt/workspace/fairseq_zh2en/nmt/data/v15news/clean.zh /mnt/workspace/fairseq_zh2en/nmt/data/v15news/clean.en /mnt/workspace/fairseq_zh2en/nmt/data/v15news/
+
+step8 训练过程
+	生成词表及二进制文件
+	首先用预处理后的六个文件(train.zh, valid.en等)，使用fairseq-preprocess命令生成词表和训练用的二进制文件
+	fairseq-preprocess --source-lang zh --target-lang en \
+		--trainpref /mnt/workspace/fairseq_zh2en/nmt/data/v15news/train --validpref /mnt/workspace/fairseq_zh2en/nmt/data/v15news/valid --testpref /mnt/workspace/fairseq_zh2en/nmt/data/v15news/test \
+		--destdir /mnt/workspace/fairseq_zh2en/nmt/data/v15news/data-bin
+解决fairseq版本冲突问题使用
+	pip install omegaconf hydra-core
+	pip install fairseq --no-deps解决
+	
+step9 训练
+使用fairseq-train命令进行训练，其中有很多可以自由设置的超参数，比如选择使用什么模型，模型的参数等。
+其中，--save-dir这个参数是指每一个epoch结束后模型保存的位置	
+	fairseq-train /mnt/workspace/fairseq_zh2en/nmt/data/v15news/data-bin --arch transformer \
+	--source-lang zh --target-lang en  \
+    --optimizer adam  --lr 0.001 --adam-betas '(0.9, 0.98)' \
+    --lr-scheduler inverse_sqrt --max-tokens 4096  --dropout 0.3 \
+    --criterion label_smoothed_cross_entropy  --label-smoothing 0.1 \
+    --max-update 200000  --warmup-updates 4000 --warmup-init-lr '1e-07' \
+    --keep-last-epochs 10 --num-workers 8 \
+	--save-dir /mnt/workspace/fairseq_zh2en/nmt/models/v15news/checkpoints &
+
+
+step10 生成式解码
+	使用fairseq-generate命令进行生成式解码(用于预处理后的二进制文件)，可以自行选择是否添加--remove-bpe参数，
+	使得在生成时就去掉bpe符号(@@)
+	fairseq-generate /mnt/workspace/fairseq_zh2en/nmt/data/v15news/data-bin \
+    --path /mnt/workspace/fairseq_zh2en/nmt/models/v15news/checkpoints/checkpoint_best.pt \
+    --batch-size 128 --beam 8 > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/result/bestbeam8.txt
+step11
+交互式解码
+使用fairseq-interactive命令进行交互式解码(用于文本文件)。注意其input参数
+fairseq-interactive /mnt/workspace/fairseq_zh2en/nmt/data/v15news/data-bin \
+    --input /mnt/workspace/fairseq_zh2en/nmt/data/v15news/test.zh \
+    --path /mnt/workspace/fairseq_zh2en/nmt/models/v15news/checkpoints/checkpoint_best.pt \
+    --batch-size 1 --beam 8 --remove-bpe > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/result/bestbeam8.txt
+
+step12
+抽取译文
+由于解码生成的文件包含大量无关信息，所以需要把译文和正确答案单独抽取出来，其中predict是译文，answer是正确答案：	
+grep -a  ^H /mnt/workspace/fairseq_zh2en/nmt/data/v15news/result/bestbeam8.txt | cut -f3- > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/result/predict.tok.true.bpe.en
+grep ^T /mnt/workspace/fairseq_zh2en/nmt/data/v15news/result/bestbeam8.txt | cut -f2- > /mnt/workspace/fairseq_zh2en/nmt/data/v15news/result/answer.tok.true.bpe.en
+
+
+# 安装fairseq
+使用 Conda 安装
+如果你使用 Conda 管理环境，也可以通过 Conda 安装或更新 Fairseq（可能并非最新版本）：
+
+bash
+复制代码
+conda install -c conda-forge fairseq
+更新后验证安装
+更新完成后，你可以使用以下命令验证安装和版本：
+
+bash
+复制代码
+python -m fairseq.cli.train --help

@@ -1,31 +1,54 @@
 # node.js
 
-## 1.node.js与内置模块
 
-### 初始node.js
 
- Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。 Node.js 的官网地址： https://nodejs.org/zh-cn
+ 浏览器中的JavaScript 运行环境
 
-Node.js 作为一个 JavaScript 的运行环境，仅仅提供了基础的功能和 API。然而，基于 Node.js 提供的这些基础能，很多强大 的工具和框架如雨后春笋，层出不穷，所以学会了 Node.js ，可以让前端程序员胜任更多的工作和岗位：
+![1723555918554](.\typora-user-images\1723555918554.png)
 
- 	  ① 基于 Express 框架（http://www.expressjs.com.cn/），可以快速构建 Web 应用 
+- V8 引擎负责解析和执行JavaScript 代码。
+- 内置API 是由运行环境提供的特殊接口，只能在所属的运行环境中被调用。
 
-​		② 基于 Electron 框架（https://electronjs.org/），可以构建跨平台的桌面应用
+## 初始node.js
 
-​		③ 基于 restify 框架（http://restify.com/），可以快速构建 API 接口项目
+ Node.js 是一个基于 `Chrome V8` 引擎的 JavaScript 运行环境。 
 
-​		④ 读写和操作数据库、创建实用的命令行工具辅助前端开发、etc… 
+Node.js 中的 JavaScript 运行环境
+
+![1723556019681](.\typora-user-images\1723556019681.png)
+
+- 浏览器是JavaScript 的前端运行环境
+- Node.js 是 JavaScript 的后端运行环境。
+- Node.js 中无法调用DOM 和BOM 等浏览器内置API。
+
+Node.js 的应用框架主要有以下几个：
+
+- 基于 Express 框架（`http://www.expressjs.com.cn/`），可以快速构建 Web 应用 
+- 基于 Electron 框架（`https://electronjs.org/`），可以构建跨平台的桌面应用
+- 基于 restify 框架（`http://restify.com/`），可以快速构建 API 接口项目
+- 读写和操作数据库、创建实用的命令行工具辅助前端开发等
+
+### Node.js 环境的安装
+
+LTS 版本和Current版本的不同
+
+- LTS 为长期稳定版，对于追求稳定性的企业级项目来说，推荐安装LTS 版本的Node.js。
+- Current 为新特性尝鲜版，对热衷于尝试新特性的用户来说，推荐安装Current 版本的Node.js。但是，Current 版本中可能存在隐藏的Bug 或安全性漏洞，因此不推荐在企业级项目中使用Current 版本的Node.js。
+
+配置环境变量的时候，注意以下问题，在node.js安装的文件夹，新建两个文件夹node_glabal和node_cache，然后执行如下命令：
+
+```bash
+npm config set prefix D:\applicationSoftware\node\node_glabal
+npm config set prefix D:\applicationSoftware\node\node_cache
+```
+
 
 ### fs文件系统模块
 
-#### 读写文件操作
+fs 模块是 Node.js 官方提供的、用来操作文件的模块。它提供了一系列的方法和属性，用来满足用户对文件的操作需求。 
 
-​	fs 模块是 Node.js 官方提供的、用来操作文件的模块。它提供了一系列的方法和属性，用来满足用户对文件的操作需求。 
-
-例如： 
-
-- ​		fs.readFile() 方法，用来读取指定文件中的内容 
-- ​		fs.writeFile() 方法，用来向指定的文件中写入内容
+- `fs.readFile()` 方法，用来读取指定文件中的内容 
+- `fs.writeFile() `方法，用来向指定的文件中写入内容
 
 ```javascript
 //导入fs模块，用来读文件
@@ -50,54 +73,83 @@ fs.writeFile('../1.txt','你好，node',function(err){
 })
 ```
 
-#### fs 模块 - 路径动态拼接的问题
-
-在使用 fs 模块操作文件时，如果提供的操作路径是以 ./ 或 ../ 开头的相对路径时，很容易出现路径动态拼接错误的问题。 原因：代码在运行的时候，会以执行 node 命令时所处的目录，动态拼接出被操作文件的完整路径。 解决方案：在使用 fs 模块操作文件时，直接提供完整的路径，不要提供 ./ 或 ../ 开头的相对路径，从而防止路径动态拼接的问题。
-
 ### path路径模块
+
+#### 路径动态拼接问题
+
+在使用 fs 模块操作文件时，如果提供的操作路径是以 ./ 或 ../ 开头的相对路径时，很容易出现路径动态拼接错误的问题。 
+
+原因：代码在运行的时候，会以执行 node 命令时所处的目录，动态拼接出被操作文件的完整路径。 
+
+解决方案：在使用 fs 模块操作文件时，直接提供完整的路径，**不要提供 ./ 或 ../ 开头的相对路径，从而防止路径动态拼接的问题**。但是，**提供完整路径还有一个问题就是程序的移植性会很差**，所以也不推荐使用。
+
+针对这个问题node提出了一个新的方法:
 
 path 模块是 Node.js 官方提供的、用来处理路径的模块。它提供了一系列的方法和属性，用来满足用户对路径的处理 需求。 
 
 例如： 
 
-​		 **path.join() 方法，用来将多个路径片段拼接成一个完整的路径字符串** 
+- **path.join() 方法，用来将多个路径片段拼接成一个完整的路径字符串** 
+-  **path.basename() 方法，用来从路径字符串中，将文件名解析出来**
 
-​		 **path.basename() 方法，用来从路径字符串中，将文件名解析出来**
+`__dirname` 表示当前文件所处的目录
+
+```js
+fs.readFile(__dirname + '/files/1.txt', 'utf8', function(err, dataStr) {
+  if (err) {
+    return console.log('读取文件失败！' + err.message)
+  }
+  console.log('读取文件成功！' + dataStr)
+})
+```
+
+使用path.join() 方法，可以把多个路径片段拼接为完整的路径字符串
 
 ```javascript
 //引入path路径模块
 const path=require('path');
 //其中../会抵消前一个目录
-//__dirname标识当前的路径
- const path1=pathFile.join(__dirname,'/a','/b/c','../','./d')
- console.log(path1);//输出的结果为/a/b/d
-const fpath='/a/b/c/index.html'
-const fullName=path.basename(fpath) 
-//获取文件名称
-console.log(fullName)//输出结果为index.html
-console.log('--------------------')
-//获取文件名称，不带扩展名
-const nameWithoutEnd=path.basename(fpath,'.html')
-console.log(nameWithoutEnd) //输出结果为index
+fs.readFile(path.join(__dirname,'../成绩-ok.txt'),'utf-8',function(err,data){
+    if(err){
+        console.log('读取文件出错:', err);
+        return;
+    }else{
+        // 按行分割数据
+       console.log(data)
+}})
 ```
 
-**注意：今后凡是涉及到路径拼接的操作，都要使用 path.join() 方法进行处理。不要直接使用 + 进行字符串的拼接**
+**注意：涉及到路径拼接的操作，都要使用 path.join() 方法进行处理。不要直接使用 + 进行字符串的拼接**
+
+使用path.basename() 方法，可以获取路径中的最后一部分，经常通过这个方法获取路径中的文件名
+
+```js
+const fpath = path.join(__dirname,'test.txt') //输出test
+const fpath = path.join(__dirname) //输出test.txt
+const lastname =path.basename(fpath,'.txt')
+console.log(lastname)
+```
+
+使用path.extname() 方法，可以获取路径中的扩展名部分
+
+```js
+const fpath = '/a/b/c/index.html'
+const fext = path.extname(fpath)
+console.log(fext)
+```
 
 ### http模块
 
-#### 基本介绍
-
-http 模块是 Node.js 官方提供的、用来创建 web 服务器的模块。通过 http 模块提供的 http.createServer() 方法，就 能方便的把一台普通的电脑，变成一台 Web 服务器，从而对外提供 Web 资源服务。
+http 模块是Node.js官方提供的用来创建 web 服务器的模块.通过 http 模块提供的` http.createServer() `方法，就 能方便的把一台普通的电脑，变成一台 Web 服务器，从而对外提供 Web 资源服务。
 
 创建 web 服务器的基本步骤 
 
-​	 ① 导入 http 模块 
+- 导入 http 模块 
 
-​	 ② 创建 web 服务器实例
+- 创建 web 服务器实例
 
- 	③ 为服务器实例绑定 request 事件，监听客户端的请求
- 	
- 	④ 启动服务器
+- 为服务器实例绑定 request 事件，监听客户端的请求
+- 启动服务器
 
 ```javascript
 // 1. 导入 http 模块
@@ -114,7 +166,7 @@ server.listen(8080, function () {
 })
 ```
 
-#### req 请求对象和res响应对象
+#### req 和res
 
 req请求对象：只要服务器接收到了客户端的请求，就会调用通过 server.on() 为服务器绑定的 request 事件处理函数。
 
@@ -149,7 +201,7 @@ server.on('request', (req, res) => {
 })
 ```
 
-## 2.模块化
+## 模块化
 
 ### 基本概念 
 
@@ -157,11 +209,12 @@ server.on('request', (req, res) => {
 
 把代码进行模块化拆分的好处： 
 
-​		① 提高了代码的复用性 
+- 提高了代码的复用性 
 
-​		② 提高了代码的可维护性 
+- 提高了代码的可维护性 
 
-​		③ 可以实现按需加载
+- 可以实现按需加载
+
 
 ### Node.js 中模块化 
 
@@ -169,17 +222,28 @@ server.on('request', (req, res) => {
 
 Node.js 中根据模块来源的不同，将模块分为了 3 大类，分别是：
 
-​		内置模块（内置模块是由 Node.js 官方提供的，例如 fs、path、http 等） 
+- 内置模块（内置模块是由 Node.js 官方提供的，例如 fs、path、http 等） 
 
-​		自定义模块（用户创建的每个 .js 文件，都是自定义模块）
+- 自定义模块（用户创建的每个 .js 文件，都是自定义模块）
 
- 	   第三方模块（由第三方开发出来的模块，并非官方提供的内置模块，也不是用户创建的自定义模块，使用前需要先下载）
+-  第三方模块（由第三方开发出来的模块，并非官方提供的内置模块，也不是用户创建的自定义模块，使用前需要先下载）
 
-使用强大的 require() 方法，可以加载需要的内置模块、用户自定义模块、第三方模块进行使用
+
+使用 **require()** 方法，可以加载需要的内置模块、用户自定义模块、第三方模块进行使用
+
+```js
+// 内置模块
+const fs = require('fs')
+
+// 用户自定义模块
+const custom = require('./custom.js')
+
+// 第三方模块,由第三方开发出来的模块，并非官方提供的内置模块，也不是用户创建的自定义模块，使用前需要
+//先下载
+const moment = require('moment')
+```
 
 #### 模块作用域 
-
-和函数作用域类似，在自定义模块中定义的变量、方法等成员，只能在当前模块内被访问，这种模块级别的访问限制，叫做模块 作用域。
 
  模块作用域的好处 ：防止了**全局变量污染**的问题
 
@@ -189,9 +253,49 @@ Node.js 中根据模块来源的不同，将模块分为了 3 大类，分别是
 
 **注意：使用 require() 方法导入模块时，导入的结果，永远以 module.exports 指向的对象为准。**
 
+```js
+/*model.js*/
+const age = 20
+module.exports.username = 'tom'
+module.exports.hello=function(){
+    alert('hello')
+}
+module.exports.age = age
+
+// 让 module.exports 指向一个全新的对象
+module.exports = {
+    nickname: '小黑',
+    sayHi() {
+      console.log('Hi!')
+    }
+  }
+ /*测试module.js*/ 
+const modules = require('./model.js')
+console.log(modules.nickname) //小黑
+console.log(modules.age) //undefined,应为没有对外export
+console.log(modules) //{ nickname: '小黑', sayHi: [Function: sayHi] }
+```
+
 为了简化向外共享成员的代码，Node 提供了 exports 对象。默认情况 下，**exports 和 module.exports 指向同一个对象**。最终共享的结果，还是以 module.exports 指向的对象为准。
 
-**注意：为了防止混乱，建议大家不要在同一个模块中同时使用 exports 和 module.exports**
+**注意：为了防止混乱，不要在同一个模块中同时使用 exports 和 module.exports**
+
+```js
+const age = 20
+exports.username = 'tom'
+exports.hello=function(){
+    alert('hello')
+}
+exports.age = age
+
+// 让 module.exports 指向一个全新的对象
+exports = {
+    nickname: '小黑',
+    sayHi() {
+      console.log('Hi!')
+    }
+  }
+```
 
 Node.js 遵循了 CommonJS 模块化规范，CommonJS 规定了模块的特性和各模块之间如何相互依赖。 
 
@@ -209,23 +313,37 @@ CommonJS 规定：
 
 Node.js 中的第三方模块又叫做包。 第三方模块和包指的是同一个概念，只不过叫法不同。
 
-npm, Inc. 公司提供了一个地址为 https://registry.npmjs.org/ 的服务器，来对外共享所有的包，我们可以从这个服务器上下载自己所需要的包。 
+#### npm 
 
-注意： 
+npm安装以及配置
 
-​		从 https://www.npmjs.com/ 网站上搜索自己所需要的包 
+```bash
+# 修改安装路径和缓存路径命令如下
+npm config set prefix "D:\applicationSoftware\node\node_glabal"
 
-​		从 https://registry.npmjs.org/ 服务器上下载自己需要的包
+npm config set cache "D:\applicationSoftware\node\node_cache"
+# 查看基本配置
+npm config list
+# 镜像源配置
+npm config set registry=https://registry.npmmirror.com/
+	阿里：https://npm.aliyun.com/
+	华为：https://mirrors.huaweicloud.com/repository/npm/
+	腾讯：http://mirrors.cloud.tencent.com/npm/
 
-#### npm 初体验 
+# 也可以使用其他包管理工具，比如：cnpm、yarn等
+npm install cnpm -g
+npm install yarn -g
+cnpm -v和yarn -v命令查看版本情况
+```
 
-格式化时间的高级做法 
+使用noment包格式化时间
 
-​		① 使用 npm 包管理工具，在项目中安装格式化时间的包 moment 
+- 使用 npm 包管理工具，在项目中安装格式化时间的包 moment 
 
-​		② 使用 require() 导入格式化时间的包 
+- 使用 require() 导入格式化时间的包 
 
-​		③ 参考 moment 的官方 API 文档对时间进行格式化
+- 参考 moment 的官方 API 文档对时间进行格式化
+
 
 ```javascript
 //导入moment包
@@ -252,39 +370,50 @@ npm config set registry=https://registry.npm.taobao.org/
 npm config get registry
 ```
 
-为了更方便的切换下包的镜像源，我们可以安装 nrm 这个小工具，利用 nrm 提供的终端命令，可以快速查看和切换下 包的镜像源
+在使用npm 下包的时候，默认从国外的https://registry.npmjs.org/服务器进行下载，此时，**网络数据的传输需要经过漫长的海底光缆**，因此下包速度会很慢。为了提高安装速度，我们可以使用镜像
 
-```javascript
-//通过npm包管理器，将nrm安装为全局可用的工具
+![1724480432932](.\typora-user-images\1724480432932.png)
+
+为了更方便的切换下包的镜像源，我们可以安装 nrm 这个小工具，利用 nrm 提供的终端命令，可以快速查看和切换下包的镜像源
+
+```bash
+# 通过npm包管理器，将nrm安装为全局可用的工具
 npm i nrm -g
-//查看所有的镜像源
+# 查看所有的镜像源
 nrm ls
-//将下包的镜像源切换为淘宝镜像
+# 将下包的镜像源切换为淘宝镜像
 nrm use taobao
+# 镜像源配置
+npm config set registry=https://registry.npmmirror.com/
+	阿里：https://npm.aliyun.com/
+	华为：https://mirrors.huaweicloud.com/repository/npm/
+	腾讯：http://mirrors.cloud.tencent.com/npm/
+```
+
+#### 包管理配置文件
+
+devDependencies 节点
+
+如果某些包只在项目开发阶段会用到，在项目上线之后不会用到，则建议把这些包记录到devDependencies节点中。与之对应的，如果某些包在开发和项目上线之后都需要用到，则建议把这些包记录到dependencies 节点中。
+
+- 开发依赖包（被记录到 devDependencies 节点中的包，只在开发期间会用到） 
+- 核心依赖包（被记录到 dependencies 节点中的包，在开发期间和项目上线之后都会用到）
+
+```bash
+npm install 包名 -D //开发依赖包，这是简写形式
+npm install 包名 --save-dev //完整写法
+npm install 包名  //核心依赖包
 ```
 
 那些被安装到项目的 node_modules 目录中的包，都是项目包。 
 
-项目包又分为两类，分别是： 
-
-​		开发依赖包（被记录到 devDependencies 节点中的包，只在开发期间会用到） 
-
-​		核心依赖包（被记录到 dependencies 节点中的包，在开发期间和项目上线之后都会用到）
-
-```javascript
-npm install -D //开发依赖包
-npm install 包名  //核心依赖包
-```
-
 初次装包完成后，在项目文件夹下多一个叫做 node_modules 的文件夹和 package-lock.json 的配置文件。
 
- 其中： 
+-  node_modules 文件夹用来存放所有已安装到项目中的包。require() 导入第三方包时，就是从这个目录中查找并加载包。 
 
-​     node_modules 文件夹用来存放所有已安装到项目中的包。require() 导入第三方包时，就是从这个目录中查找并加载包。 
+- package- lock.json 配置文件用来记录 node_modules 目录下的每一个包的下载信息，例如包的名字、版本号、下载地址等。
 
-​     package- lock.json 配置文件用来记录 node_modules 目录下的每一个包的下载信息，例如包的名字、版本号、下载地址等。
-
-​     package.json 文件中，有一个 dependencies 节点，专门用来记录您使用 npm install  命令安装了哪些包。
+-    package.json 文件中，有一个 dependencies 节点，专门用来记录您使用 npm install  命令安装了哪些包。
 
 #### 包的分类
 
@@ -294,57 +423,59 @@ npm install 包名  //核心依赖包
 
 注意： 
 
-​		① 只有工具性质的包，才有全局安装的必要性。因为它们提供了好用的终端命令。 
+- 只有工具性质的包，才有全局安装的必要性。因为它们提供了好用的终端命令。 
 
-​		② 判断某个包是否需要全局安装后才能使用，可以参考官方提供的使用说明即可
+- 判断某个包是否需要全局安装后才能使用，可以参考官方提供的使用说明即可
 
-```javascript
-npm install 包名 -g   //全局安装
-npm uninstall 包名 -g  //卸载全局安装的包
+
+```bash
+npm install 包名 -g   # 全局安装
+npm uninstall 包名 -g  # 卸载全局安装的包
 ```
-
- i5ting_toc
 
 i5ting_toc 是一个可以把 md 文档转为 html 页面的小工具，使用步骤如下：
 
-```javascript
-npm install -g i5ting_toc  //将其安装为全局包
-i5ting_toc -f   要转换的md文件路径 -o  //转换md为html
+```bash
+npm install -g i5ting_toc  # 将其安装为全局包
+i5ting_toc -f   要转换的md文件路径 -o  # 转换md为html
 ```
 
 #### 发布包
 
-步骤：
+- 注册npm账号
 
-​		1、注册npm账号
+- npm 账号注册完成后，可以在终端中执行 npm login 命令，依次输入用户名、密码、邮箱后登录
 
-​		2、npm 账号注册完成后，可以在终端中执行 npm login 命令，依次输入用户名、密码、邮箱		后，即可登录成功。
+- 将终端切换到包的根目录之后，运行 npm publish 命令，即可将包发布到 npm 上（注意:包名不能雷同）
+- 运行 npm unpublish 包名 --force 命令，即可从 npm 删除已发布的包。
 
-​		3、将终端切换到包的根目录之后，运行 npm publish 命令，即可将包发布到 npm 上（注意：		包名不能雷同）。
+#### 规范的包结构
 
-运行 npm unpublish 包名 --force 命令，即可从 npm 删除已发布的包。
+一个规范的包，它的组成结构，必须符合以下3 点要求：
+
+- 包必须以单独的目录而存在
+- 包的顶级目录下要必须包含package.json 这个包管理配置文件
+- package.json 中必须包含name，version，main这三个属性，分别代表包的名字、版本号、包的入口。
 
 ### 模块的加载机制
 
-模块在第一次加载后会被缓存。 这也意味着多次调用 require() 不会导致模块的代码被执行多次。 注意：不论是内置模块、用户自定义模块、还是第三方模块，它们都会优先从缓存中加载，从而提高模块的加载效率。
+模块在第一次加载后会被缓存。 这也意味着多次调用 require() 不会导致模块的代码被执行多次。
+
+ 注意：不论是内置模块、用户自定义模块、还是第三方模块，它们都会**优先从缓存中加载，从而提高模块的加载效率**。
 
 内置模块是由 Node.js 官方提供的模块，内置模块的加载优先级最高。
 
 使用 require() 加载自定义模块时，必须指定以 ./ 或 ../ 开头的路径标识符。在加载自定义模块时，如果没有指定 ./ 或 ../  这样的路径标识符，则 node 会把它当作内置模块或第三方模块进行加载。
 
-## 3.Express
+## Express
 
-### 简介
+Express 的作用和 Node.js 内置的 http 模块类似，是专门用来创建 Web 服务器
 
-Express 的作用和 Node.js 内置的 http 模块类似，是专门用来创建 Web 服务器的。Express 的本质：就是一个 npm 上的第三方包，提供了快速创建 Web 服务器的便捷方法。
+Express 的本质：就是一个 npm 上的第三方包，提供了快速创建 Web 服务器的便捷方法。
 
  Express 的中文官网： http://www.expressjs.com.cn/
 
-对于前端程序员来说，最常见的两种服务器，分别是： 
-
- 		Web 网站服务器：专门对外提供 Web 网页资源的服务器。 
-
-​		API 接口服务器：专门对外提供 API 接口的服务器。 使用 Express，我们可以方便、快速的创		建 Web 网站的服务器或 API 接口的服务器。
+使用Express，我们可以方便、快速的创建Web 网站的服务器或API 接口的服务器。
 
 ### 基本使用
 

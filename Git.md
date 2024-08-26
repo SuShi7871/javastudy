@@ -199,6 +199,15 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
  ssh -T git@github.com # 检测Github 的SSH key 是否配置成功
 ```
 
+远程仓库
+
+```bash
+# 查看本地连接的远程仓库
+git remote -v
+```
+
+
+
 ## git分支
 
 分支就是科幻电影里面的平行宇宙，当你正在电脑前努力学习Git的时候，另一个你正在另一个平行宇宙里努
