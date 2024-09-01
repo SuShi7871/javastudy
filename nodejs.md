@@ -497,13 +497,17 @@ app.listen(80, () => {
 ```javascript
 //参数一：客户端请求的url地址
 //参数二：请求对应的处理函数
-app.get('请求url',function(req,res){})
+app.get('请求url',function(req,res){
+    res.send('hello world.')
+})
 ```
 
 ```javascript
 //参数一：客户端请求的url地址
 //参数二：请求对应的处理函数
-app.post('请求url',function(req,res){})
+app.post('请求url',function(req,res){
+    res.send('Post Request.')
+})
 ```
 
 #### 把内容响应给客户端 
@@ -548,8 +552,6 @@ app.get('/user/:id',function(req,res){
 
 #### 托管静态资源
 
-express.static()
-
  express 提供了一个非常好用的函数，叫做 express.static()，通过它，我们可以非常方便地创建一个静态资源服务器， 例如，通过如下代码就可以将 public 目录下的图片、CSS 文件、JavaScript 文件对外开放访问了：
 
 ```javascript
@@ -562,13 +564,12 @@ app.use(express.static('public'))//通过它可以访问 public 目录中的所�
 
 ```javascript
 app.use(express.static('public'))
-
 app.use(express.static('file'))
 ```
 
 访问静态资源文件时，express.static() 函数会根据目录的添加顺序查找所需的文件。
 
-挂载路径前缀 
+##### 挂载路径前缀 
 
 如果希望在托管的静态资源访问路径之前，挂载路径前缀，则可以使用如下的方式：
 
@@ -578,25 +579,33 @@ app.use(‘/public’，express.static('public'))
 
 就可以通过带有 /public 前缀地址来访问 public 目录中的文件了。
 
-例如： http://localhost:3000/public/images/kitten.jpg
+例如：` http://localhost:3000/public/images/kitten.jpg`
+			` http://localhost:3000/public/css/style.css`
+			`http://localhost:3000/public/js/app.js`
 
 #### nodemon
 
-nodemon（https://www.npmjs.com/package/nodemon） 这个工具，它能够监听项目文件 的变动，当代码被修改后，nodemon 会自动帮我们重启项目，极大方便了开发和调试
+nodemon可以监听项目文件 的变动，当代码被修改后，nodemon 会自动帮我们重启项目，极大方便了开发和调试
 
 ```javascript
 npm install -g nodemon   //将 nodemon 安装为全局可用的工具
+```
+
+我们可以将node 命令替换为nodemon命令，使用nodemon app.js 来启动项目。这样做的好处是：代码
+被修改之后，会被nodemon监听到，从而实现自动重启项目的效果。
+
+```bash
+# 之前的命令
+node app.js
+# 现在的命令
+nodemon app.js
 ```
 
 ### Express路由
 
 #### 基本介绍
 
-广义上来讲，路由就是映射关系。
-
-在 Express 中，路由指的是客户端的请求与服务器处理函数之间的映射关系。
-
- Express 中的路由分 3 部分组成，分别是请求的类型、请求的 URL 地址、处理函数，格式如下：
+广义上来讲，路由就是映射关系。在 Express 中，路由指的是客户端的请求与服务器处理函数之间的映射关系。Express 中的路由分 3 部分组成，分别是请求的类型、请求的 URL 地址、处理函数，格式如下：
 
 ```javascript
 app.method(path,handler)
@@ -621,42 +630,39 @@ app.listen(80, () => {
 })
 ```
 
-路由的匹配过程 
-
-每当一个请求到达服务器之后，需要先经过路由的匹配，只有匹配成功之后，才会调用对应的处理函数。 在匹配时，会按照路由的顺序进行匹配，如果请求类型和请求的 URL同时匹配成功，则 Express 会将这次请求，转交给对应的 function 函数进行处理。
-
 #### 模块化路由
 
 为了方便对路由进行模块化的管理，Express 不建议将路由直接挂载到 app 上，而是推荐将路由抽离为单独的模块。 
 
-将路由抽离为单独模块的步骤如下：
+- 将路由抽离为单独模块的步骤如下：
 
- 		① 创建路由模块对应的 .js 文件 
+- 创建路由模块对应的 .js 文件 
 
-​		② 调用 express.Router() 函数创建路由对象 
+- 调用 express.Router() 函数创建路由对象 
 
-​		 ③ 向路由对象上挂载具体的路由 
+- 向路由对象上挂载具体的路由 
 
-​		 ④ 使用 module.exports 向外共享路由对象 
+- 使用 module.exports 向外共享路由对象 
 
-​		 ⑤ 使用 app.use() 函数注册路由模块
+- 使用 app.use() 函数注册路由模块
+
 
 创建路由模块
 
 ```javascript
-// 这是路由模块
+// router.js 这是路由模块
 // 1. 导入 express
 const express = require('express')
 // 2. 创建路由对象
 const router = express.Router()
 // 3. 挂载具体的路由
 //这是查询用户信息的路由模块
-router.get('/user/list', (req, res) => {
-  res.send('Get user list.')
+router.get('/user',(req,resp)=>{
+    resp.send('获取用户信息')
 })
 //这是添加用户信息的路由模块
-router.post('/user/add', (req, res) => {
-  res.send('Add new user.')
+router.post('/useradd',(req,resp)=>{
+    resp.send('新增用户信息')
 })
 // 4. 向外导出路由对象
 module.exports = router
@@ -665,16 +671,19 @@ module.exports = router
 注册路由模块（即在代码中引入路由模块）
 
 ```javascript
+//test.router.js
 const express = require('express')
 const app = express()
 // 1. 导入路由模块
-const router = require('./03.router')
+const router = require('./router')
 // 2. 注册路由模块，并添加统一的前缀/api
 app.use('/api', router)
 // 注意： app.use() 函数的作用，就是来注册全局中间件
 app.listen(80, () => {
   console.log('http://127.0.0.1')
 })
+//访问http://127.0.0.1/api/user	得到，获取用户信息
+//访问http://127.0.0.1/api/useradd 得到，新增用户信息
 ```
 
 ### Expess中间件
@@ -687,25 +696,25 @@ Express 中间件的调用流程
 
 当一个请求到达 Express 的服务器之后，可以连续调用多个中间件，从而对这次请求进行预处理。
 
-Express 中间件的格式
-
- Express 的中间件，本质上就是一个 function 处理函数，Express 中间件的格式如下：
-
-**注意：中间件函数的形参列表中，必须包含 next 参数。而路由处理函数中只包含 req 和 res。**
-
-next 函数是实现多个中间件连续调用的关键，它表示把流转关系转交给下一个中间件或路由。
+![1725183203768](.\typora-user-images\1725183203768.png)
 
 #### 基本使用
+
+ Express 的中间件，本质上就是一个 function 处理函数，Express 中间件的格式如下：
 
 ```javascript
 // 这是定义全局中间件的简化形式
 const mw=function(req,res,next){
-     console.log('这是一个最简单的中间件函数')
+    console.log('这是一个最简单的中间件函数')
   	next()
 }
 //全局生效的中间件
 app.use(mw)
 ```
+
+**注意：中间件函数的形参列表中，必须包含 next 参数。而路由处理函数中只包含 req 和 res。**
+
+next 函数是实现多个中间件连续调用的关键，它表示把流转关系转交给下一个中间件或路由。
 
 定义全局中间件的简化形式
 
@@ -713,19 +722,17 @@ app.use(mw)
 app.use((req, res, next) => {
   // 获取到请求到达服务器的时间
   const time = Date.now()
-  // 为 req 对象，挂载自定义属性，从而把时间共享给后面的所有路由
-  req.startTime = time
   next()
 })
 ```
 
-.中间件的作用 
+中间件的作用 
 
 多个中间件之间，共享同一份 req 和 res。基于这样的特性，我们可以在上游的中间件中，统一为 req 或 res 对象添 加自定义的属性或方法，供下游的中间件或路由进行使用。
 
 定义多个全局中间件 
 
-可以使用 app.use() 连续定义多个全局中间件。客户端请求到达服务器之后，会按照中间件定义的先后顺序依次进行 调用，示例代码如下：
+可以使用 app.use() 连续定义多个全局中间件。客户端请求到达服务器之后，会按照**中间件定义的先后顺序依次进行调用**，示例代码如下：
 
 ```javascript
 const express = require('express')
@@ -749,7 +756,7 @@ app.listen(80, () => {
 })
 ```
 
-局部生效的中间件 
+#### 局部生效的中间件 
 
 不使用 app.use() 定义的中间件，叫做局部生效的中间件，示例代码如下：
 
@@ -794,33 +801,35 @@ app.get('/', mw1, mw2, (req, res) => {
 
 中间件的5个使用注意事项
 
- 		① 一定要在路由之前注册中间件 
+-  一定要在路由之前注册中间件 
 
-​		 ② 客户端发送过来的请求，可以连续调用多个中间件进行处理
+- 客户端发送过来的请求，可以连续调用多个中间件进行处理
 
-​		 ③ 执行完中间件的业务代码之后，不要忘记调用 next() 函数 
+- 执行完中间件的业务代码之后，不要忘记调用 next() 函数 
 
-​		 ④ 为了防止代码逻辑混乱，调用 next() 函数后不要再写额外的代码 
+- 为了防止代码逻辑混乱，调用 next() 函数后不要再写额外的代码 
 
-​		 ⑤ 连续调用多个中间件时，多个中间件之间，共享 req 和 res 对象
+- 连续调用多个中间件时，多个中间件之间，共享 req 和 res 对象
+
 
 #### 中间件的分类
 
 Express 官方把常见的中间件用法，分成了 5 大类，分别是： 
 
-​		① 应用级别的中间件 
+- 应用级别的中间件 
 
-​		② 路由级别的中间件 
+- 路由级别的中间件 
 
-​		③ 错误级别的中间件 
+- 错误级别的中间件 
 
-​		④ Express 内置的中间件 
+- Express 内置的中间件 
 
-​		⑤ 第三方的中间件
+-  第三方的中间件
 
-应用级别的中间件 
 
-通过 app.use() 或 app.get() 或 app.post() ，绑定到 app 实例上的中间件，叫做应用级别的中间件，代码示例如下：
+**应用级别的中间件** 
+
+通过 app.use() 或 app.get() 或 app.post() ，绑定到 app 实例上的中间件，叫做应用级别的中间件：
 
 ```javascript
 //应用级别的中间件（全局中间件）
@@ -833,9 +842,9 @@ res.send('home page')
 })
 ```
 
-路由级别的中间件
+**路由级别的中间件**
 
-绑定到 express.Router() 实例上的中间件，叫做路由级别的中间件。它的用法和应用级别中间件没有任何区别。只不 过，应用级别中间件是绑定到 app 实例上，路由级别中间件绑定到 router 实例上，代码示例如下：
+绑定到 express.Router() 实例上的中间件，叫做路由级别的中间件。它的用法和应用级别中间件没有任何区别。只不 过，应用级别中间件是绑定到 app 实例上，路由级别中间件绑定到 router 实例上：
 
 ```javascript
 var app =express()
@@ -848,7 +857,7 @@ router.use(function(req,res,next){
 app.use('/',router)
 ```
 
-错误级别的中间件
+**错误级别的中间件**
 
 错误级别中间件的作用：专门用来捕获整个项目中发生的异常错误，从而防止项目异常崩溃的问题。 
 
@@ -878,15 +887,16 @@ app.listen(80, function () {
 })
 ```
 
-Express内置的中间件
+**Express内置的中间件**
 
- 自 Express 4.16.0 版本开始，Express 内置了 3 个常用的中间件，极大的提高了 Express 项目的开发效率和体验： 
+ Express 4.16.0 版本开始,Express 内置了 3 个常用的中间件,极大的提高了 Express 项目的开发效率和体验： 
 
-① express.static 快速托管静态资源的内置中间件，例如： HTML 文件、图片、CSS 样式等（无兼容性） 
+- express.static 快速托管静态资源的内置中间件，例如： HTML 文件、图片、CSS 样式等（无兼容性） 
 
-② express.json 解析 JSON 格式的请求体数据（有兼容性，仅在 4.16.0+ 版本中可用） 
+- express.json 解析 JSON 格式的请求体数据（有兼容性，仅在 4.16.0+ 版本中可用） 
 
-③ express.urlencoded 解析 URL-encoded 格式的请求体数据（有兼容性，仅在 4.16.0+ 版本中可用）
+- express.urlencoded 解析 URL-encoded 格式的请求体数据（有兼容性，仅在 4.16.0+ 版本中可用）
+
 
 ```javascript
 // 导入 express 模块
@@ -915,17 +925,20 @@ app.listen(80, function () {
 })
 ```
 
-第三方的中间件 
+**第三方的中间件** 
 
-非 Express 官方内置的，而是由第三方开发出来的中间件，叫做第三方中间件。在项目中，大家可以按需下载并配置 第三方中间件，从而提高项目的开发效率。 
+由第三方开发出来的中间件，叫做第三方中间件。
+
+在项目中，可以按需下载并配置第三方中间件，从而提高项目的开发效率。 
 
 例如：在 express@4.16.0 之前的版本中，经常使用 body-parser这个第三方中间件,来解析请求体数据。使用步骤如下：
 
- ① 运行 npm install body-parser 安装中间件
+- 运行 npm install body-parser 安装中间件
 
- ② 使用 require 导入中间件
+- 使用 require 导入中间件
 
- ③ 调用 app.use() 注册并使用中间件 注意：Express 内置的express.urlencoded中间件，就是基于body-parser这个第三方中间件进一步封装出来的。
+- 调用 app.use() 注册并使用中间件 注意：Express 内置的express.urlencoded中间件，就是基于body-parser这个第三方中间件进一步封装出来的。
+
 
 ### 使用Express写接口
 
@@ -964,7 +977,6 @@ router.get('/get', (req, res) => {
     data: query, // 需要响应给客户端的数据
   })
 })
-
 // 定义 POST 接口
 router.post('/post', (req, res) => {
   // 通过 req.body 获取请求体中包含的 url-encoded 格式的数据
@@ -986,31 +998,131 @@ router.delete('/delete', (req, res) => {
 module.exports = router
 ```
 
-#### CORS 跨域资源共享
+### CORS 跨域资源共享
 
-1、接口的跨域问题 
+#### 跨域问题
 
-刚才编写的 GET 和 POST接口，存在一个很严重的问题：不支持跨域请求。
+CORS （Cross-Origin Resource Sharing，跨域资源共享）由一系列HTTP 响应头组成，这些HTTP 响应头决定浏览器是否阻止前端JS 代码跨域获取资源**。浏览器的同源安全策略默认会阻止网页“跨域”获取资源**。但如果接口服务器配置了CORS 相关的HTTP 响应头，就可以解除浏览器端的跨域访问限制。
+
+![1725195355076](.\typora-user-images\1725195355076.png)
 
  解决接口跨域问题的方案主要有两种： 
 
-① CORS（主流的解决方案，推荐使用） 
+- CORS（主流的解决方案，推荐使用） 
 
-② JSONP（有缺陷的解决方案：只支持 GET 请求）
+- JSONP（有缺陷的解决方案：只支持 GET 请求）
 
-2、使用 cors 中间件解决跨域问题
 
-cors 是 Express 的一个第三方中间件。通过安装和配置 cors 中间件，可以很方便地解决跨域问题。 使用步骤分为如下 3 步： 
+使用 cors 中间件解决跨域问题
 
-① 运行 npm install cors 安装中间件 
+cors 是 Express 的一个第三方中间件。通过安装和配置 cors 中间件，可以很方便地解决跨域问题。 
 
-② 使用 const cors = require('cors') 导入中间件 
+- 运行 npm install cors 安装中间件 
 
-③ 在路由之前调用 app.use(cors()) 配置中间件
+- 使用 const cors = require('cors') 导入中间件 
+
+- 在路由之前调用 app.use(cors()) 配置中间件
+
+```js
+const express = require('express')
+const app = express()
+// 配置解析表单数据的中间件
+app.use(express.urlencoded({ extended: false }))
+// 必须在配置 cors 中间件之前，配置 JSONP 的接口
+app.get('/api/jsonp', (req, res) => {
+  // TODO: 定义 JSONP 接口具体的实现过程
+  // 1. 得到函数的名称
+  const funcName = req.query.callback
+  // 2. 定义要发送到客户端的数据对象
+  const data = { name: 'zs', age: 22 }
+  // 3. 拼接出一个函数的调用
+  const scriptStr = `${funcName}(${JSON.stringify(data)})`
+  // 4. 把拼接的字符串，响应给客户端
+  res.send(scriptStr)
+})
+// 一定要在路由之前，配置 cors 这个中间件，从而解决接口跨域的问题
+const cors = require('cors')
+app.use(cors())
+// 导入路由模块
+const router = require('./apiRouter')
+// 把路由模块，注册到 app 上
+app.use('/api', router)
+// 启动服务器
+app.listen(80, () => {
+  console.log('express server running at http://127.0.0.1')
+})
+```
+
+注意:
+
+- CORS 主要在服务器端进行配置。客户端浏览器无须做任何额外的配置，即可请求开启了CORS 的接
+- CORS 在浏览器中有兼容性。只有支持XMLHttpRequest Level2 的浏览器，才能正常访问开启了CORS的服务端接口（例如：IE10+、Chrome4+、FireFox3.5+）。
+
+#### CORS 响应头部-Access-Control-Allow-Origin
+
+响应头部中可以携带一个Access-Control-Allow-Origin字段,其中，origin 参数的值指定了允许访问该资源的外域URL。
+
+```js
+// 表示只接受来自百度的请求
+res.set('Access-Control-Allow-Origin','http:www.baidu.com')
+```
+
+如果指定了Access-Control-Allow-Origin 字段的值为通配符*，表示允许来自任何域的请求
+
+```js
+// 表示允许来自任何域的请求
+res.set('Access-Control-Allow-Origin','*')
+```
+
+####  CORS 响应头部-Access-Control-Allow-Headers
+
+默认情况下，CORS 仅支持客户端向服务器发送如下的9 个请求头：
+`Accept、Accept-Language、Content-Language、DPR、Downlink、Save-Data、Viewport-Width、Width 、Content-Type （值仅限于 text/plain、multipart/form-data、application/x-www-form-urlencoded 三者之一）`
+如果客户端向服务器发送了额外的请求头信息，则需要在服务器端，通过Access-Control-Allow-Headers 对额外的请求头进行声明，否则这次请求会失败！
+
+```js
+//表示可以发送以下两个类型的请求头
+res.set('Access-Control-Allow-Headers','content-type','x-ms-request')
+```
+
+#### CORS 响应头部-Access-Control-Allow-Methods
+
+默认情况下，CORS 仅支持客户端发起GET、POST、HEAD 请求。如果客户端希望通过PUT、DELETE等方式请求服务器的资源，则需要在服务器端，通过Access-Control-Alow-Methods来指明实际请求所允许使用的HTTP 方法。
+
+```js
+//表示只允许post方法
+res.setHeader('Access-Control-Allow-Methods','POST')
+//表示允许所有方法
+res.setHeader('Access-Control-Allow-Methods','*')
+```
+
+####  CORS请求的分类
+
+客户端在请求CORS 接口时，根据请求方式和请求头的不同，可以将CORS 的请求分为两大类，分别是：简单请求，预检请求
+
+**简单请求**
+
+同时满足以下两大条件的请求，就属于简单请求：
+
+- 请求方式：GET、POST、HEAD 三者之一
+- HTTP 头部信息不超过以下几种字段：无自定义头部字段、Accept、Accept-Language、Content-Language、DPR、Downlink、Save-Data、Viewport-Width、Width 、Content-Type（只有三个值application/x-www-formurlencoded、multipart/form-data、text/plain）
+
+**预检请求**
+
+只要符合以下任何一个条件的请求，都需要进行预检请求：
+
+- 请求方式为GET、POST、HEAD 之外的请求Method 类型
+- 请求头中包含自定义头部字段
+- 向服务器发送了application/json 格式的数据在浏览器与服务器正式通信之前，浏览器会先发送OPTION 请求进行预检，以获知服务器是否允许该实际请求，所以这一次的OPTION 请求称为“预检请求”。服务器成功响应预检请求后，才会发送真正的请求，并且携带真实数据
+
+简单请求和预检请求的区别
+
+- 简单请求的特点：客户端与服务器之间只会发生一次请求。
+- 预检请求的特点：客户端与服务器之间会发生两次请求，OPTION 预检请求成功之后，才会发起真正的请求。
 
 #### JSONP 接口
 
-## 4.数据库与身份认证
+## 数据库与身份认证
 
 ### 数据库的基本操作
 

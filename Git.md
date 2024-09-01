@@ -52,9 +52,7 @@ $git config --list --global
 git status 
 ```
 
-如果使用了--global 选项，那么该命令只需要运行一次，即可永久生效。
-
-工作区中的每一个文件可能有4 种状态，这四种状态共分为两大类
+如果使用了--global 选项，那么该命令只需要运行一次，即可永久生效。工作区中的每一个文件可能有4 种状态，这四种状态共分为两大类
 
 ![1722089528961](.\typora-user-images\1722089528961.png)
 
@@ -179,6 +177,8 @@ Github 上的远程仓库，有两种访问方式，分别是HTTPS和SSH。它�
 git remote  add orign git地址 
 # 将本地仓库推送到远程orign仓库中
 git push -u orign -master
+# 查看本地与远程的仓库连接
+git remote -v
 ```
 
 ### SSH key
@@ -203,10 +203,8 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
 ```bash
 # 查看本地连接的远程仓库
-git remote -v
+git remote -vpush
 ```
-
-
 
 ## git分支
 
@@ -297,7 +295,7 @@ git push -u 远程仓库的别名 本地分支名称:远程分支名称
 # 示例
 git push -u origin payment:pay
 如果希望远程分支的名称和本地分支名称保持一致，可以对命令进行简化
-git push -u origin payment
+git push -u origin paygit ment
 ```
 
 -  查看远程仓库中所有的分支列表
