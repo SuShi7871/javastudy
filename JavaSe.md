@@ -1,21 +1,19 @@
-# javase
+# java基础知识
 
-## 8.面向对象编程
+## 面向对象编程
 
-### 1.访问修饰符 
+### 访问修饰符 
 
 java 提供四种访问控制修饰符号，用于控制方法和属性(成员变量)的访问权限（范围）: 
 
-1) 公开级别:用 **public** 修饰,对外公开 
-2) 受保护级别:用 **protected** 修饰,对**子类和同一个包中的类公开** 
-3) 默认级别:没有修饰符号,向同一个包的类公开.
-4) 有级别:用 **private** 修饰,**只有类本身可以访问,不对外公开**
+- 公开级别:用 **public** 修饰,对外公开 
+- 保护级别:用 **protected** 修饰,对**子类和同一个包中的类公开** 
+- 默认级别:没有修饰符号,向同一个包的类公开.
+- 有级别:用 **private** 修饰,**只有类本身可以访问,不对外公开**
 
-### 2.三大特征
+### 三大特征
 
-面向对象编程有三大特征：封装、继承和多态
-
-#### 1.继承
+#### 继承
 
 ```java
 public class Pupil extends Student{
@@ -30,25 +28,23 @@ public class Pupil extends Student{
 }
 ```
 
-继承的深入讨论/细节问题 
+- 子类继承了所有的属性和方法，非私有的属性和方法可以在子类直接访问, **但是私有属性和方法不能在子类直接访问，要通过父类提供公共的方法去访问** 
+- 子类必须调用父类的构造器， 完成父类的初始化 
+- 当创建子类对象时，不管使用子类的哪个构造器，默认情况下总会去调用父类的无参构造器，如果父类没有提供无参构造器，则必须在子类的构造器中用 super 去指定使用父类的哪个构造器完成对父类的初始化工作，否则，编译不会通过
+- 如果希望指定去调用父类的某个构造器，则显式的调用一下 : **super(参数列表)**
+- super 在使用时，**必须放在构造器第一行**(super 只能在构造器中使用) 
+- **super() 和 this() 都只能放在构造器第一行，因此这两个方法不能共存在一个构造器**
+- *java 所有类都是 Object 类的子类, Object 是所有类的基类.
+- 父类构造器的调用不限于直接父类！将一直往上追溯直到 Object 类(顶级父类)
+-  子类最多只能继承一个父类(指直接继承)，即 **java 中是单继承机制**。
 
-1) 子类继承了所有的属性和方法，非私有的属性和方法可以在子类直接访问, **但是私有属性和方法不能在子类直接访问，要通过父类提供公共的方法去访问** 
-1) 子类必须调用父类的构造器， 完成父类的初始化 
-1) 当创建子类对象时，不管使用子类的哪个构造器，默认情况下总会去调用父类的无参构造器，如果父类没有提供无参构造器，则必须在子类的构造器中用 super 去指定使用父类的哪个构造器完成对父类的初始化工作，否则，编译不会通过
-1)  如果希望指定去调用父类的某个构造器，则显式的调用一下 : **super(参数列表)**
-1) super 在使用时，**必须放在构造器第一行**(super 只能在构造器中使用) 
-1) **super() 和 this() 都只能放在构造器第一行，因此这两个方法不能共存在一个构造器**
-1) **java 所有类都是 Object 类的子类, Object 是所有类的基类.**
-1) 父类构造器的调用不限于直接父类！将一直往上追溯直到 Object 类(顶级父类)
-1)  子类最多只能继承一个父类(指直接继承)，即 **java 中是单继承机制**。
-
-#### 2.super关键字
+#### super关键字
 
 super 代表父类的引用，用于访问父类的属性、方法、构造器；super关键字不能访问父类的私有属性和方法
 
-访问父类的构造器：**super(参数列表);**只能放在构造器的第一句，只能出现一句！
+访问父类的构造器：**super(参数列表);**只能放在构造器的第一句，只能出现一句
 
-#### 3.多态
+#### 多态
 
 方法或对象具有多种形态。是面向对象的第三大特征，多态是建立在封装和继承基础之上的。
 
@@ -57,19 +53,16 @@ super 代表父类的引用，用于访问父类的属性、方法、构造器�
 - 编译类型在对象创立之初就已经确立，不能改变；而运行类型是可以改变的；
 - 编译类型看=的左边，运行类型看=的右边
 
-### 3.动态绑定机制
+###  Object 类详解
 
-###  4.Object 类详解
-
-#### 1.equals和==
+#### equals和==
 
 equals()方法和==都是比较两个数据是否相等的，不同的是==用于比较两个基本数据类型，而equals()方法比较两个引用数据类型。
 
-==没有什么说的，它比较的是变量里面存放的值，直接拿两个变量进行比较就完了，
+- ==，它比较的是变量里面存放的值，直接拿两个变量进行比较就完了，
+- equals()方法本来也是直接比较两个变量里面存放的值（地址值），但是如果我们重写了equals()方法就比较的是两个对象了。
 
-而equals()方法本来也是直接比较两个变量里面存放的值（地址值），但是如果我们重写了equals()方法就比较的是两个对象了。
-
-#### 2.hashCode
+#### hashCode
 
 提高具有哈希结构的容器的效率！
 
@@ -77,25 +70,24 @@ equals()方法和==都是比较两个数据是否相等的，不同的是==用�
 
 两个引用，如果指向的是不同对象，则哈希值是不一样的 
 
-哈希值主要根据地址号来的！， **不能完全将哈希值等价于地址**
+哈希值主要根据地址号来的， **不能完全将哈希值等价于地址**
 
-#### 3.toString 
+#### toString 
 
 默认返回：**全类名+@+哈希值的十六进制**， 子类往往重写 toString 方法，用于返回对象的属性
 
-#### 4.finalize方法
+#### finalize方法
 
 当对象被回收时，系统自动调用该对象的 finalize 方法。子类可以重写该方法，做一些释放资源的操作
 
-### 5.静态变量和方法
+### 静态变量和方法
 
 **类变量也叫静态变量/静态属性**，是该类的所有对象共享的变量，任何一个该类的对象去访问它时，取到的都是相同的值，同样任何一个该类的对象去修改它时，修改的也是同一个变量。
 
-2、类变量的访问，必须遵守相关的访问权限。
+类变量的访问，必须遵守相关的访问权限。
 
-​			静态变量是类加载的时候，就创建了，可以通过**类名.类变量名**来访问；
-
-​			**非静态方法，不能通过类名调用**
+- 静态变量是类加载的时候，就创建了，可以通过**类名.类变量名**来访问；
+- **非静态方法，不能通过类名调用**
 
 ```java
 public static void main(String[] args) {
@@ -114,29 +106,20 @@ class B {
 
 - 在编写代码时，仍然要遵守访问权限规则
 
-#### 1.理解main方法
+#### main方法
 
 - 在 main()方法中，我们可以直接调用 main 方法所在类的静态方法或静态属性。
 -  但是，**不能直接访问该类中的非静态成员**，必须创建该类的一个实例对象后，才能通过这个对象去访问类中的非静态成员。
 
-#### 2.代码块
+#### 代码块
 
-代码化块又称为初始化块,属于类中的成员[即是类的一部分]，类似于方法，将逻辑语句封装在方法体中，通过**{}**包围起来。但和方法不同，**没有方法名，没有返回，没有参数，只有方法体，而且不用通过对象或类显式调用，而是加载类时，或创建对象时隐式调用。**
+代码化块又称为初始化块,属于类中的成员，类似于方法，将逻辑语句封装在方法体中，通过**{}**包围起来。但和方法不同，**没有方法名，没有返回，没有参数，只有方法体，而且不用通过对象或类显式调用，而是加载类时，或创建对象时隐式调用。**
 
-注意
+- 修饰符 可选，要写的话，也只能写 static
 
-- ​	修饰符 可选，要写的话，也只能写 static
+- 代码块分为两类，使用static修饰的叫静态代码块，没有static修饰的，叫普通代码块/非静态代码块
 
-- ​	代码块分为两类，使用static修饰的叫静态代码块，没有static修饰的，叫普通代码块/非静态代码块
-
-- ​	逻辑语句可以为任何逻辑语句（输入、输出、方法调用、循环、判断等)
-
-
-3、老师理解：
-
-- ​	相当于另外一种形式的构造器(对构造器的补充机制)，可以做初始化的操作；
-
-- ​	场景: 如果多个构造器中都有重复的语句，可以抽取到初始化块中，提高代码的重用性
+- 逻辑语句可以为任何逻辑语句（输入、输出、方法调用、循环、判断等)
 
 ```java
 //将公共代码抽取出来，不用每次在构造器中重写，提高效率
@@ -155,13 +138,11 @@ public Move(String name, double price) {
 }
 ```
 
-静态代码块
+##### 静态代码块
 
-​	static代码块也叫静态代码块，作用就是对类进行初始化，而且它随着类的加载而执行，并且*只会执 行一次*。
+static代码块也叫静态代码块，作用就是对类进行初始化，而且它随着类的加载而执行，并且只会执行一次，如果是普通代码块，每创建一个对象就执行。
 
-​	如果是普通代码块，每创建一个对象就执行。
-
-​	类什么时候被加载
+类的加载时机
 
 - 创建对象实例时(new)
 
@@ -170,33 +151,31 @@ public Move(String name, double price) {
 - 使用类的静态成员时(静态属性，静态方法)
 
 
-​	普通的代码块，在创建对象实例时，会被隐式的调用。被创建一次，就会调用一次。
-
-​	如果只是使用类的静态成员时，普通代码块并不会执行。
-
-小结:
+普通的代码块，在创建对象实例时，会被隐式的调用。被创建一次，就会调用一次。如果只是使用类的静态成员时，普通代码块并不会执行。
 
 - static代码块是类加载时执行，只会执行一次
 
 - 普通代码块是在创建对象时调用的，创建一次，调用一次
 
-- 类加载的3种情况，需要记住.
 
-#### 3.final 关键字
+#### final 关键字
 
-1、如果我们要求 A 类不能被其他类继承，可以使用 final 修饰A类；
+- 如果我们要求 A 类不能被其他类继承，可以使用 final 修饰A类；
+
 
 ```java
 final class A { }
 ```
 
-2、当不希望类的的某个属性的值被修改,可以用 final 修饰
+- 当不希望类的的某个属性的值被修改,可以用 final 修饰
+
 
 ```java
 public final double TAX_RATE = 0.0;
 ```
 
-3、如果我们要求 hi 不能被子类重写 ，可以使用 final 修饰 hi方法；
+- 如果我们要求 hi 不能被子类重写 ，可以使用 final 修饰 hi方法；
+
 
 ```java
 class C { 
@@ -204,14 +183,13 @@ class C {
  }
 ```
 
-4、当不希望某个局部变量被修改，可以使用 final 修饰；
+- 当不希望某个局部变量被修改，可以使用 final 修饰；
 
-注意
 
-​	如果 final 修饰的属性是静态的，则初始化的位置只能是 
+注意：如果 final 修饰的属性是静态的，则初始化的位置只能是 
 
-- 定义时 
-- 在静态代码块，不能在构造器中赋值；
+1. 定义时 
+2. 在静态代码块，不能在构造器中赋值；
 
 ```java
 public static final double TAX_RATE = 99.9; 
@@ -221,7 +199,8 @@ static {
  }
 ```
 
-​	**final 类不能继承，但是可以实例化对象**
+- ​	**final 类不能继承，但是可以实例化对象**
+
 
 ```java
 final class CC {}
@@ -259,19 +238,14 @@ class BBB {
 
 - 包装类（Integer、Double、String等）也是final类
 
-#### 4.抽象类
+### 抽象类
 
-- ​	当类中的某些方法，需要声明，但是又不确定如何实现的时候就将其声明为抽象类；
-
-- ​	抽象类，不能被实例化；
-
-- ​	抽象类不一定要包含 abstract 方法。也就是说,抽象类可以没有 abstract 方法。但是，一旦类包含了 abstract,则这个类必须声明为 abstract
-
-- ​    **abstract 只能修饰类和方法，不能修饰属性和其它的 方法**
-
-- ​	**抽象方法不能使用 private、final 和 static 来修饰**，因为这些关键字都是和重写相违背的
-
-- ​	如果一个类继承了抽象类，则它必须实现抽象类的所有抽象方法，除非它自己也声明为 abstract 类
+- 当类中的某些方法，需要声明，但是又不确定如何实现的时候就将其声明为抽象类；
+- 抽象类，不能被实例化；
+- 抽象类不一定要包含 abstract 方法。也就是说,抽象类可以没有 abstract 方法。但是，一旦类包含了 abstract,则这个类必须声明为 abstract
+-  **abstract 只能修饰类和方法，不能修饰属性和其它的 方法**
+- **抽象方法不能使用 private、final 和 static 来修饰**，因为这些关键字都是和重写相违背的
+- 如果一个类继承了抽象类，则它必须实现抽象类的所有抽象方法，除非它自己也声明为 abstract 类
 
 ```java
 public class AbstractDetail01 { 
@@ -296,24 +270,17 @@ class C {
 }
 ```
 
-#### 5.接口
+### 接口
 
 ​	接口就是给出一些没有实现的方法,封装到一起,到某个类要使用的时候，在根据具体情况把这些方法写出来
 
-​	小结：
-
-- ​		**接口是更加抽象的抽象的类，抽象类里的方法可以有方法体，接口里的所有方法都没有**
-- ​		接口体现了程序设计的多态和高内聚低偶合的设计思想。
-
-- ​		特别说明：Jdk8.0后接口类可以有静态方法，默认方法，也就是说接口中可以有方法的具体实现
-
-- ​	    接口不能被实例化 
-
-- ​	    接口中所有的方法是 public 方法, 接口中抽象方法，可以不用 abstract 修饰
-
-- ​	     一个普通类实现接口,就必须将该接口的所有方法都实现,可以使用 alt+enter 来解决 
-
-- ​	     **抽象类去实现接口时，可以不实现接口的抽象方法**
+- **接口是更加抽象的抽象的类，抽象类里的方法可以有方法体，接口里的所有方法都没有**
+- 接口体现了程序设计的多态和高内聚低偶合的设计思想。
+- 特别说明：Jdk8.0后接口类可以有静态方法，默认方法，也就是说接口中可以有方法的具体实现
+- 接口不能被实例化 
+- 接口中所有的方法是 public 方法, 接口中抽象方法，可以不用 abstract 修饰
+- 一个普通类实现接口,就必须将该接口的所有方法都实现
+- **抽象类去实现接口时，可以不实现接口的抽象方法**
 
 ```JAVA
 Interface IA { 
@@ -339,13 +306,15 @@ class Pig implements IB,IC {
 }
 ```
 
-接口的修饰符 只能是 public 和默认，这点和类的修饰符是一样的 
+- 接口的修饰符 只能是 public 和默认，这点和类的修饰符是一样的 
+
 
 ```java
 interface IE{}
 ```
 
-接口不能继承其它的类,但是可以继承多个别的接口 
+- 接口不能继承其它的类,但是可以继承多个别的接口 
+
 
 ```java
 interface ID extends IB,IC {
@@ -353,9 +322,9 @@ interface ID extends IB,IC {
  }
 ```
 
-#### 6. 内部类
+### 内部类
 
-#####  	1.局部内部类
+####  	局部内部类
 
 ​		局部内部类是定义在外部类的局部位置,通常在方法 
 
@@ -379,13 +348,13 @@ public class OuterClass02 {
             	//2.可以直接访问外部类的所有成员，包含私有的
             	private int n1 = 800;
             	public void f1() {
-            		//5. 局部内部类可以直接访问外部类的成员，比如下面 外部类 n1 和 m2()
-            		//7. 如果外部类和局部内部类的成员重名时，默认遵循就近原则，如果想访问外部类的成员，
-        			// 使用 外部类名.this.成员）去访问
-        			//Outer02.this 本质就是外部类的对象, 即哪个对象调用了 m1, Outer02.this 就是哪个对象
-                	System.out.println("n1=" + n1 + " 外部类的 n1=" + OuterClass02.this.n1);
-                	System.out.println("Outer02.this hashcode=" + OuterClass02.this);
-                	m2();
+            //5. 局部内部类可以直接访问外部类的成员，比如下面 外部类 n1 和 m2()
+            //7. 如果外部类和局部内部类的成员重名时，默认遵循就近原则，如果想访问外部类的成员，
+        	// 使用 外部类名.this.成员）去访问
+        	//Outer02.this 本质就是外部类的对象, 即哪个对象调用了m1,Outer02.this就是哪个对象
+             System.out.println("n1=" + n1 + " 外部类的 n1=" + OuterClass02.this.n1);
+             System.out.println("Outer02.this hashcode=" + OuterClass02.this);
+             m2();
             }
         }
         //6. 外部类在方法中，可以创建 Inner02 对象，然后调用方法即可
@@ -395,19 +364,14 @@ public class OuterClass02 {
 }
 ```
 
-#####  	2.匿名内部类
+####  	匿名内部类
 
-- ​		本质是类，内部类，且该类没有名字
-
-- ​		同时还是一个对象，**匿名内部类定义在外部类的局部位置，比如方法中，且无类名；**
-
-- ​		可以直接访问外部类的所有成员，包括私有的，但是不能添加访问修饰符，因为他的本质上还是一个局部变量
-
-- ​		作用域：仅仅定义在他的方法或代码块中。
-
-- ​		外部类的能直接访问匿名内部类，因为他的本质上是一个局部变量
-
-- ​		匿名内部类使用一次，就不能再使用。
+- 本质是类，内部类，且该类没有名字
+- 同时还是一个对象，**匿名内部类定义在外部类的局部位置，比如方法中，且无类名；**
+- 可以直接访问外部类的所有成员，包括私有的，但是不能添加访问修饰符，因为他的本质上还是一个局部变量
+- 作用域：仅仅定义在他的方法或代码块中。
+- 外部类的能直接访问匿名内部类，因为他的本质上是一个局部变量
+- 匿名内部类使用一次，就不能再使用。
 
 ```java
 public class Outer04 {
@@ -429,24 +393,17 @@ private int age=10;
             System.out.println("狗在睡觉");
         }
     };
-
 }
 ```
 
-##### 3.成员内部类
+#### 成员内部类
 
-- ​    成员内部类是定义在外部类的成员位置，并且没有static修饰。可以直接访问外部类的所有成员，包含私有的。
-
-- ​     可以添加任意访问修饰符(public、protected 、默认、private),因为它的地位就是一个成员,
-
-- ​     作用域和外部类的其他成员一样，为整个类体，在外部类的成员方法中创建成员内部类对象，再调用方法.
-
-- ​	成员内部类---访问---->外部类成员   [访问方式：直接访问](说明)
-
-- ​	外部类---访问------>成员内部类	访问方式： 创建对象，再访问
-
-- ​	如果外部类和内部类的成员重名时，内部类访问的话，默认遵循就近原则，
-- ​    如果想访问外部类的成员，则可以使用（外部类名.this.成员）去访问
+- 成员内部类是定义在外部类的成员位置，并且没有static修饰。可以直接访问外部类的所有成员，包含私有的。可以添加任意访问修饰符(public、protected 、默认、private),因为它的地位就是一个成员,
+- 作用域和外部类的其他成员一样，为整个类体，在外部类的成员方法中创建成员内部类对象，再调用方法.
+- 成员内部类---访问---->外部类成员   [访问方式：直接访问](说明)
+- 外部类---访问------>成员内部类	访问方式： 创建对象，再访问
+- 如果外部类和内部类的成员重名时，内部类访问的话，默认遵循就近原则，
+- 如果想访问外部类的成员，则可以使用（外部类名.this.成员）去访问
 
 ```java
 class Outer08{
@@ -475,27 +432,19 @@ class Outer08{
 }
 ```
 
-##### 	4.静态内部类
+#### 	静态内部类
 
-​	说明：静态内部类是定义在外部类的成员位置，并且有static修饰
+- 静态内部类是定义在外部类的成员位置，并且有static修饰
+- 可以直接访问外部类的所有静态成员，包含私有的，**但不能直接访问非静态成员**
+- 可以添加任意访问修饰符(public、protetted、默认、private),因为它的地位就是一个成员。
+- 作用域：同其他的成员，为整个类体
+- 静态内部类---访问---->外部类(比如：静态属性)[访问方式：直接访问所有静态成员]
+- 外部类---访问------>静态内部类 访问方式：创建对象，再访问
+- 外部其他类---访问----->静态内部类
+- 如果外部类和静态内部类的成员重名时，静态内部类访问的时，默认遵循就近原则；
+- 如果想访问外部类的成员，则可以使用（外部类名.成员）去访问
 
-​		1.可以直接访问外部类的所有静态成员，包含私有的，**但不能直接访问非静态成员**
-
-​		2.可以添加任意访问修饰符(public、protetted、默认、private),因为它的地位就是一个成员。
-
-​		3.作用域：同其他的成员，为整个类体
-
-​		4.静态内部类---访问---->外部类(比如：静态属性)【访问方式：直接访问所有静态成员]
-
- 		5.外部类---访问------>静态内部类 访问方式：创建对象，再访问
-
-​		6.外部其他类---访问----->静态内部类
-
-​		7.如果外部类和静态内部类的成员重名时，静态内部类访问的时，默认遵循就近原则；
-
-​			如果想访问外部类的成员，则可以使用（外部类名.成员）去访问
-
-## 9.枚举和注解
+## 枚举和注解
 
 枚举属于一种特殊的类，里面只包含一组有限的特定的对象。是一组常量的集合。
 
@@ -509,9 +458,7 @@ public static final Season AUTUMN = new Season("秋天", "凉爽");
 public static final Season SUMMER = new Season("夏天", "炎热");
 ```
 
-注意：
-
-自定义实现枚举的时候有一下两点：
+注意：自定义实现枚举的时候有一下两点：
 
 - 将构造器私有化,目的防止 直接 new 
 - 去掉 setXxx 方法, 防止属性被修改
@@ -552,11 +499,11 @@ enum Season2 {
 }
 ```
 
-## 10.异常处理
+## 异常处理
 
-一段代码可能出现异常问题，可以使用 try-catch 异常处理机制，从而保证程序的健壮性。异常分为**编译时异常**和**运行时异常**，运行时异常可以不做处理，但是，**编译时异常是编译器必须解决的异常**。
+异常分为**编译时异常**和**运行时异常**，运行时异常可以不做处理，但是，**编译时异常是编译器必须解决的异常**。
 
-### 1.try-catch解决异常
+### try-catch解决异常
 
 - 如果异常发生了，则异常发生后面的代码不会执行，直接进入到 catch 块 ；
 - 如果异常没有发生，则顺序执行 try 的代码块，不会进入到 catch 
@@ -568,7 +515,7 @@ try-catch-finally执行顺序小结
 - 如果没有出现异常，则执行try块中所有语句，不执行catch块中语句，如果有finally，最后还需要执行finally里面的语句
 - 如果出现异常，则try块中异常发生后，try块剩下的语句不再执行。将执行catch块中的语句，如果有finally，最后还需要执行finally里面的语句！
 
-### 2.throws 异常处理
+### throws 异常处理
 
 - 对于编译异常，程序中必须处理，比如 try-catch 或者 throws 
 
@@ -576,9 +523,9 @@ try-catch-finally执行顺序小结
 
 - 子类重写父类的方法时，对抛出异常的规定:子类重写的方法，所抛出的异常类型要么和父类抛出的异常一致，要么为父类抛出的异常类型的子类型 。在 throws 过程中，如果有方法 try-catch ，就相当于处理异常，就可以不必throws
 
-## 11.常用类
+## 常用类
 
-### 1.包装类
+### 包装类
 
 装箱：基本类型->包装类型；反之就是拆箱
 
@@ -596,21 +543,23 @@ Integer integer2 = n2; //底层使用的是 Integer.valueOf(n2)
 int n3 = integer2; //底层仍然使用的是 intValue()方
 ```
 
-### 2.String类
+### String
 
-#### 1.创建 String 对象的两种方式
+#### 创建 String 对象的两种方式
 
-​	方式一：直接赋值 **String s="tom";**
+- 直接赋值 **String s="tom";**
 
-​		先从常量池查看是否有“tom”数据空间，如果有，直接指向；
+
+​		先从常量池查看是否有"tom"数据空间，如果有，直接指向；
 
 ​		如果没有，则先创建然后指向，s最终指向的是常量池的空间地址。
 
-​	方式二：调用构造器 **String s2 = new String("tom");**
+- 调用构造器 **String s2 = new String("tom");**
+
 
 ​		先在堆中创建空间，里面维护了value属性，指向常量池的tom空间;
 
-​		如果常量池没有"tom”，重新创建，如果有，直接通过value指向。最终指向的是堆中的空间地址。
+​		如果常量池没有"tom"，重新创建，如果有，直接通过value指向。最终指向的是堆中的空间地址。
 
 ```java
 		String a="zjl";
@@ -623,59 +572,43 @@ int n3 = integer2; //底层仍然使用的是 intValue()方
         System.out.println(m==n);//false
 ```
 
-#### 2.字符串的特性
+#### 字符串的特性
 
-​	1）String是一个final类，代表不可变的字符序列。
+- String是一个final类，代表不可变的字符序列。
 
-​	2）字符串是不可变的，一个字符串对象一旦被分配，其内容不可变。
+- 字符串是不可变的，一个字符串对象一旦被分配，其内容不可变。
 
-​	String类是保存字符串常量的。**每次更新都需要重新开辟空间，效率较低**，因此java设计者还提供了StringBuilder 和 StringBuffer 来增强String的功能,并提高效率。
 
-#### 3.String类的常见方法一览
+String类是保存字符串常量的。**每次更新都需要重新开辟空间，效率较低**，因此java设计者还提供了StringBuilder 和 StringBuffer 来增强String的功能,并提高效率。
 
-- ​	equals		//区分大小写，判断内容是否相等
+#### String类的常见方法一览
 
-- ​	equalslgnoreCase		//忽略大小写的判断内容是否相等
+```java
+ 	equals			//区分大小写，判断内容是否相等 
+    equalslgnoreCase		//忽略大小写的判断内容是否相等
+	length	 	// 获取字符的个数，字符串的长度
+	indexOf 	//获取字符在字符串中第1次出现的索引，索引从0开始，如果找不到，返回-1
+	lastlndexOf //获取字符在字符串中最后1次出现的索引，索引从0开始,如找不到，返回-1
+	substring	 //截取指定范围的子串
+	trim 		//去前后空格
+	charAt		//获取某索引处的字符，注意不能使用Str[index] 这种方式.
+	toUpperCase
+	toLowerCase
+	concat
+	replace 	//替换字符串中的字符
+	split 		//分割字符串,对于某些分割字符，我们需要 转义比如|\等
+	compareTo	//比较两个字符串的大小
+	toCharArray	//转换成字符数组
+	format	//格式字符串，%s字符串%c字符%d整型%.2f浮点型
+```
 
-- ​	length	 // 获取字符的个数，字符串的长度
+### StringBuffer 
 
-- ​	indexOf 	//获取字符在字符串中第1次出现的索引，索引从0开始，如果找不到，返回-1
-
-- ​	lastlndexOf 	//获取字符在字符串中最后1次出现的索引，索引从0开始,如找不到，返回-1
-
-- ​	substring	 //截取指定范围的子串
-
-- ​	trim 		//去前后空格
-
-- ​	charAt		//获取某索引处的字符，注意不能使用Str[index] 这种方式.
-
-- ​	toUpperCase
-
-- ​	toLowerCase
-
-- ​	concat
-
-- ​	replace 	//替换字符串中的字符
-
-- ​	split 		//分割字符串,对于某些分割字符，我们需要 转义比如|\\等
-
-- ​	compareTo	//比较两个字符串的大小
-
-- ​	toCharArray	//转换成字符数组
-
-- ​	format	//格式字符串，**%s字符串%c字符%d整型%.2f浮点型**
-
-### 3.StringBuffer 类
-
-​	1、StringBuffer表示可变字符序列，可以对字符串的内容进行增删，其很多方法与String类相同，但是其长度可变。
-
-​	2、 StringBuffer 是一个 final 类，不能被继承。
-
-​	3、StringBuffer 的直接父类 是 AbstractStringBuilder ，StringBuffer 实现了 Serializable, 即**StringBuffer 的对象可以串行化** 
-
-​	4、在父类中 AbstractStringBuilder 有属性 char[] value,不是 final
-
-​	5、因为 StringBuffer 字符内容是存在 char[] value, 所有在变化(增加/删除)， 不用每次都更换地址 (即不是每次创建新对象)， 所以效率高于 String
+- StringBuffer表示可变字符序列，可以对字符串的内容进行增删，其很多方法与String类相同，但是其长度可变。
+- StringBuffer 是一个 final 类，不能被继承。
+- StringBuffer 的直接父类 是 AbstractStringBuilder ，StringBuffer 实现了 Serializable, **StringBuffer 的对象可以串行化** 
+- 在父类中 Abstract StringBuilder 有属性 char[] value,不是 final
+- 因为 StringBuffer 字符内容是存在 char[] value, 所有在变化(增加/删除)， 不用每次都更换地址 (即不是每次创建新对象)， 所以效率高于 String
 
 #### String与StringBuffer转换
 
@@ -691,27 +624,17 @@ System.out.println(str);
 String str1=new String(stringBuffer);//方式 2: 使用构造器来搞定
 ```
 
-### 4.StringBuilder类
+### StringBuilder
 
-- ​	一个可变的字符序列。此类提供一个与 StringBuffer 兼容的API，**但不保证同步(StringBuilder 不是线程安全)**。
-
-  ​	该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用的时候。
-
-  ​	如果可能，建议优先采用该类,因为在大多数实现中，它比 StringBuffer 要快。
-
-- ​	在 StringBuilder 上的主要操作是 append 和 insert 方法，可重载这些方法，**以接受任意类型的数据**。
-
-- ​	StringBuilder 的直接父类 是 AbstractStringBuilder，StringBuilder 实现了 Serializable, 即 StringBuilder的对象可以串行化 
-
-- ​	StringBuilder 对象字符序列仍然是存放在其父类 AbstractStringBuilder 的 char[] value; 因此，字符序列是堆中
-
-- ​	StringBuilder 是 final 类, 不能被继承。
+- 一个可变的字符序列。此类提供一个与 StringBuffer 兼容的API，**但不保证同步(StringBuilder 不是线程安全)**。该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用的时候。如果可能，建议优先采用该类,因为在大多数实现中，它比 StringBuffer 要快。
+- 在 StringBuilder 上的主要操作是 append 和 insert 方法，可重载这些方法，**以接受任意类型的数据**
+- StringBuilder 的直接父类 是 AbstractStringBuilder，StringBuilder 实现了 Serializable, 即 StringBuilder的对象可以串行化 
+- StringBuilder 对象字符序列仍然是存放在其父类 AbstractStringBuilder 的 char[] value; 因此，字符序列是堆中
+- StringBuilder 是 final 类, 不能被继承。
+- StringBuilder 的方法，没有做互斥的处理,**即没有 synchronized 关键字,因此在单线程的情况下使用**
 
 
-- ​	StringBuilder 的方法，没有做互斥的处理,**即没有 synchronized 关键字,因此在单线程的情况下使用**
-
-
-####  1.String、StringBuffer 和 StringBuilder 的比较
+####  String、StringBuffer 和 StringBuilder 
 
 - ​	StringBuilder 和 StringBuffer 非常类似，均代表可变的字符序列，而且方法也一样
 
@@ -721,59 +644,53 @@ String str1=new String(stringBuffer);//方式 2: 使用构造器来搞定
 
 - ​	StringBuilder：可变字符序列、效率最高、线程不安全
 
-
-String使用注意说明：
-
 ```java
 	string s="a";//创建了一个字符串
 	s+="b";//实际上原来的“a"字符串对象已经丢弃了，现在又产生了一个字符串s+"b"(也就是"ab")。
 ```
 
-​		如果多次执行这些改变串内容的操作，会导致大量副本字符串对象存留在内存中，降低效率。如果这样的操作放到循环中，会极大影响程序的性能
+**如果我们对String 做大量修改,不要使用String 。**
 
-结论：**如果我们对String 做大量修改,不要使用String 。**
+###  其他类
 
-###  5.其他类
-
-#### 	1.Math 类
-
-​			**Math.random() * (b-a) 	// 0 <= 数 <= b-a**
-
-​			**Math.random()*6 返回的是 0 <= x < 6 小数**
-
-​			**2 + Math.random()*6 返回的就是 2<= x< 8 小数**
+#### 	Math 
 
 ```java
+Math.random() * (b-a) 	// 0 <= 数 <= b-a
+Math.random()*6 返回的是 0 <= x < 6 小数
+2 + Math.random()*6 返回的就是 2<= x< 8 小数
 int random= (int) (Math.random()*(10-1));//返回0-9的随机数
 int random1= (int) (Math.random()*6);//返回[0,6)
 int random2= (int) (Math.random()*6+2);//返回[2,7)
 ```
 
-#### 	2.Arrays 类
+#### 	Arrays 
 
 ​	Arrays里面包含了一系列静态方法，用于管理或操作数组(比如排序和搜索).
 
-​	1）toString 返回数组的字符串形式
+- toString 返回数组的字符串形式
+
 
 ```java
 Arrays.toString(arr);
 ```
 
-​	2) sort 排序（自然排序和定制排序) 
+- sort 排序（自然排序和定制排序) 
+
 
 ```java
 Integer arr[] = {1,-1, 7, 0, 89};
 ```
 
-​	3) binarySearch 通过二分搜索法进行查找，**要求必须排好序**
+- binarySearch 通过二分搜索法进行查找，**要求必须排好序**
+
 
 ```java
 int index= Arrays.binarySearch(arr, 3);
 ```
 
-​	4)copyOf 数组元素的复制
-
-​	5)fill数组元素的填充
+- copyOf 数组元素的复制
+- fill数组元素的填充
 
 ```java
 Integer[] newArr = Arrays.copyOf(arr, arr.length);
@@ -781,27 +698,28 @@ Integer[] num = new Integer[]{9,3,});
 Arrays.fill(num, 99);
 ```
 
-​	6)equals 比较两个数组元素内容是否完全一致
+- equals 比较两个数组元素内容是否完全一致
+
 
 ```java
 boolean equals = Arrays.equals(arr, arr2);
 ```
 
-​	7) asList 将一组值，转换成list
+- asList 将一组值，转换成list
+
 
 ```java
 List<Integer> asList = Arrays.asList(2,3,4,5,6,1);
 ```
 
-#### 3.System 类
+#### System 
 
-​	1、exit(0) 表示程序退出，0 表示一个状态 , 正常的状态。
+- exit(0) 表示程序退出，0 表示一个状态 , 正常的状态。
+- arraycopy ：复制数组元素，比较适合底层调用，一般使用 Arrays.copyOf 完成数组复制。
+- currentTimeMillens:返回当前时间距离 1970-1-1 的毫秒数。
 
-​	2、arraycopy ：复制数组元素，比较适合底层调用，一般使用 Arrays.copyOf 完成数组复制。
 
-​	3、currentTimeMillens:返回当前时间距离 1970-1-1 的毫秒数。
-
-#### 4.BigInteger 和 BigDecimal 类
+#### BigInteger 和 BigDecimal 
 
 在对 BigInteger 进行加减乘除的时候，需要使用对应的方法，不能直接进行 + - * /，可以创建一个要操作的 BigInteger 然后进行相应操作。
 
@@ -812,10 +730,10 @@ BigInteger add = bigInteger.add(bigInteger2);//add、subtract、multiply、divid
 对 BigDecimal 进行运算，比如加减乘除，需要使用对应的方法
 
 ```java
-bigDecimal.add(bigDecimal2)；	//add、subtract、multiply、divide
+bigDecimal.add(bigDecimal2)；	//add subtract multiply divide
 ```
 
-#### 5.日期类
+#### 日期类
 
 格式化日期（将日期转换为字符串）
 
@@ -833,9 +751,9 @@ Date parse = sdf.parse(s);
 System.out.println("parse="+sdf.format(parse));
 ```
 
-Calendar类
+#### Calendar类
 
-Calendar 类是一个抽象类，它为特定瞬间与一组诸如 YEAR、MONTH.DAY OF MONTH、HOUR 等 日历字段之间的转换提供了一些方法，并为操作日历字段（例如获得下星期的日期）提供了一些方法。
+Calendar 类是一个抽象类，它为特定瞬间与一组诸如 YEAR、MONTH.DAY OF MONTH、HOUR 等,日历字段之间的转换提供了一些方法，并为操作日历字段（例如获得下星期的日期）提供了一些方法。
 
 ```java
 Calendar c=Calendar.getInstance();//首先，实例化对象
@@ -846,30 +764,21 @@ System.out.println("天"+c.get(Calendar.DAY_OF_MONTH));
 System.out.println("秒"+c.get(Calendar.SECOND));
 ```
 
-第三代日期类
+#### 第三代日期类
 
-前面两代日期类的不足分析
+Calendar存在问题是:
 
-JDK 1.0中包含了一个java.util.Date类，但是它的大多数方法已经在JDK 1.1引入
-
-Calendar类之后被弃用了。而Calendar也存在问题是:
-
-- ​	可变性：像**日期和时间这样的类应该是不可变的**。
-
-- ​	偏移性：Date中的年份是从1900开始的，而月份都从0开始。
-
-- ​	格式化：格式化只对Date有用，Calendar则不行。
-
-- ​	此外，它们也不是线程安全的；不能处理闰秒等（每隔2天，多出1s）。
+- 可变性：像**日期和时间这样的类应该是不可变的**。
+- 偏移性：Date中的年份是从1900开始的，而月份都从0开始。
+- 格式化：格式化只对Date有用，Calendar则不行。
+- 此外，它们也不是线程安全的；不能处理闰秒等（每隔2天，多出1s）。
 
 
-LocalDate(年月日)、LocalTime(时间/时分秒)、LocalDateTime(日间/年月日时分秒)JDK8加入
+LocalDate(年月日)、LocalTime(时间/时分秒)、LocalDateTime(日间/年月日时分秒)
 
-​	LocalDate只包含日期，可以获取日期字段
-
-​	LocalTime只包含时间，可以获取时间字段
-
-​	LocalDateTime包含日期+时间，可以获取日期和时间字段
+- LocalDate只包含日期，可以获取日期字段
+- LocalTime只包含时间，可以获取时间字段
+- LocalDateTime包含日期+时间，可以获取日期和时间字段
 
 ```java
 LocalDateTime ldt = LocalDateTime.now(); //LocalDate.now();
@@ -890,16 +799,17 @@ Instant 时间戳
 
 ```java
 //1.通过 静态方法 now() 获取表示当前时间戳的对象 
-Instant now = Instant.now(); System.out.println(now); 
+Instant now = Instant.now(); 
+System.out.println(now); 
 //2. 通过 from 可以把 Instant 转成 
 Date Date date = Date.from(now)
 //3. 通过 date 的 toInstant() 可以把 date 转成 Instant 对象 
 Instant instant = date.toInstant()
 ```
 
-## 12.集合和泛型
+## 集合和泛型
 
-###  1.Collection接口
+###  Collection接口
 
 1. 集合主要是两组(单列集合 , 双列集合) 
 2. Collection 接口有两个重要的子接口 List Set , 他们的实现子类都是单列集合 
@@ -944,17 +854,18 @@ list.removeAll(list2);	// removeAll：删除多个元素
 
 #### 使用迭代器遍历
 
-1. lterator对象称为迭代器，主要用于遍历 Collection 集合中的元素。
+- Iterator对象称为迭代器，主要用于遍历 Collection 集合中的元素。
 
-2. **所有实现了Collection接口的集合类都有一个iterator()方法**，用以返回一个实现了Iterator接口的对象，即可以返回一个迭代器。
-3. lterator 仅用于遍历集合，**Iterator 本身并不存放对象**。
+- **所有实现了Collection接口的集合类都有一个iterator()方法**，用以返回一个实现了Iterator接口的对象，即可以返回一个迭代器。
+
+- lterator 仅用于遍历集合，**Iterator 本身并不存放对象**。
 
 ```java
 Collection col = new ArrayList();
 col.add(new Book("三国演义", "罗贯中", 10.1));
 col.add(new Book("小李飞刀", "古龙", 5.1));
 col.add(new Book("红楼梦", "曹雪芹", 34.6));
-//1. 先得到 col 对应的迭代器
+//1. 先得到col对应的迭代器
 Iterator iterator= col.iterator();
 //使用while循环来遍历
 while(iterator.hasNext()){
@@ -972,29 +883,23 @@ for (Object book:col) {
 }
 ```
 
-### 2.List 接口
+### List 接口
 
 List接口是 Collection 接口的子接口 
 
-- ​	List集合类中元素有序(即添加顺序和取出顺序一致)、且可重复
-
-- ​	List集合中的每个元素都有其对应的顺序索引，即支持索引
+- List集合类中**元素有序**(即添加顺序和取出顺序一致)且可重复
+- List集合中的每个元素都有其对应的顺序索引，即**支持索引**
 
 
 List容器中的元素都对应一个整数型的序号记载其在容器中的位置，可以根据序号存取容器中的元素。
 
-常用api
-
 ```java
-/**
- * Object get(int index)//获取指定 index 位置的元素
- * int indexOf(Object obj):返回 obj 在集合中首次出现的位置
- * int lastIndexOf(Object obj):返回 obj 在当前集合中末次出现的位置
- * Object remove(int index):移除指定 index 位置的元素，并返回此元素
- * Object set(int index, Object ele):设置指定 index 位置的元素为 ele , 相当替换
- * List subList(int fromIndex, int toIndex):返回从 fromIndex 到 toIndex 位置的子集合
- *
- */
+ Object get(int index)//获取指定 index 位置的元素
+ int indexOf(Object obj)//返回 obj 在集合中首次出现的位置
+ int lastIndexOf(Object obj)//返回 obj 在当前集合中末次出现的位置
+ Object remove(int index)//移除指定 index 位置的元素，并返回此元素
+ Object set(int index, Object ele)//设置指定 index 位置的元素为 ele , 相当替换
+ List subList(int fromIndex, int toIndex)//返回从 fromIndex 到 toIndex 位置的子集合
 ```
 
 #### List 的三种遍历方式
@@ -1026,11 +931,10 @@ for (int i = 0; i < list.size(); i++) {
 
 ArrayList 的注意事项
 
-- permits all elements, including null，ArrayList 可以加入null，并且多个
-
-- ArrayList 是由数组来实现数据存储的[后面老师解读源码]
-
-- ArrayList 基本等同于Vector，除了ArrayList是线程不安全（执行效率高）看源码.在多线程情况下，不建议使用ArrayList
+- ArrayList 可以加入null，并且多个
+- ArrayList 是由数组来实现数据存储的
+- ArrayList 基本等同于Vector
+- ArrayList是线程不安全（执行效率高）在多线程情况下，不建议使用ArrayList
 
 
 ArrayList的底层操作机制源码分析）
@@ -1051,9 +955,8 @@ transient Objectll elementData;//transient 表示瞬间，短暂的，表示该�
 
 #### Vector集合
 
-1. Vector底层也是一个对象数组，protected Object[] elementData;
-
-2. Vector 是线程同步的，即线程安全,Vector类的操作方法带有synchronized
+- Vector底层也是一个对象数组
+- Vector 是线程同步的，即线程安全,Vector类的操作方法带有synchronized
 
 ```java
 public synchronized void copyInto(Object[] anArray) {
@@ -1069,8 +972,6 @@ public synchronized void copyInto(Object[] anArray) {
 
 #### LinkedList						                   
 
-LinkedList的全面说明
-
 - LinkedList底层实现了双向链表和双端队列特点
 
 - 可以添加任意元素(元素可以重复)，包括null 
@@ -1084,7 +985,7 @@ LinkedList的底层操作机制
 
 - ​	LinkedList中维护了两个属性first和last分别指向 首节点和尾节点
 
-- ​	每个节点（Node对象），里面又维护了prev、next、item三个属性，其中通过prev指向前一个，通过next指向后一个节点。最终实现双向链表.
+- ​	每个节点里面又维护了prev、next、item三个属性，其中通过prev指向前一个，通过next指向后一个节点。最终实现双向链表.
 
 - ​	所以LinkedList的元素的添加和删除，不是通过数组完成的，相对来说效率较高。
 
@@ -1096,18 +997,13 @@ LinkedList的底层操作机制
 | Arra       | 可变数组 | 较低数组扩容       | 较高       |
 | LinkedList | 双向链表 | 较高，通过链表追加 | 较低       |
 
-如何选择
-
 - 如果我们改查的操作多，选择ArrayList
 
 - 如果我们增删的操作多，选择LinkedList
 
-- 一般来说，在程序中，80%-90%都是查询，因此大部分情况下会选择ArrayList，但是，在一个项目中，根据业务灵活选择，
 
 
-### 3.Set 接口
-
-特点：
+### Set 接口
 
 - 无序，没有索引。
 
@@ -1149,39 +1045,26 @@ for (Object objs:set) {
 
 - 可以存放null值，但是只能有一个null
 
-- HashSet不保证元素是有序的,取决于hash后，再确定索引的结果.(即，不保证存放元素的顺序	和取出顺序一致）
+- HashSet不保证元素是有序的,取决于hash后，再确定索引的结果(不保证存放元素的顺序和取出顺序一致）
 
-- 不能有重复元素/对象.在前面Set接口使用已经讲过
-
-#### HashSet 的底层逻辑
-
-1. HashSet 底层是HashMap
-2. 添加一个元素时，先得到hash值-会转成->索引值
-3. 找到存储数据表table，看这个索引位置是否已经存放的有元素
-4. 如果没有，直接加入
-5. 如果有，调用equals比较，如果相同，就放弃添加，如果不相同，则添加到最后
-6. 在Java8中，如果一条链表的元素个数到达TREEIFYTHRESHOLD（默认是8)，并且table的大小>=MIN TREEIFY_CAPACITY(默认64)，就会进行树化(红黑树）
+- 不能有重复元素/对象
 
 #### LinkedHashSet
 
-- ​	LinkedHashSet 是 HashSet 的子类
+- LinkedHashSet 是 HashSet 的子类
 
-- ​	LinkedHashSet 底层是一个 LinkedHashMap，底层维护了一个 数组+双向链表
+- LinkedHashSet 底层是一个 LinkedHashMap，底层维护了一个 数组+双向链表
 
-- ​	LinkedHashSet 根据元素的hashCode 值来决定元素的存储位置，同时使用链表维护元素的次序，这使得元素看起来是以插入顺序保存的。
+- LinkedHashSet 根据元素的hashCode 值来决定元素的存储位置，同时使用链表维护元素的次序，这使得元素看起来是以插入顺序保存的。
 
-- ​	LinkedHashSet不允许添重复元素
+- LinkedHashSet不允许添重复元素
 
-### 4.Map 接口
-
-#### Map 接口实现类的特点
+### Map 接口
 
 1. **Map与Collection并列存在**。用于保存具有映射关系的数据:Key-Value
-2. Map 中的key 和 value 可以是**任何引用类型的数据**，会封装到HashMap$Node对象中
+2. Map 中的key 和 value 可以是**任何引用类型的数据**，会封装到HashMap对象中
 
-3. Map 中的 key 不允许重复
-
-4. Map中的value 可以重复
+3. Map 中的 key 不允许重复,Map中的value 可以重复
 
 5. Map 的key 可以为 null,value 也可以为null，注意 key 为null，只能有一个，value 为null，可以多个.
 
@@ -1189,7 +1072,7 @@ for (Object objs:set) {
 
 7. key 和 value 之间存在单向一对一关系，即通过指定的key 总能找到对应的 value
 
-#### Map相关的Api
+#### Map的Api
 
 ```java
 Map map = new HashMap();
@@ -1214,11 +1097,10 @@ System.out.println("map=" + map);
 System.out.println("结果=" + map.containsKey("hsp"));//T
 ```
 
-#### Map 接口遍历方法
+#### Map 接口遍历
 
-##### 方式一：
+- 方法1:先取出所有的key，然后再获得value值
 
-先取出所有的key，然后再获得value值
 
 ```java
 Map map = new HashMap();
@@ -1238,9 +1120,8 @@ Iterator iterator = keys.iterator();
  }
 ```
 
-##### 方式二：
+- 方法2:把所有的 values 取出来
 
-把所有的 values 取出来
 
 ```java
 Collection collections=map.values();
@@ -1256,23 +1137,22 @@ while (iterator.hasNext()){
 }
 ```
 
-##### 方式三:
-
-通过 **EntrySet** 来获取 k-v
+- 方法3:通过 **EntrySet** 来获取 k-v
 
 ```java
 Set entrySet = map.entrySet();// EntrySet<Map.Entry<K,V>>
-//(1) 增强 for
+//增强 for
 for (Object entry : entrySet) {
 //将 entry 转成 Map.Entry
     Map.Entry m = (Map.Entry) entry;
     System.out.println(m.getKey() + "-" + m.getValue());
 }
-//(2) 迭代器
+//迭代器
 Iterator iterator = entrySet.iterator();
 while (iterator.hasNext()) {
     Object entry = iterator.next();
-    //System.out.println(next.getClass());//HashMap$Node -实现-> Map.Entry (getKey,getValue)
+    //System.out.println(next.getClass());
+    //HashMap$Node -实现-> Map.Entry (getKey,getValue)
     //向下转型 Map.Entry
     Map.Entry m = (Map.Entry) entry;
     System.out.println(m.getKey() + "-" + m.getValue());
@@ -1290,7 +1170,8 @@ while (iterator.hasNext()) {
 - key 不能重复，但是值可以重复，允许使用null键和null值。
 
 
-- 如果添加相同的key，则会覆盖原来的key-val，等同于修改.（key不会替换，val会替换)6）与HashSet一样，不保证映射的顺序，因为底层是以hash表的方式来存储的.(jdk8的hashMap 底层 数组+链表+红黑树）
+- 如果添加相同的key，则会覆盖原来的key-val，等同于修改.（key不会替换，val会替换)
+- 与HashSet一样，不保证映射的顺序，因为底层是以hash表的方式来存储的.(jdk8的hashMap 底层 数组+链表+红黑树）
 
 
 - HashMap没有实现同步，因此是线程不安全的，方法没有做同步互斥的操作，没有synchronized
@@ -1317,11 +1198,7 @@ properties.put("lic", 100);
 properties.put("lic", 88);//如果有相同的 key ， value 被替换
 ```
 
-### 5.泛型
-
-泛型的作用是：可以在类声明时通过一个标识表示类中某个属性的类型，
-
-## 13.多线程基础
+## 多线程基础
 
 Java 提供了三种创建线程的方法：
 
@@ -1431,9 +1308,10 @@ public class T2 implements  Runnable{
 
 ### Thread vs Runnable
 
-1.从java的设计来看，通过继承Thread或者实现Runnable接口来创建线程本质上没有区别，从jdk帮助文档我们可以看到Thread类本身就实现了，Runnable接口
+- 从java的设计来看，通过继承Thread或者实现Runnable接口来创建线程本质上没有区别，从jdk帮助文档我们可以看到Thread类本身就实现了，Runnable接口
 
-2.实现**Runnable接口方式更加适合多个线程共享一个资源的情况**，并且避免了单继承的限制，建议使用Runnable
+- 实现**Runnable接口方式更加适合多个线程共享一个资源的情况**，并且避免了单继承的限制，建议使用Runnable
+
 
 ### 线程常用方法
 
@@ -1448,15 +1326,12 @@ sleep//在指定的毫秒数内让当前正在执行的线程休眠（暂停执�
 interrupt //中断线程
 ```
 
-注意事项和细节
+注意事项:
 
-1.start 底层会创建新的线程，调用run，run就是一个简单的方法调用，不会启动新线程
+- start 底层会创建新的线程，调用run，run就是一个简单的方法调用，不会启动新线程
+- interrupt，中断线程，但并没有真正的结束线程。所以一般用于中断正在休眠线程
 
-2.线程优先级的范围
-
-3.interrupt，中断线程，但并没有真正的结束线程。所以一般用于中断正在休眠线程
-
-4.sleep：线程的静态方法，使当前线程休眠
+sleep：线程的静态方法，使当前线程休眠
 
 - yield：线程的礼让。让出cpu，让其他线程执行，但礼让的时间不确定，所以也不一定礼让成功
 
@@ -1477,7 +1352,6 @@ public class SonThread extends  Thread{
         }
     }
 }
-
 public static void main(String[] args) throws InterruptedException {
         SonThread sonThread=new SonThread();
         sonThread.run();
@@ -1552,21 +1426,16 @@ public synchronized void m (String name){
 
 #### 互斥锁
 
-1.Java语言中，引入了对象互斥锁的概念，来保证共享数据操作的完整性。
+- Java语言中，引入了对象互斥锁的概念，来保证共享数据操作的完整性。
+- 每个对象都对应于一个可称为“互斥锁”的标记，这个标记用来保证在任一时刻，只能有一个线程访问该对象。
+- 关键字synchronized 来与对象的互斥锁联系。当某个对象用```synchronized```修饰时，表明该对象在任一时刻只能由一个线程访问
+- 同步的局限性：导致程序的执行效率要降低
+- 同步方法（非静态的）的锁可以是this，也可以是其他对象（要求是同一个对象)
+- 同步方法（静态的）的锁为当前类本身。
 
-2.每个对象都对应于一个可称为“互斥锁”的标记，这个标记用来保证在任一时刻，只能有一个线程访问该对象。
+## IO流
 
-3.关键字synchronized 来与对象的互斥锁联系。当某个对象用```synchronized```修饰时，表明该对象在任一时刻只能由一个线程访问
-
-4.同步的局限性：导致程序的执行效率要降低
-
-5.同步方法（非静态的）的锁可以是this，也可以是其他对象（要求是同一个对象)
-
-6.同步方法（静态的）的锁为当前类本身。
-
-## 14.IO流
-
-### 1.文件操作
+### 文件操作
 
 #### 创建文件
 
@@ -1603,7 +1472,6 @@ public  void create02() {
 //方式3 new File(String parent,String child) //根据父目录+子路径构建
 @Test
 public void create03() {
-    //String parentPath = "e:\\";
     String parentPath = "e:\\";
     String fileName = "news4.txt";
     File file = new File(parentPath, fileName);
@@ -1631,13 +1499,14 @@ public void create03() {
     System.out.println("是不是一个文件=" + file.isFile());//T
     System.out.println("是不是一个目录=" + file.isDirectory());//F
 ```
-### 2.IO流
+### IO流
 
-inputstream 字节输入流		 reader（字符输入流）
+- inputstream 字节输入流		  reader（字符输入流）
 
-outputstream 字节输出流		writer（字符输出流）
+- outputstream 字节输出流		writer（字符输出流）
 
-#### 1.FileInputStream介绍
+
+#### FileInputStream
 
 ```java
 //单个字节的读取，效率比较低
@@ -1688,14 +1557,14 @@ public void readFile02() throws IOException {
 }
 ```
 
-#### 2.FileOutputStream介绍
+#### FileOutputStream
 
 用于将数据写入到文件之中
 
 ```java
- /**
-     * 演示使用FileOutputStream 将数据写到文件中,
-     * 如果该文件不存在，则创建该文件
+ 	/**
+     	* 演示使用FileOutputStream 将数据写到文件中,
+     	* 如果该文件不存在，则创建该文件
      */
     @Test
     public void writeFile() {
@@ -1703,20 +1572,18 @@ public void readFile02() throws IOException {
         String filePath = "e:\\news1.txt";
         FileOutputStream fileOutputStream = null;
         try {
-            //得到 FileOutputStream对象 对象
-            //说明
-            //1. new FileOutputStream(filePath) 创建方式，当写入内容是，会覆盖原来的内容
-            //2. new FileOutputStream(filePath, true) 创建方式，当写入内容是，是追加到文件后面
+          //得到 FileOutputStream对象
+          //1. new FileOutputStream(filePath) 创建方式，当写入内容是，会覆盖原来的内容
+          //2. new FileOutputStream(filePath, true) 创建方式，当写入内容是，是追加到文件后面
             fileOutputStream = new FileOutputStream(filePath, true);
             //写入一个字节
-            //fileOutputStream.write('H');//
+            //fileOutputStream.write('H');
             //写入字符串
             String str = "hello,world!";
             //str.getBytes() 可以把 字符串-> 字节数组
             //fileOutputStream.write(str.getBytes());
-            /*
-            write(byte[] b, int off, int len) 将 len字节从位于偏移量 off的指定字节数组写入此文件输出流
-             */
+           
+   //write(byte[] b, int off, int len) 将len字节从位于偏移量off的指定字节数组写入此文件输出流
             fileOutputStream.write(str.getBytes(), 0, str.length());
 
         } catch (IOException e) {
@@ -1731,11 +1598,12 @@ public void readFile02() throws IOException {
     }
 ```
 
-#### 3.FileReader 相关方法：
+#### FileReader 相关方法：
 
-1) new FileReader(File/String)
+-  new FileReader(File/String)
 
-2)read:每次读取单个字符，返回该字符，如果到文件末尾返回-1
+- read:每次读取单个字符，返回该字符，如果到文件末尾返回-1
+
 
 ```java
 String path="f:\\a.txt";
@@ -1754,7 +1622,7 @@ try {
 }
 ```
 
-3)read(char[])：批量读取多个字符到数组，返回读取到的字符数，如果到文件末尾返回-1
+read(char[])：批量读取多个字符到数组，返回读取到的字符数，如果到文件末尾返回-1
 
 ```java
 @Test
@@ -1779,25 +1647,26 @@ public void readFile01() throws IOException {
 
 相关API：
 
-**1) new String(char[]):将char[]转换成String**
+- new String(char[]):将char[]转换成String
 
-**2)new String(char[],off,len):将charll的指定部分转换成String**
+- new String(char[],off,len):将charll的指定部分转换成String
 
-#### 4.FileWriter 常用方法
 
-1)new FileWriter(File/String)：覆盖模式，相当于流的指针在首端
+#### FileWriter 常用方法
 
-2)new FileWriter(File/String,true)：追加模式，相当于流的指针在尾端
+- new FileWriter(File/String)：覆盖模式，相当于流的指针在首端
+- new FileWriter(File/String,true)：追加模式，相当于流的指针在尾端
 
-3)write(int):写入单个字符
+- write(int):写入单个字符
 
-4)write(char[]):写入指定数组
+- write(char[]):写入指定数组
 
-5)write(char[],off,len)：写入指定数组的指定部分
+- write(char[],off,len)：写入指定数组的指定部分
 
-6)write(string）：写入整个字符串
+- write(string）：写入整个字符串
 
-7)write(string,off,len)：写入字符串的指定部分
+- write(string,off,len)：写入字符串的指定部分
+
 
 ```java
 @Test
@@ -1808,11 +1677,11 @@ public void readFile01() throws IOException {
         try {
             fileWriter=new FileWriter(path);
             //写入单个字符
-//            fileWriter.write('z');
+			//fileWriter.write('z');
             //写入一个字符数组
             fileWriter.write(chars);
             //写入整个字符串
-            fileWriter.write("张佳亮".toString(),0,3);
+            fileWriter.write("kd".toString(),0,3);
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -1831,13 +1700,13 @@ public void readFile01() throws IOException {
 
 注意：
 
-FileWriter使用后，必须要关闭(close)或刷新(flush)，否则写入不到指定的文件!
+FileWriter使用后，必须要关闭(close)或刷新(flush)，否则写入不到指定的文件
 
-#### 5.节点流和处理流
+#### 节点流和处理流
 
 - 节点流可以从一个特定的数据源读写数据，如FileReader、FileWriter 
 
-- 处理流(也叫包流)是“连接”在已存在的流（节点流或处理流）之上，为程序提供更为强大的读写功能，也更加灵活，如:BufferedReader、BufferedWriter 
+- 处理流(也叫包流)是"连接"在已存在的流（节点流或处理流）之上，为程序提供更为强大的读写功能，也更加灵活，如:BufferedReader、BufferedWriter 
 
 节点流和处理流的区别和联系
 
@@ -1867,7 +1736,7 @@ FileWriter使用后，必须要关闭(close)或刷新(flush)，否则写入不�
         while ((line = bufferedReader.readLine()) != null) {
             System.out.println(line);
         }
-        //关闭流, 这里注意，只需要关闭 BufferedReader ，因为底层会自动的去关闭 节点流
+        //关闭流, 这里注意，只需要关闭 BufferedReader ，因为底层会自动的去关闭节点流
         bufferedReader.close();
 ```
 
@@ -1915,20 +1784,18 @@ try {
 }
 ```
 
-#### 8.对象流
+#### 对象流
 
-​	定义：就是能够将基本数据类型或者对象进行序列化和反序列化操作,提供了对基本类型或对象类型的序列化和反序列化的方法 
+能够将基本数据类型或者对象进行序列化和反序列化操作,提供了对基本类型或对象类型的序列化和反序列化的方法 :
 
-- ​	ObjectOutputStream ,提供序列化功能 
-
-- ​	ObjectInputStream,提供反序列化功
+- ObjectOutputStream ,提供序列化功能 
+- ObjectInputStream,提供反序列化功
 
 
 ###### 	序列化和反序列化
 
-- ​		序列化就是在保存数据时，保存数据的值和数据类型
-
-- ​		反序列化就是在恢复数据时，恢复数据的值和数据类型
+- 序列化就是在保存数据时，保存数据的值和数据类型
+- 反序列化就是在恢复数据时，恢复数据的值和数据类型
 
 
 需要让某个对象支持序列化机制，则必须让其类是可序列化的，为了让某个类是可序列化的，该类必须实现如下两个接口之一：
@@ -2040,13 +1907,13 @@ public class Dog implements Serializable {
 - ​	序列化具备可继承性，也就是如果某类已经实现了序列化，则它的所有子类也已经默认实现了序列化
 
 
-#### 9. 标准输入输出流
+####  标准输入输出流
 
-​	System.in 	  标准输入流    
+- System.in 	  标准输入流    
 
-​	System.out	标准输出流
+- System.out	标准输出流
 
-#### 10.转换流
+#### 转换流
 
 - ```InputStreamReader:Reader```的子类，可以将```InputStream(字节流)```包装成(转换)```Reader(字符流)```
 - ```OutputStreamWriter:Writer```的子类，实现将```OutputStream(字节流)```包装成```Writer(字符流)```
@@ -2062,7 +1929,7 @@ public class Dog implements Serializable {
         String path="e://news1.txt";
         //1. 把 FileInputStream 转成 InputStreamReader
         //2. 指定编码 gbk
-        InputStreamReader is=new InputStreamReader(new FileInputStream(path),"utf-8");
+      InputStreamReader is=new InputStreamReader(new FileInputStream(path),"utf-8");
         //3.把 InputStreamReader 传入 BufferedReader
         BufferedReader br=new BufferedReader(is);
         /**
@@ -2090,7 +1957,7 @@ public class Dog implements Serializable {
     }
 ```
 
-#### 11.打印流
+#### 打印流
 
 打印流只有输出流，没有输入流，在默认情况下，```PrintStream``` 输出数据的位置是标准输出
 
@@ -2113,12 +1980,12 @@ printWriter.print("hi, 北京你好~~~~");
 printWriter.close();//flush + 关闭流, 才会将数据写入到文件..
 ```
 
-#### 12.Properties 
+#### Properties 
 
 专门用于读写配置文件的集合类
 
-```java
-//配置文件的格式：
+```properties
+# 配置文件的格式：
 键=值
 ```
 
@@ -2135,9 +2002,6 @@ Properties的常见方法
 - ​	setProperty(key,value)：设置键值对到Properties对象
 
 - ​	store:将Properties中的键值对存储到配置文件，在idea 中，保存信息到配置文件，如果含有中文，会存储为unicode码
-
-
-http://tool.chinaz.com/tools/unicode.aspx unicode码查询工具
 
 ```java
 	//1. 创建 Properties 对象
@@ -2163,9 +2027,9 @@ http://tool.chinaz.com/tools/unicode.aspx unicode码查询工具
  	System.out.println("保存配置文件成功~");
 ```
 
-## 15.网络编程
+## 网络编程
 
-### 1.网络的相关概念
+### 网络的相关概念
 
 **网络通信**
 
@@ -2233,7 +2097,7 @@ UDP协议：用户数据协议
 
 ​		5.举例：厕所通知：发短信
 
-### 2.InetAddress 
+### InetAddress 
 
 相关方法
 
@@ -2258,7 +2122,7 @@ String host3Address=host3.getHostAddress();
 System.out.println(host3Address);
 ```
 
-### 3.Socket
+### Socket
 
 ​	1.套接字(Socket)开发网络应用程序被广泛采用，以至于成为事实上的标准。
 
@@ -2382,20 +2246,14 @@ public static void main(String[] args) throws IOException {
 }
 ```
 
-### 4.netstat 指令
+### netstat 指令
 
 ```cmd
 netstat -an #查看所有网络连接信息
 netstat -an|more #分页查看
 ```
 
-### 5.TCP通讯
-
-<img src="D:\ruanjian\Typora\image-20231029124051659.png" alt="image-20231029124051659" style="zoom:80%;" />
-
-当客户端连接到服务器之后，实际上客户端也是通过端口和服务器通讯的
-
-### 6.UDP 网络通信编程
+### UDP 网络通信编程
 
 **基本介绍**
 

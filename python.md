@@ -1,6 +1,6 @@
 # python
 
-## 1.python基础
+## python基础
 
 ### 常见函数
 
