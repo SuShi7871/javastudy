@@ -163,8 +163,6 @@ git reset --hard <CommitID>
 
  Github 是全球最大的开源项目托管平台。因为只支持Git 作为唯一的版本控制工具，故名GitHub。
 
-1、新建远程仓库
-
 ### 远程仓库的两种访问方式
 
 Github 上的远程仓库，有两种访问方式，分别是HTTPS和SSH。它们的区别是：
@@ -183,11 +181,12 @@ git remote -v
 
 ### SSH key
 
- SSH key 的作用：实现本地仓库和Github 之间免登录的加密数据传输。
+SSH key 的作用：实现本地仓库和Github 之间免登录的加密数据传输。
 SSH key 的好处：免登录身份认证、数据加密传输。
 SSH key 由两部分组成，分别是：
-① id_rsa（私钥文件，存放于客户端的电脑中即可）
-② id_rsa.pub（公钥文件，需要配置到Github 中）
+
+- id_rsa（私钥文件，存放于客户端的电脑中即可）
+-  id_rsa.pub（公钥文件，需要配置到Github 中）
 
 生成SSH key
 
@@ -203,7 +202,7 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
 ```bash
 # 查看本地连接的远程仓库
-git remote -vpush
+git remote -v
 ```
 
 ## git分支

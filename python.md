@@ -361,24 +361,16 @@ s.add(23)
 print(s) #{1, 2, 3, 23}
 ```
 
-set和dict的唯一区别仅在于没有存储对应的value，但是，set的原理和dict一样，所以，同样不可以放入可变对象，因为无法判断两个可变对象是否相等，也就无法保证set内部“不会有重复元素”。
+set和dict的唯一区别仅在于没有存储对应的value，但是，set的原理和dict一样，所以，同样不可以放入可变对象，因为无法判断两个可变对象是否相等，也就无法保证set内部"不会有重复元素"。
 
 #### 数据容器的特点
 
 基于各类数据容器的特点，它们的应用场景如下：
 
 - 列表：一批数据，可修改、可重复的存储场景
-
-
 - 元组：一批数据，不可修改、可重复的存储场景
-
-
 - 字符串：一串字符串的存储场景
-
-
 - 集合：一批数据，去重存储场景
-
-
 - 字典：一批数据，可用Key检索Value的存储场景
 
 
@@ -405,11 +397,7 @@ print(int(str)) #345
 print(float(str)) #345.0
 ```
 
-函数名其实就是指向一个函数对象的引用，完全可以把函数名赋给一个变量，相当于给这个函数起了一个"别名"
-
 #### 定义函数
-
-定义一个函数要使用`def`语句，依次写出函数名、括号、括号中的参数和冒号，然后，在缩进块中编写函数体，函数的返回值用`return`语句返回
 
 ```python
 def my_bas(x):
@@ -459,7 +447,7 @@ print(calc(1,23,5,5,6))
 
 #### 关键字参数
 
-**参数是“键=值”形式的形式的情况下**, 所有的“键=值”都会被kwargs接受, 同时会根据“键=值”组成字典.
+**参数是"键=值"形式的形式的情况下**, 所有的"键=值"都会被kwargs接受, 同时会根据"键=值"组成字典.
 
 ```python
 def person(name,age,**kw):
@@ -524,25 +512,15 @@ def fact_iter(num, product):
 
 #### lambda匿名函数 
 
-函数的定义中 
-
-• def关键字，可以定义带有名称的函数 
-
-• lambda关键字，可以定义匿名函数（无名称） 
-
-​		有名称的函数，可以基于名称重复使用。 
-
-​		无名称的匿名函数，只可临时使用一次。
-
-语法
+- def关键字，可以定义带有名称的函数 
+- lambda关键字，可以定义匿名函数（无名称） 
+- 有名称的函数，可以基于名称重复使用;无名称的匿名函数，**只可临时使用一次**。
 
 ```python
 lambal 传入参数:函数体
 ```
 
-lambda 是关键字，表示定义匿名函数 ，传入参数表示匿名函数的形式参数，
-
-如：x, y 表示接收2个形式参数 ，函数体，就是函数的执行逻辑，要注意：**只能写一行**，无法写多行代码
+lambda 是关键字，表示定义匿名函数 ，传入参数表示匿名函数的形式参数，如：x, y 表示接收2个形式参数 ，函数体，就是函数的执行逻辑，要注意：**只能写一行**，无法写多行代码
 
 ```python
 def test_func(compute):
@@ -561,13 +539,9 @@ test_func(lambda x, y: x + y)
 
 ```python
 import pizza
-
 pizza.make_pizza(16, '蘑菇')
-
 pizza.make_pizza(12, '蘑菇', '辣椒', '茄子')
 ```
-
-通过import语句，可以使用pizza.py中定义的所有函数。 
 
 还可以导入模块中的特定函数，这种导入方法的语法如下： 
 
@@ -578,7 +552,7 @@ from module_name import function_name
 from module_name import function_0, function_1, function_2
 ```
 
-##### 使用as给函数指定别名
+##### 函数指定别名
 
 如果要导入的函数的名称可能与程序中现有的名称冲突，或者函数的名称太长，可指定简短而独一无二的别名
 
@@ -586,67 +560,17 @@ from module_name import function_0, function_1, function_2
 from pizza import make_pizza as mp
 
 mp(16, 'pepperoni')
-
 mp(12, 'mushrooms', 'green peppers', 'extra cheese') 
 
 # 使用星号（*）运算符可让Python导入模块中的所有函数
 from pizza import * 
-
 ```
 
+## 高级语法
 
+### 高级特性
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 2.python进阶
-
-### 1.高级特性
-
-#### 1.切片
+#### 切片
 
 `L[0:3]`表示，从索引`0`开始取，直到索引`3`为止，但不包括索引`3`。即索引`0`，`1`，`2`，正好是3个元素。
 
@@ -662,11 +586,9 @@ print(L[:4:2])
 print(L[:])
 ```
 
-#### 2.列表生成式
+#### 列表生成式
 
-Python内置的非常简单却强大的可以用来创建list的生成式。
-
-如果要生成`[1x1, 2x2, 3x3, ..., 10x10]`，方法一是循环：
+Python内置的非常简单却强大的可以用来创建list的生成式。如果要生成`[1x1, 2x2, 3x3, ..., 10x10]`方法一：循环
 
 ```python
 L = []
@@ -675,14 +597,14 @@ for x in range(1,11):
 print(L) # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 ```
 
-但是循环太繁琐，而列表生成式则可以用一行语句代替循环生成上面的list：
+但是循环太繁琐，而**列表生成式**则可以用一行语句代替循环生成上面的list：
 
 ```python
 print([x*x for x in range(1,11)]) # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]、
 print([m + n for m in 'abc' for n in 'xyz']) # ['ax', 'ay', 'az', 'bx', 'by', 'bz', 'cx', 'cy', 'cz']
 ```
 
-不能在最后的`if`加上`else`：
+注意：列表生成式不能在最后的`if`加上`else`：
 
 ```python
 print([x*x for x in range(1,11) if x%2==0]) # [4, 16, 36, 64, 100]
@@ -696,8 +618,8 @@ print([x*x for x in range(1,11) if x%2==0]) # [4, 16, 36, 64, 100]
 ```python
 x ='123'
 y = 123
-print(isinstance(x ,str)) # True
-print(isinstance(y , str)) # false
+isinstance(x ,str) # True
+isinstance(y , str) # false
 ```
 
 #### 生成器
@@ -709,7 +631,7 @@ L = [x * x for x in range(10)] # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
 g = (x * x for x in range(10)) # <generator object <genexpr> at 0x000001F790B26AC0>
 ```
 
-在Python中，这种一边循环一边计算的机制，称为生成器：generator。
+在Python中，这种**一边循环一边计算**的机制，称为生成器：generator
 
 generator保存的是算法，每次调用`next(g)`，就计算出`g`的下一个元素的值，直到计算到最后一个元素，没有更多的元素时，抛出`StopIteration`的错误。
 
@@ -718,10 +640,13 @@ generator保存的是算法，每次调用`next(g)`，就计算出`g`的下一�
 ```python
 g=(x*x for x in range(10))#定义一个生成器
 for n in g:
-    print(n) # # 0 1 4 9 16 25 36 49 64 81
+    print(n) #  0 1 4 9 16 25 36 49 64 81
 ```
 
-generator函数和普通函数的执行流程不一样。普通函数是顺序执行，遇到`return`语句或者最后一行函数语句就返回。而变成generator的函数，在每次调用`next()`的时候执行，遇到`yield`语句返回，再次执行时从上次返回的`yield`语句处继续执行。
+generator函数和普通函数的执行流程不一样。
+
+- 普通函数是顺序执行，遇到`return`语句或者最后一行函数语句就返回。
+- 而变成generator的函数，**在每次调用`next()`的时候执行，遇到`yield`语句返回**，再次执行时从上次返回的`yield`语句处继续执行。
 
 如果一个函数定义中包含`yield`关键字，那么这个函数就不再是一个普通函数，而是一个generator函数，调用一个generator函数将返回一个generator：
 
@@ -737,16 +662,17 @@ def _feibo(max):
 print(_feibo(10))
 ```
 
-### 2.函数式编程
+### 函数式编程
 
-函数本身也可以赋值给变量，即：变量可以指向函数。
+函数本身也可以赋值给变量，即:**变量可以指向函数**，如果一个变量指向了一个函数，那么，可通过该变量来调用这个函数
 
 ```python
 f=abs
-print(f(-10)) #10
+# 直接调用abs()函数和调用变量f()完全相同
+f(-10) #10,
 ```
 
-把`abs`指向`10`后，就无法通过`abs(-10)`调用该函数了！因为`abs`这个变量已经不指向求绝对值函数而是指向一个整数`10`！
+把`abs`指向`10`后，就无法通过`abs(-10)`调用该函数了！因为`abs`这个变量已经不指向求绝对值函数而是指向一个整数`10`
 
 ```python
 abs=10
@@ -754,14 +680,12 @@ print(abs(-10))
 #Traceback (most recent call last):
  # File "E:\code\pythonCode\test\Test02.py", line 20, in <module>
  # print(abs(-10))
-#TypeError: 'int' object is not callable
+#TypeError: 'int' object is not callable**
 ```
 
-当然实际代码绝对不能这么写，这里是为了说明**函数名也是变量**
+#### 高阶函数
 
-#### 传入函数
-
-既然变量可以指向函数，函数的参数能接收变量，那么一个函数就可以接收另一个函数作为参数，这种函数就称之为高阶函数。
+既然变量可以指向函数，函数的参数能接收变量，那么一个函数就可以接收另一个函数作为参数，这种函数就称之为**高阶函数**
 
 ```python
 def add(x, y, f):
@@ -769,7 +693,7 @@ def add(x, y, f):
 print(add(-5, 6, abs)) # 11
 ```
 
-#### map/reduce
+##### map
 
 `map()`函数接收两个参数，一个是函数，一个是`Iterable`，`map`将传入的函数依次作用到序列的每个元素，并把结果作为新的`Iterator`返回。
 
@@ -780,24 +704,24 @@ r = map(f, [1, 2, 3, 4, 5, 6, 7, 8, 9])
 print(list(r))#[2, 4, 6, 8, 10, 12, 14, 16, 18]
 ```
 
-`reduce`把一个函数作用在一个序列`[x1, x2, x3, ...]`上，这个函数必须接收两个参数，`reduce`把结果继续和序列的下一个元素做累积计算，其效果就是：
+##### reduce
+
+reduce把一个函数作用在一个序列$[x_1, x_2, x_3, ...]$上，这个函数必须接收两个参数，`reduce`把结果继续和序列的下一个元素做累积计算，其效果就是：
 
 ```python
 reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)
-```
-
-使用reduce实现一个求和案例
-
-```python
+# 示例
 from functools import reduce
 def add(x,y):
     return x+y
 print(reduce(add,[1,2,3,4,5,6,7,8])) # 36
 ```
 
-#### filter
+##### filter
 
-Python内建的`filter()`函数用于过滤序列。和`map()`类似，`filter()`也接收一个函数和一个序列。和`map()`不同的是，`filter()`把传入的函数依次作用于每个元素，然后根据返回值是`True`还是`False`决定保留还是丢弃该元素。
+$filter()$函数用于过滤序列。和`map()`类似，$filter()$也接收一个函数和一个序列
+
+和`map()`不同的是，$filter()$把传入的函数依次作用于每个元素，然后根据返回值是`True`还是`False`决定保留还是丢弃该元素。
 
 ```python
 def is_odd(n):
@@ -805,6 +729,10 @@ def is_odd(n):
 list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
 # 结果: [1, 5, 9, 15]
 ```
+
+##### sorted
+
+`sorted()`函数就可以对list进行排序
 
 #### 返回函数
 
@@ -823,7 +751,7 @@ sums =lazy_sum(1,2,3,4)
 print(sums()) # 调用函数sums时，才真正计算求和的结果：
 ```
 
-在这个例子中，我们在函数`lazy_sum`中又定义了函数`sum`，并且，内部函数`sum`可以引用外部函数`lazy_sum`的参数和局部变量，当`lazy_sum`返回函数`sum`时，相关参数和变量都保存在返回的函数中，这种称为“闭包（Closure）”的程序结构拥有极大的威力
+在这个例子中，我们在函数`lazy_sum`中又定义了函数`sum`，并且，内部函数`sum`可以引用外部函数`lazy_sum`的参数和局部变量，当`lazy_sum`返回函数`sum`时，相关参数和变量都保存在返回的函数中，这种称为"闭包（Closure）"的程序结构拥有极大的威力
 
 注意：当我们调用`lazy_sum()`时，每次调用都会返回一个新的函数，即使传入相同的参数：
 
@@ -945,17 +873,15 @@ print(now.__name__) # 打印函数名
 print(f.__name__) # 打印函数名
 ```
 
-假设我们要增强`now()`函数的功能，比如，在函数调用前后自动打印日志，但又不希望修改`now()`函数的定义，这种在代码运行期间动态增加功能的方式，称之为“装饰器”
+假设我们要增强`now()`函数的功能，比如，在函数调用前后自动打印日志，但又不希望修改`now()`函数的定义，这种在代码运行期间动态增加功能的方式，称之为"装饰器"
 
 #### 偏函数
 
-### 3.文件操作
+### 文件操作
 
-#### 1.文件的读取
+#### 文件的读取
 
-open()打开函数
-
-在Python，使用open函数，可以打开一个已经存在的文件，或者创建一个新文件，语法如下 
+使用open函数，可以打开一个已经存在的文件，或者创建一个新文件
 
 - name：是要打开的目标文件名的字符串(可以包含文件所在的具体路径)。 
 
@@ -968,15 +894,15 @@ open()打开函数
 f = open("D:/ruanjian/LICENSE.txt", "r", encoding="UTF-8")
 ```
 
-##### read()方法：
+##### read()方法
 
 ```python
 f.read(num)
 ```
 
-​	num表示要从文件中读取的数据的长度（单位是字节），如果没有传入num，那么就表示读取文件中所有的数据。
+num表示要从文件中读取的数据的长度（字节）,如果没有传入num，那么就表示读取文件中所有的数据。
 
-##### readlines()方法： 
+##### readlines()
 
 readlines可以按照行的方式把整个文件中的内容进行一次性读取，并且返回的是一个**列表**，其中每一行的数据为一个元素。
 
@@ -989,7 +915,7 @@ print(content)
 f.close()
 ```
 
-##### readline()方法：
+##### readline()
 
 一次读取一行内容
 
@@ -1008,11 +934,38 @@ for line in f:
 
 **close()关闭文件对象**
 
-最后通过close，关闭文件对象，也就是关闭对文件的占用 ， 如果不调用close,同时程序没有停止运行，那么这个文件将一直被Python程序占用。
+最后通过close，关闭对文件的占用 ， 如果不调用close,同时程序没有停止运行，那么这个文件将一直被Python程序占用。
 
-**通过with open语法打开文件，可以自动关闭**
+**注意：使用with open语法打开文件，可以自动关闭**
 
-#### 2.文件的写入 
+##### 二进制文件
+
+要读取二进制文件，比如图片、视频等等，用`'rb'`模式打开文件即可：
+
+```python
+f = open('data/image.png', 'rb')
+f.read()
+```
+
+##### 字符编码
+
+要读取非UTF-8编码的文本文件，需要给`open()`函数传入`encoding`参数，例如，读取GBK编码的文件
+
+```python
+f = open('data/翻译语料zh.txt', 'r',encoding='gbk')
+f.read()
+```
+
+在文本文件中可能夹杂了一些非法编码的字符。影响文件的读取，遇到这种情况，`open()`函数还接收一个`errors`参数，表示如果遇到编码错误后如何处理。最简单的方式是直接忽略：
+
+```python
+f = open('data/翻译语料zh.txt', 'r',encoding='gbk', errors='ignore')
+f.read()
+```
+
+#### 文件的写入 
+
+传入标识符`'w'`或者`'wb'`表示写文本文件或写二进制文件：
 
 ```python
 f = open('E:\code\\test.txt', 'w')
@@ -1020,20 +973,15 @@ f.write('hello world,张三')
 f.flush()
 ```
 
-注意： 
+- 以`'w'`模式写入文件时，如果文件已存在，会直接覆盖（相当于删掉后新写入一个文件）。如果我们希望追加到文件末尾时，可以传入`'a'`以追加（append）模式写入。
+- 当我们写文件时，操作系统往往不会立刻把数据写入磁盘，而是放到内存缓存起来，空闲的时候再慢慢写入。只有调用`close()`方法时，操作系统才保证把没有写入的数据全部写入磁盘。忘记调用`close()`的后果是数据可能只写了一部分到磁盘，剩下的丢失了。所以，还是用`with`语句比较好：
 
-- 直接调用write，内容并未真正写入文件，而是会积攒在程序的内存中，称之为缓冲区 
+```python
+with open('data/翻译语料zh.txt', 'w') as f:
+	f.write('Hello, world!')
+```
 
-- 当调用flush的时候，内容会真正写入文件 
-
-- 这样做是避免频繁的操作硬盘，导致效率下降（攒一堆，一次性写磁盘）
-
-
-文件如果不存在，使用”w”模式，会创建新文件 
-
-文件如果存在，使用”w”模式，会将原有内容清空
-
-#### 3.文件的追加
+#### 文件的追加
 
 ```python
 f = open('E:\code\\test.txt', 'a')
@@ -1041,13 +989,146 @@ f.write('hello world,你好啊')
 f.flush()
 ```
 
-a模式，文件不存在会创建文件 
+- w模式，文件不存在会创建文件 
 
-a模式，文件存在会在最后，追加写入文件
+- a模式，文件存在会在最后，追加写入文件
 
-### 4.Python异常、模块与包
+#### StringIO和BytesIO
 
-#### 1.异常处理
+`StringIO`顾名思义就是在内存中读写`str`。要把`str`写入`StringIO`，我们需要先创建一个`StringIO`，然后，像文件一样写入即可：
+
+```python
+from io import StringIO
+f = StringIO()
+f.write('hello world')
+# getvalue()方法用于获得写入后的str。
+print(f.getvalue())
+```
+
+##### BytesIO
+
+`StringIO`操作的只能是`str`，如果要操作二进制数据，就需要使用`BytesIO`。
+
+`BytesIO`实现了在内存中读写`bytes`，我们创建一个``Bytes`IO`，然后写入一些bytes：
+
+```python
+from io import BytesIO
+f = BytesIO()
+f.write('中文'.encode('utf-8'))
+print(f.getvalue())
+```
+
+#### 操作文件和目录
+
+使用`os`模块的基本功能
+
+```python
+import os 
+print(os.name) # 操作系统类型
+print(os.environ) # 查看环境变量
+# 要获取某个环境变量的值
+print(os.environ.get('PATH'))
+# 查看当前文件的绝对路径
+print( os.path.abspath('.'))
+```
+
+操作文件夹
+
+```python
+# 在某个目录下创建一个新目录，首先把新目录的完整路径表示出来
+os.path.join('./','test')
+# 然后创建目录
+os.mkdir('./test')
+# 删除目录
+os.rmdir('test')
+```
+
+把两个路径合成一个时，不要直接拼字符串，而要通过`os.path.join()`函数，这样可以正确处理不同操作系统的路径分隔符。
+
+同样的道理，要拆分路径时，也不要直接去拆字符串，而要通过`os.path.split()`函数，这样可以把一个路径拆分为两部分，后一部分总是最后级别的目录或文件名
+
+```python
+# ('/Users/michael/testdir', 'file.txt')
+os.path.split('/Users/michael/testdir/file.txt')
+# 文件重命名
+os.rename('test.txt', 'test.py')
+# 删除文件
+os.remove('test.py')
+```
+
+`shutil`模块提供了`copyfile()`的函数，你还可以在`shutil`模块中找到很多实用函数，它们可以看做是`os`模块的补充。
+
+```python
+# 列出当前目录下的所有文件和目录
+[x for x in os.listdir('.') if os.path.isdir(x)]
+# 列出所有的py文件
+[x for x in os.listdir('.') if os.path.isfile(x) and os.path.splitext(x)[1]=='.py']
+```
+
+#### 序列化和反序列化
+
+把变量从内存中变成可存储或传输的过程称之为序列化，在Python中叫pickling
+
+- 序列化之后，就可以把序列化后的内容写入磁盘，或者通过网络传输到别的机器上。
+- 反过来，把变量内容从序列化的对象重新读到内存里称之为反序列化，即unpickling。
+
+把一个对象序列化并写入文件：
+
+`pickle.dumps()`方法把任意对象序列化成一个`bytes`，然后，就可以把这个`bytes`写入文件。或者用另一个方法`pickle.dump()`直接把对象序列化后写入一个文件：
+
+```python
+import pickle
+d = dict(name='Bob', age=20, score=88)
+# print(pickle.dumps(d))
+f = open('dump.txt','wb')
+pickle.dump(d,f)
+f.close()
+```
+
+当我们要把对象从磁盘读到内存时，可以先把内容读到一个`bytes`，然后用`pickle.loads()`方法反序列化出对象，也可以直接用`pickle.load()`方法从一个`file-like Object`中直接反序列化出对象。我们打开另一个Python命令行来反序列化刚才保存的对象：
+
+```python
+f = open('dump.txt', 'rb')
+d = pickle.load(f)
+print(d)
+f.close()
+```
+
+#### JSON
+
+我们可以使用json对象，保存序列化后的数据，我们可以将字典转换为json对象，也可以将json对象反序列化
+
+```python
+dict = dict(name='Bob', age=20, score=88)
+# Python对象变成一个JSON
+print(json.dumps(dict))
+
+jsons = '{"name": "Bob", "age": 20, "score": 88}'
+# 用loads()或者对应的load()方法，前者把JSON的字符串反序列化
+print(json.loads(jsons))
+```
+
+json对python对象进行处理的时候有一个问题，对象不是一个可序列化为JSON的对象。为了解决这个问题，可选参数的`default`就是把任意一个对象变成一个可序列为JSON的对象，我们只需要为`Student`专门写一个转换函数，再把函数传进去即可：
+
+```python
+class Student(object):
+    def __init__(self, name, age, score):
+        self.name = name
+        self.age = age
+        self.score = score
+def student2dict(std):
+    return {
+        'name': std.name,
+        'age': std.age,
+        'score': std.score
+    }
+s = Student('Bob', 20, 88)
+print(json.dumps(s,default=student2dict))
+```
+
+### Python异常、模块与包
+
+#### 异常处理
 
 捕获异常的作用在于：提前假设某处会出现异常，做好提前准备，当真的出现异常的时候，可以有后续手段。
 
@@ -1071,9 +1152,10 @@ except NameError as e:
 
 注意：
 
-① 如果尝试执行的代码的异常类型和要捕获的异常类型不一致，则无法捕获异常。
+- 如果尝试执行的代码的异常类型和要捕获的异常类型不一致，则无法捕获异常。
 
-② 一般try下方只放一行尝试执行的代码。
+- 一般try下方只放一行尝试执行的代码。
+
 
 ##### 捕获多个异常
 
@@ -1132,15 +1214,15 @@ finally:
     f.close()
 ```
 
-#### 2.异常的传递
+#### 异常的传递
 
 异常是具有传递性的 
 
-当函数func01中发生异常, 并且没有捕获处理这个异常的时候, 异常会传递到函数func02, 当func02也没有捕获处理这个异常的时候 main函数会捕获这个异常, 这就是异常的传递性. 
+当函数$func01$中发生异常, 并且没有捕获处理这个异常的时候, 异常会传递到函数$func02$, 当$func02$也没有捕获处理这个异常的时候 main函数会捕获这个异常
 
 提示: **当所有函数都没有捕获异常的时候, 程序就会报错**
 
-#### 3.Python模块
+#### Python模块
 
 以内建的`sys`模块为例，编写一个`hello`的模块：
 
@@ -1151,7 +1233,6 @@ finally:
 __author__ = 'Michael Liao'	  # __author__变量把作者写进去
 
 import sys
-
 def test():
     args = sys.argv
     if len(args)==1:
@@ -1164,10 +1245,6 @@ def test():
 if __name__=='__main__':
     test()
 ```
-
-
-
-
 
 模块就是一个Python文件，里面有类、函数、变量等，我们可以 拿过来用（导入模块去使用）导入模块的语法
 
@@ -1275,20 +1352,18 @@ testB()#不能调用b
 #NameError: name 'testB' is not defined
 ```
 
-#### 4.Python包
+#### Python包
 
 基于Python模块，我们可以在编写代码的时候，导入许多外部代码来丰富功能。 但是，如果Python的模块太多了，就可能造成一定的混乱
 
-- 从物理上看，包就是一个文件夹，在该文件夹下包含了一个 __init__.py 文件，该文件夹可用于包含多个模块文件 
-- 从逻辑上看，包的本质依然是模块
+使用方式：
 
-快速入门
+- 新建包`my_package` 
 
-① 新建包`my_package` 
+- 新建包内模块：`my_module1` 和 `my_module2` 
 
-② 新建包内模块：`my_module1` 和 `my_module2` 
+- 模块内代码如下
 
-③ 模块内代码如下
 
 ```python
 #模块一 my_module1.py
@@ -1329,19 +1404,14 @@ my_module2.testModuleTwo(12,23) #因为此处只引入了module2，所以module1
 
 ##### 第三方包
 
-在Python程序的生态中，有许多非常多的第三方包（非Python官方），可以极大的帮助我们提高开发效率，如： 
+在Python程序的生态中，有许多非常多的第三方包，可以极大的帮助我们提高开发效率，如： 
 
-​		• 科学计算中常用的：numpy包 
+- 科学计算中常用的：numpy包 
 
-​		• 数据分析中常用的：pandas包 
-
-​		• 大数据计算中常用的：pyspark、apache-flink包 
-
-​		• 图形可视化常用的：matplotlib、pyecharts 
-
-​		• 人工智能常用的：tensorflow • 等 这些第三方的包，极大的丰富了Python的生态，提高了开发效率。 
-
-但是由于是第三方，所以Python没有内置，所以我们需要安装它们才可以导入使用哦
+- 数据分析中常用的：pandas包 
+- 大数据计算中常用的：pyspark、apache-flink包 
+- 图形可视化常用的：matplotlib、pyecharts 
+- 人工智能常用的：tensorflow 
 
 连接国内的网站进行包的安装： 
 
@@ -1351,86 +1421,30 @@ https://pypi.tuna.tsinghua.edu.cn/simple 是清华大学提供的一个网站，
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple 包名称
 ```
 
-### 5.数据可视化
+### 面向对象
 
-Python数据和Json数据的相互转化
-
-```python
-# 导入json模块
-import json
-# 准备符合格式json格式要求的python数据
-data = [{"name": "老王", "age": 16}, {"name": "张三", "age": 20}]
-# 通过 json.dumps(data) 方法把python数据转化为了 json数据
-data = json.dumps(data)
-# 通过 json.loads(data) 方法把json数据转化为了 python数据
-data = json.loads(data)
-```
-
-#### pyecharts模块
-
-Echarts 是个由百度开源的数据可视化，凭借着良好的交互性，精巧的图表设计，得到了众多开发者的认可. 而 Python 是门富有 表达力的语言，很适合用于数据处理. 当数据分析遇上数据可视化时pyecharts 诞生了.
-
-使用在前面学过的pip命令即可快速安装PyEcharts模块
-
-```cmd
-pip install pyecharts
-```
-
-绘制一个折线图
-
-```python
-from pyecharts.charts import Line
-line=Line()
-#添加x轴坐标
-line.add_xaxis(['中国','英国','美国','加拿大'])
-line.add_yaxis("GDP",[100,45,67,47])
-#生成图标
-line.render()
-```
-
-程序运行之后会在文件夹下生成一个render.html为网页文件
-
-pyecharts模块中有很多的配置选项, 常用到2个类别的选项: 
-
-- 全局配置选项 
-- 系列配置选项
-
-全局配置选项可以通过set_global_opts方法来进行配置
-
-```python
-from pyecharts.charts import Line
-from pyecharts.options import TitleOpts, LegendOpts, ToolboxOpts, VisualMapOpts
-line=Line()
-#添加x轴坐标
-line.add_xaxis(['中国','英国','美国','加拿大'])
-line.add_yaxis("GDP",[100,45,67,47])
-line.set_global_opts(
-    title_opts=TitleOpts(title="GDP展示", pos_left="center", pos_bottom="1%"),
-    legend_opts=LegendOpts(is_show=True),
-    toolbox_opts=ToolboxOpts(is_show=True),
-    visualmap_opts=VisualMapOpts(is_show=True),
-)
-#生成图标
-line.render()
-```
-
-### 6.面向对象
-
-#### 类的定义和使用
+在创建实例的时候，把一些我们认为必须绑定的属性强制填写进去。通过定义一个特殊的`__init__`方法，在创建实例的时候，就把`name`，`score`等属性绑上去：
 
 ```python
 class 类名称:
     成员变量
     成员方法
+class Student(object):
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+        
+    def print_score(self):
+        print('%s: %s' % (self.name, self.score))    
 ```
 
 #### 成员方法的定义
 
-在类中定义成员方法和定义函数基本一致，但仍有细微区别： 
+和普通的函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量`self`，并且，调用时，不用传递该参数。除此之外，类的方法和普通函数没有什么区别
 
-在方法定义的参数列表中，有一个：self关键字 self关键字是成员方法定义的时候，必须填写的。 
+self主要有以下几个特点：
 
-- 它用来表示类对象自身的意思 
+- self用来表示类对象自身的意思 
 - 当我们使用类对象调用方法的是，self会自动被python传入 
 - 在方法内部，想要访问类的成员变量，必须使用self
 
@@ -1438,6 +1452,9 @@ class 类名称:
 # 定义一个带有成员方法的类
 class Student:
     name = None     # 学生的姓名
+    def __init__(self, age, score):
+        self.age = age
+        self.score = score
     def say_hi(self):
         print(f"大家好呀，我是{self.name}，欢迎大家多多关照")
     def say_hi2(self, msg):
@@ -1451,7 +1468,9 @@ stu2.name = "林俊节"
 stu2.say_hi2("小伙子我看好你")
 ```
 
-self关键字，尽管在参数列表中，但是传参的时候可以忽略它。
+需要说明的是，上述的name是属于类属性，这个属性虽然归类所有，但类的所有实例都可以访问到。其他的属性是实例属性，比如age和score这些变量。
+
+self关键字，尽管在参数列表中，但是**传参的时候可以忽略它**。
 
 ```python
 class Student:
@@ -1462,28 +1481,128 @@ stu =Student()
 stu.say_hi()#无参数打印出来结果
 ```
 
-#### 类和对象
+#### 访问限制
 
-面向对象编程： 设计类，基于类创建对象，由对象做具体的工作
+在Python中，实例的变量名如果以`__`开头，就变成了一个私有变量，只有内部可以访问，外部不能访问，想让外部变访问的化，可以对外提供一个方法
 
 ```python
-class Clock:
-    id = None       # 序列化
-    price = None    # 价格
-    def ring(self):
-        import winsound
-        winsound.Beep(2000, 3000)
-# 构建2个闹钟对象并让其工作
-clock1 = Clock()
-clock1.id = "003032"
-clock1.price = 19.99
-print(f"闹钟ID：{clock1.id}，价格：{clock1.price}")
-clock1.ring()
-clock2 = Clock()
-clock2.id = "003033"
-clock2.price = 21.99
-print(f"闹钟ID：{clock2.id}，价格：{clock2.price}")
-clock2.ring()
+class Student(object):
+    def __init__(self, name, score):
+        #内部变量的写法
+        self.__name = name
+        self.__score = score
+    def get_name(self):
+        return self.__name
+    def get_score(self):
+        return self.__score   
+print(tom.get_name())    
+```
+
+如果想要允许外部代码修改内部变量，可以给类增加`set`方法
+
+```python
+class Student(object):
+    def __init__(self, name, score):
+        #内部变量的写法
+        self.__name = name
+        self.__score = score
+    def set_score(self, score):
+        if 0 <= score <= 100:
+            self.__score = score
+        else:
+            raise ValueError('bad score')
+ tom.set_score(12)           
+```
+
+Python中，变量名类似`__xxx__`的，也就是以双下划线开头，并且以双下划线结尾的，是特殊变量，特殊变量是可以直接访问的
+
+虽然不能直接访问`__name`，但是，仍然可以通过`_Student__name`来访问`__name`变量：
+
+```java
+tom._Student__name
+```
+
+#### 获取对象信息
+
+判断对象类型，使用`type()`函数，基本类型都可以用`type()`判断：
+
+```python
+print(type(123))
+print(type(123)==int)
+```
+
+判断class的类型，可以使用`isinstance()`函数。
+
+```python
+a = Animal()
+b = Dog()
+print(isinstance(a,Animal)) # true
+print(isinstance(b,Animal)) # true
+print(isinstance(b,Dog)) 	# true 
+```
+
+用`type()`判断的基本类型也可以用`isinstance()`判断：
+
+```python
+isinstance('a', str)
+```
+
+还可以判断一个变量是否是某些类型中的一种，比如下面的代码就可以判断是否是list或者tuple：
+
+```python
+isinstance([1, 2, 3], (list, tuple)) # True
+isinstance((1, 2, 3), (list, tuple)) # True
+```
+
+如果要获得一个对象的所有属性和方法，可以使用`dir()`函数，它返回一个包含字符串的list
+
+```python
+print(dir('ABC'))
+# [__add__', '__class__', '__contains__', '__delattr__', '__dir__'...]
+```
+
+类似`__xxx__`的属性和方法在Python中都是有特殊用途的，比如`__len__`方法返回长度，所以以下写法其实效果一样
+
+```python
+len('ABC') #3
+'ABC'.__len__() #3
+```
+
+#### 使用__slots__
+
+为了限制该`class`实例能添加的属性，Python允许在定义`class`的时候，定义一个特殊的`__slots__`变量，来限制
+
+```python
+class Teacher(object):
+    __slots__ = ('name', 'age') # 用tuple定义允许绑定的属性名称
+
+t = Teacher()
+t.name = "张三"
+t.score = 12 # AttributeError: 'Teacher' object has no attribute 'score'
+```
+
+使用`__slots__`要注意，`__slots__`定义的属性仅对当前类实例起作用，对继承的子类是不起作用的。
+
+#### 使用@property
+
+Python内置的`@property`装饰器就是负责把一个方法变成属性调用的。
+
+- 使用 `@property` 可以控制对属性的访问，确保数据的封装和安全。
+- 如果只需要获取属性的值，而不需要设置值，可以只定义 `@property` 方法。
+
+```python
+class Student(object):
+    @property
+    def score(self):
+        return self._score
+    
+    @score.setter
+    def score(self, value):
+        if not isinstance(value, int):
+            raise ValueError('score must be an integer!')
+        if value < 0 or value > 100:
+            raise ValueError('score must between 0 ~ 100!')
+        self._score = value
 ```
 
 #### 构造方法
@@ -1520,7 +1639,7 @@ print(stu.tel)
 
 ```python
 def __str__(self):
-        return f"student类对象，name={self.name},age={self.age},tel={self.tel}"
+    return f"student类对象，name={self.name},age={self.age},tel={self.tel}"
 stu = Student("周杰轮", 31, "18500006666")
 print(str(stu))
 ```
@@ -1564,23 +1683,16 @@ print(stu1 == stu2)
 
 #### 封装 
 
-面向对象包含3大主要特性：  **封装 、 继承 、 多态**
-
 ##### 私有成员
-
-类中提供了私有成员的形式来支持。 
-
-​		• 私有成员变量 
-
-​		• 私有成员方法 
 
 定义私有成员的方式非常简单，只需要： 
 
-​		• 私有成员变量：变量名以__开头（2个下划线） __
+- 私有成员变量：变量名以__开头（2个下划线） __
 
-​		• 私有成员方法：方法名以__开头（2个下划线） 即可完成私有成员的设置
+- 私有成员方法：方法名以__开头（2个下划线） 即可完成私有成员的设置
 
-在类中提供仅供内部使用的属性和方法，而不 对外开放（类对象无法使用）
+
+在类中提供仅供内部使用的属性和方法，而不对外开放（类对象无法使用）
 
 ```python
 class Phone:
@@ -1599,66 +1711,90 @@ phone.call_by_5g()
 
 #### 继承
 
-##### 单继承
-
 继承分为：单继承和多继承 。 
+
+##### 单继承
 
 继承表示：将从父类那里继承（复制）来成员变量和成员方法（不含私有）
 
 ```python
-class Phone:
-    Item=None
-    product=None
-    def call_by_4g(self):
-        print("可以进行4g通话")
-phone1=Phone()
-phone1.call_by_4g()
-#单继承机制
-class PhonePlus(Phone):
-    face_id=None,
-    def call_by_5g(self):
-        print("可以进行5g通话")
-phone2=PhonePlus()
-phone2.call_by_4g()#可以进行4g通话
-phone2.call_by_5g()#可以进行5g通话
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+        
+class Dog(Animal):
+    def run(self):
+        print('Dog is running...')
+
+class Cat(Animal):
+    def run(self):
+        print('Cat is running...')
+dog = Dog()
+cat = Cat()
+dog.run() # Dog is running...
+cat.run() # Cat is running...
 ```
 
-##### 多继承 
+当子类和父类都存在相同的`run()`方法时，我们说，子类的`run()`覆盖了父类的`run()`，在代码运行的时候，总是会调用子类的`run()`。这样，我们就获得了继承的另一个好处：多态。多态是同一个接口可以被不同的对象以不同的方式实现，在这里不同的动物类都可以按照自己的需求实现run这个方法。
 
-Python的类之间也支持多继承，即一个类，可以继承多个父类
+##### 多继承
+
+Python的类之间也支持多继承，即一个类，可以继承多个父类，通过多重继承，一个子类就可以同时获得多个父类的所有功能。
 
 ```python
-# 演示多继承
-class NFCReader:
-    nfc_type = "第五代"
-    producer = "HM"
-    def read_card(self):
-        print("NFC读卡")
-    def write_card(self):
-        print("NFC写卡")
-class RemoteControl:
-    rc_type = "红外遥控"
-    def control(self):
-        print("红外遥控开启了")
-class MyPhone(Phone, NFCReader, RemoteControl):
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+class Runnable(object):
+    def run(self):
+        print('Running...')
+
+class Flyable(object):
+    def fly(self):
+        print('Flying...')
+class Dog(Animal, Runnable):
+    pass     
+class Bat(Animal, Flyable):
     pass
-phone = MyPhone()
-phone.call_by_4g()
-phone.read_card()
-phone.write_card()
-phone.control()
-print(phone.producer)
 ```
 
 多个父类中，如果有同名的成员，那么默认以继承顺序（从左到右）为优先级。 即：**先继承的保留，后继承的被覆盖**
 
- **pass关键字**
+pass是占位语句，用来保证函数（方法）或类定义的完整性，表示无内容，空的意思
 
-作用是什么 pass是占位语句，用来保证函数（方法）或类定义的完整性，表示无内容，空的意思
+##### MixIn
+
+Mixin是一种设计模式，它允许将可重用的功能添加到类中，而不需要通过继承关系来实现。Mixin类通常包含一组方法，这些方法可以被其他类继承，以增强其功能。Mixin类本身可能不包含任何数据，或者只包含一些基本的数据。
+
+```python
+class LoggerMixin:
+    def log(self, message):
+        print(f"LOG: {message}")
+
+class User(LoggerMixin):
+    def __init__(self, username):
+        self.username = username
+
+    def login(self):
+        self.log(f"User {self.username} logged in")
+
+class PaymentProcessor(LoggerMixin):
+    def __init__(self, processor_name):
+        self.processor_name = processor_name
+
+    def process_payment(self):
+        self.log(f"Payment processed by {self.processor_name}")
+
+user = User("Alice")
+user.login()  # 输出: LOG: User Alice logged in
+
+payment_processor = PaymentProcessor("PayPal")
+payment_processor.process_payment()  # 输出: LOG: Payment processed by PayPal
+```
 
 ##### 复写 
 
-子类继承父类的成员属性和成员方法后，如果对其“不满意”，那么可以进行复写。 即：在子类中重新定义同名的属性或方法即可
+子类继承父类的成员属性和成员方法后，如果对其"不满意"，那么可以进行复写。 即：在子类中重新定义同名的属性或方法即可
 
 ```python
 class Phone:
@@ -1680,7 +1816,7 @@ phone2.call_by_5g()#可以进行5g通话
 
 如果需要使用被复写的父类的成员，需要特殊的调用方式: 
 
-方式1： • 
+方式1： 
 
 调用父类成员 使用成员变量：
 
@@ -1708,23 +1844,14 @@ def call_by_5g(self):
 
 #### 类型注解 
 
-Python在3.5版本的时候引入了类型注解，以方便静态类型检查工具，IDE等第三方工具。 
-
 类型注解：在代码中涉及数据交互的地方，提供数据类型的注解（显式的说明）。 
 
-主要功能： 
+- 帮助第三方IDE工具对代码进行类型推断，协助做代码提示 
 
-​		• 帮助第三方IDE工具（如PyCharm）对代码进行类型推断，协助做代码提示 
+- 帮助开发者自身对变量进行类型注释支持： 
 
-​		• 帮助开发者自身对变量进行类型注释 支持： 
+- 变量的类型注解 、函数（方法）形参列表和返回值的类型注解
 
-​		• 变量的类型注解 • 函数（方法）形参列表和返回值的类型注解
-
-##### 类型注解的语法
-
-为变量设置类型注解 
-
-基础语法： 变量: 类型
 
 ```python
 var_int:int=10
@@ -1744,37 +1871,28 @@ my_dict: dict[str, int] = {"itheima": 666}
 
 注意： 
 
-• 元组类型设置类型详细注解，需要将每一个元素都标记出来 
+- 元组类型设置类型详细注解，需要将每一个元素都标记出来 
 
-• 字典类型设置类型详细注解，需要2个类型，第一个是key第二个是value
+- 字典类型设置类型详细注解，需要2个类型，第一个是key第二个是value
 
-##### 函数（方法）的类型注解
+
+##### 函数的类型注解
 
 函数和方法的形参类型注解语法：
 
 ```python
 def 函数名(形参:类型,形参:类型...):
 	pass
-```
-
-示例：
-
-```python
 # 对形参进行类型注解
 def add(x: int, y: int):
     return x + y
 ```
 
-函数（方法）的类型注解 - 返回值注解
+函数的类型注解 - 返回值注解
 
 ```python
 def 函数名(形参:类型,形参:类型...)->返回值类型:
 	pass
-```
-
-示例：
-
-```python
 # 对返回值进行类型注解
 def func(data: list) -> list:
     return data
@@ -1782,7 +1900,7 @@ def func(data: list) -> list:
 
 ##### Union类型 
 
-Union联合类型注解，在变量注解、函数（方法）形参和返回值注解中，均可使用。
+Union联合类型注解，在变量注解、函数形参和返回值注解中，均可使用。
 
 ```python
 # 使用Union类型，必须先导包
@@ -1792,29 +1910,38 @@ def func(data: Union[int, str]) -> Union[int, str]:
     pass
 ```
 
-#### 多态
-
-同样的行为（函数），传入不同的对象，得到不同的状态
-
-```python
-class Animal:
-    def spark(self):
-        pass
-class Dog(Animal):
-    def spark(self):
-        print("汪汪汪")
-class Cat(Animal):
-    def spark(self):
-        print("喵喵喵")
-cat = Cat()
-cat.spark()
-```
-
-##### 抽象类（接口）
+#### 抽象类（接口）
 
  包含抽象方法的类，称之为抽象类。抽象方法是指：没有具体实现的方法（pass） 称之为抽象方法
 
-### 7.Python&MySQL
+#### 枚举类
+
+Python提供了`Enum`类来实现枚举功能，枚举类是定义一个class类型，然后，每个常量都是class的一个唯一实例。
+
+```python
+from enum import Enum
+
+Month = Enum('Month', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
+for name, member in Month.__members__.items():
+    print(name, '=>', member, ',', member.value)
+```
+
+如果需要更精确地控制枚举类型，可以从`Enum`派生出自定义类：
+
+```python
+from enum import Enum, unique
+@unique
+class Weekday(Enum):
+    Sun = 0 # Sun的value被设定为0
+    Mon = 1
+    Tue = 2
+    Wed = 3
+    Thu = 4
+    Fri = 5 
+    Sat = 6
+```
+
+### MySQL
 
 #### 操作mysql
 
@@ -1856,7 +1983,7 @@ conn.close()
 
 #### 插入语句
 
-pymysql在执行数据插入或其它产生数据更改的SQL语句时，默认是需要提交更改的，即，需要通过代码“确认”这种更改行为。通过链接对象.commit() 即可确认此行为。
+pymysql在执行数据插入或其它产生数据更改的SQL语句时，默认是需要提交更改的，即，需要通过代码"确认"这种更改行为。通过链接对象.commit() 即可确认此行为。
 
 ```python
 flag=course.execute("insert into student values(64,'020','张三','男',5,'迁出','2023-10-09')")
@@ -1865,113 +1992,3 @@ if(flag):
 else:
     print("检查一下，多少有点问题")
 ```
-
-### 8.函数高阶技巧
-
-#### 闭包
-
-不使用闭包，需要定义一个全局变量，然后再函数内部使用全部变量，尽管功能实现是ok的，但是仍有问题：
-
-- 代码在命名空间上（变量定义）不够干净、整洁
-- 全局变量有被修改的风险
-
-```python
-account_sum=0
-def atm(sum,isSave=True):
-    global account_sum
-    if isSave:
-        account_sum +=sum
-        print(f"存货增加{sum}，余额{account_sum}")
-    else:
-        account_sum-=sum
-        print(f"花费{sum}，余额{account_sum}")
-atm(356,True)
-atm(34,False)
-```
-
-在函数嵌套的前提下，内部函数使用了外部函数的变量，并且外部函数返回了内部函数，我们把这个使用外部函数变量的内部函数称为闭包。
-
-```python
-def account_create(init_total=0):
-    def atm(num,isSave=True):
-        nonlocal init_total
-        if isSave:
-            init_total+=num
-            print(f"存货增加{num}，余额{init_total}")
-        else:
-            init_total-=num
-            print(f"花费{num}，余额{init_total}")
-    return atm
-fn=account_create()
-fn(300)#存货增加300，余额300
-fn(100,False)#花费100，余额200
-```
-
-修改外部函数变量的值
-
-需要使用```nonlocal```关键字修饰外部函数的变量才可在内部函数中修改它
-
-**闭包注意事项**
-
-优点，使用闭包可以让我们得到：
-
-- 无需定义全局变量即可实现通过函数，持续的访问、修改某个值
-- 闭包使用的变量的所用于在函数内，难以被错误的调用修改
-
-缺点：
-
-- 由于内部函数持续引用外部函数的值，所以会导致这一部分内存空间不被释放，一直占用内存
-
-#### 装饰器
-
-装饰器其实也是一种闭包， 其功能就是**在不破坏目标函数原有的代码和功能的前提下，为目标函数增加新功能**。
-
-**装饰器的一般写法（闭包写法）**
-
-定义一个闭包函数， 在闭包函数内部：
-
-- 执行目标函数
-- 并完成功能的添加
-
-```python
-# 装饰器的一般写法（闭包）
-def outer(func):
-    def inner():
-        print("我要休息了")
-        func
-        print("我起来了")
-    return inner
-def sleep():
-    import time
-    print("睡眠中，需要等5秒")
-    time.sleep(5)
-fn=outer(sleep())
-fn()
-#睡眠中，需要等5秒
-#我要休息了
-#我起来了
-```
-
-**装饰器的语法糖写法**
-
-使用```@outer```
-
-定义在目标函数sleep之上
-
-```python
-def outer(func):
-    def inner():
-        print("我睡觉了")
-        func()
-        print("我起床了")
-
-    return inner
-@outer
-def sleep():
-    import random
-    import time
-    print("睡眠中......")
-    time.sleep(random.randint(1, 5))
-sleep()
-```
-
